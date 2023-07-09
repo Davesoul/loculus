@@ -1,0 +1,260 @@
+<?php
+require 'authentication.php';
+
+if(isset($_SESSION['id'])){
+    $id = $_SESSION['id'];
+    $username = $_SESSION['username'];
+    $email = $_SESSION['email'];
+    $pass = $_SESSION['password'];
+}
+
+if(isset($_POST["submit"])){
+
+    $user = new user();
+
+    echo exec('whoami');
+    $target_dir = "./";
+    $target_file = $target_dir.basename($_FILES["toUpload"]["name"]);
+    echo $target_file;
+    // $uploadOk = 1;
+    $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    
+
+
+    //check if file exist
+    if (file_exists($target_file)){
+        echo "sorry, file already exists.";
+    //     $uploadOk = 0;
+    }else{
+        if(move_uploaded_file($_FILES["toUpload"]["tmp_name"], $target_file)){
+            $uploadtodb = $user->db->prepare("insert into resources (filename, type, size) values (:a, :b, :c)");
+            $uploadtodb->bindParam(":a", $_FILES["toUpload"]["name"]);
+            $uploadtodb->bindParam(":b", $_FILES["toUpload"]["type"]);
+            $uploadtodb->bindParam(":c", $_FILES["toUpload"]["size"]);
+
+            $uploadtodb->execute();
+            echo $_FILES["toUpload"]["tmp_name"]."has been uploaded";
+        }
+        else{
+            echo "Sorry, there was an error uploading your file.";
+        }
+    }
+
+}
+
+$page = "myloculus";
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>My loculus</title>
+
+    <script src="https://kit.fontawesome.com/766f30b49e.js" crossorigin="anonymous"></script>
+</head>
+
+
+<body>
+   
+    <div class="gap"></div>
+
+    <div class="big-container">
+
+        <?php
+        
+        
+            
+            if (isset($_GET['dir_id'])){
+                $dir = $_GET['dir_id'];
+                $stmt = "select * from resources a inner join directory_resource b on a.resource_id = b.resource_id join directories c on c.directory_id = b.directory_id where c.directory_id = $dir";
+            }else{
+                $stmt = "select * from resources a inner join directory_resource b on a.resource_id = b.resource_id join directories c on c.directory_id = b.directory_id where c.directory_name = '{$username}'";
+            }
+            
+            $results = $user->manage_sql($stmt);
+    
+            if ($results->rowCount()== 0){
+                echo "Empty folder";
+            }
+    
+         
+             ?>
+             
+                <div class="loculuscontainer">
+
+                    <?php while($row = $results->fetch(PDO::FETCH_ASSOC)){ ?>
+
+                    <div class="container">
+                        <div class="iconcontainer">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
+                        <div class="itemcontainer">                
+                            <div class="smalldescription">
+                                <h4><?php echo $row["resource_name"];?></h4>
+                                <p><?php echo $row["type"];?></p>
+                                <p><?php echo $row["size"];?></p>
+                                <p><?php echo $row["created_at"];?></p>
+                            </div>
+                            <!-- <div class="fading-bg"></div> -->
+                            <div class="options">
+                                <i class="fa-solid fa-chevron-down hint"></i>
+                                <a href="<?php $row["path"]. '/' .$row['resource_name']. ''.$row['type'];?>" target="_blank"><i class="fa-solid fa-play"></i></a>
+                                <a href="<?php $row["path"]. '/' .$row['resource_name']. ''.$row['type'];?>" download><i class="fa-solid fa-download"></i></a>
+                                <a href=""><i class="fa-solid fa-trash-can"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                            <?php    }  ?>
+                </div>
+        
+    </div>
+        
+
+</body>
+
+<script >
+    //search on page
+    var item = document.getElementsByClassName("container");
+    var info = document.getElementsByClassName("smalldescription");
+    var bar = document.getElementById("bar");
+
+    bar.addEventListener('keyup', (e)=>{
+        const data = e.target.value.toLowerCase();
+        console.log(data);
+        
+        for(i=0; i<item.length; i++){
+            if(info[i].textContent.toLowerCase().includes(data)){
+
+                item[i].style.display = "flex"
+            }
+            else{
+                item[i].style.display = "none"
+            }
+        }
+    })
+</script>
+
+<script>
+
+    //set global prev_id to store the previous id used
+    var prev_id = "";
+
+
+
+    //show menu
+
+    // var btn = document.querySelectorAll('.btn');
+
+    // console.log(btn);
+    // btn.forEach(b => {
+    //     b.addEventListener('click', (e)=>{
+    //         e.stopPropagation();
+    //         console.log(b);
+    //         var menu = b.querySelector('.objects');
+    //         var container = b.querySelector('.objects > .popup-container');
+    //         console.log(container);
+
+    //         btn.forEach(c => {
+    //             console.log(c.contains(b));
+    //             if(c != b && c.contains(b) == false){
+    //                 c.classList.remove('active');
+    //                 prevMenu = c.querySelector('.objects');
+    //                 prevContainer = c.querySelector('.objects > .popup-container');
+    //                 prevMenu.classList.remove('active');
+    //                 prevContainer.classList.remove('active');
+    //             }
+    //         });
+
+            
+    //         console.log(menu.getBoundingClientRect());
+    //         console.log(window.innerHeight);
+
+    //         var menuRect = menu.getBoundingClientRect();
+    //         var viewport = window.innerWidth;
+
+    //         //reposition the menu div whenever it exceeds the viewport width
+    //         if(menuRect.x + menuRect.right >= viewport){
+    //             menu.style.right = "2px";
+    //         }
+
+    //         b.classList.toggle('active');
+    //         menu.classList.toggle('active');
+    //         container.classList.toggle('active');
+
+            
+
+    //     });
+    // });
+
+
+
+    function sp(id){
+        var popup = document.getElementById(id);
+        console.log(id);
+        popup.classList.toggle("active");
+    }
+
+    //show a popup according to its id
+    function showpopup(id, notouch_id=""){
+
+        //previous popup hidden if set and different from the current popup
+        if(id != prev_id && prev_id != "" && prev_id !=notouch_id){
+            console.log("gooooo");
+            hidePrevPopup(prev_id);
+        }
+
+        console.log(id);
+        var popup = document.getElementById(id);
+        var container = document.getElementById("popup-container");
+
+        if (popup.style.maxHeight != "500px"){
+            popup.style.maxHeight = "500px";
+
+            container.style.maxHeight = "500px";
+            
+            console.log(popup.style.maxHeight);
+            console.log(container.style.maxHeight);
+        }
+        else{
+            console.log("nope");
+            popup.style.maxHeight = "0";
+            container.style.maxHeight = "0";
+            console.log(popup.style.maxHeight);
+        }
+        prev_id = id;
+        console.log(prev_id);
+    }
+
+    //hide the previous popup
+    function hidePrevPopup(prev_id){
+        
+        var popup = document.getElementById(prev_id);
+
+        popup.style.maxHeight = "0";
+    }
+
+</script>
+
+<script>
+    //modal popup for file uploading
+    var modal = document.getElementById("backgrd");
+    var plus = document.getElementById("plus");
+
+    plus.onclick = function (){
+        modal.style.display = "block";
+    }
+
+    window.onclick = function (event){
+        if(event.target == modal){
+            modal.style.display = "none";
+        }
+    }
+    
+</script>
+
+
+
+</html>
