@@ -26,6 +26,7 @@ $page="myspace";
 </head>
 <body style="box-sizing:border-box; margin:0; padding:0">
 
+<!-- gap for the header -->
 <div class="gap"></div>
 
     <div class="spacecontainer">
@@ -43,7 +44,9 @@ $page="myspace";
                 <h6>The Art of Electronics ( PDFDrive ) yosh</h6>
                 <span><i class="fa-solid fa-close"></i></span>
             </div>
-            <textarea file_get_contents($filename='booklists.txt', $use_include_path=TRUE, $content='image/booklists.txt',0,50) file_put_contents('image/booklists.txt', $content, 0,'image/booklists.txt') file('booklists', 0, 'image/booklists.txt') ></textarea>
+            <textarea id="myTextarea"></textarea>
+            <input type="file" name="" id="inputFile">
+
             <br>
         </div>
 
@@ -62,7 +65,7 @@ $page="myspace";
                 <h6>bro</h6>
                 <span><i class="fa-solid fa-close"></i></span>
             </div>
-            <video src="image/y2mate.com - Elijah Nang  Gaijin 外人 LP   Audio Novel _480p.mp4" controls></video>
+            <video src="https://www.youtube.com/watch?v=5qKTzu5_Ofk" controls></video>
         </div>
 
 
@@ -72,6 +75,23 @@ $page="myspace";
     
 </body>
 
+<script>
+    // reads a file and embed it in a textarea
+    const tArea = document.getElementById("myTextarea");
+    const fInput = document.getElementById("inputFile");
+
+    fInput.addEventListener('change', function(e){
+        const file = e.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e){
+            const contents = e.target.result;
+            tArea.value = contents;
+        };
+
+        reader.readAsText(file);
+    })
+</script>
 
 <script >
     //search on page 'my space'
@@ -177,12 +197,14 @@ $page="myspace";
     var obj = document.querySelectorAll('.obj');
 
 
-    console.log(obj);
+    // console.log(obj);
+
     obj.forEach(w => {
         var bar = w.querySelector('.objbar');
         var close = w.querySelector('span');
+        let prevActive;
         
-            console.log(w.offsetLeft, w.offsetTop);
+            // console.log(w.offsetLeft, w.offsetTop);
 
 
             close.addEventListener('click', ()=>{
@@ -191,12 +213,18 @@ $page="myspace";
 
             w.addEventListener('mousedown', ()=>{
 
+
+                // all frames on the same stack
                 obj.forEach(c => {
-                    c.style.zIndex = "1";
+                    if(c.style.zIndex == 5){
+                        c.style.zIndex = "2";
+                    }else{
+                        c.style.zIndex = "1";
+                    }
                 });
 
+                // selected frame on top of stack
                 w.style.zIndex = "5";
-
 
             });
 
@@ -249,7 +277,7 @@ $page="myspace";
                 w.style.opacity = 1;
                 
                 
-                // objBarr.style.position = "relative";
+                objBarr.style.position = "relative";
                 })
                 body.addEventListener("mouseleave", ()=>{
                     
@@ -272,6 +300,7 @@ $page="myspace";
 
     var obj = document.querySelectorAll('.obj');
 
+    var frame = document.querySelectorAll('.obj iframe');
 
 
     obj.forEach(w => {
@@ -323,6 +352,8 @@ $page="myspace";
 
                 };
 
+
+                e.preventDefault();
                 document.addEventListener("touchmove", moveObj);
 
                 bar.addEventListener("touchend", ()=>{

@@ -1,6 +1,7 @@
 <?php 
     error_reporting(E_ALL);
     ini_set('display_errors', 'On');
+
 class user {
 
     public $db;
@@ -10,7 +11,7 @@ class user {
         $servername = "localhost";
         $dbname = "loculus_db";
         $username = "root";
-        $password = "davesoul";
+        $password = "davesoul77";
 
         
         //connection

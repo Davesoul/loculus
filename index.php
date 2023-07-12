@@ -16,8 +16,16 @@ if(isset($_SESSION['lock'])){
 
 if (isset($_POST["login"])){
     $info = $user->login($_POST);
-   }
+}
 
+
+if(isset($_SESSION['id'])){
+    $id = $_SESSION['id'];
+    $username = $_SESSION['username'];
+    $email = $_SESSION['email'];
+    $pass = $_SESSION['password'];
+    header('location: menu.php');
+}
 
 $page = 'login';
 ?>

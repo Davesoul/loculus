@@ -8,39 +8,7 @@ if(isset($_SESSION['id'])){
     $pass = $_SESSION['password'];
 }
 
-if(isset($_POST["submit"])){
 
-    $user = new user();
-
-    echo exec('whoami');
-    $target_dir = "./";
-    $target_file = $target_dir.basename($_FILES["toUpload"]["name"]);
-    echo $target_file;
-    // $uploadOk = 1;
-    $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    
-
-
-    //check if file exist
-    if (file_exists($target_file)){
-        echo "sorry, file already exists.";
-    //     $uploadOk = 0;
-    }else{
-        if(move_uploaded_file($_FILES["toUpload"]["tmp_name"], $target_file)){
-            $uploadtodb = $user->db->prepare("insert into resources (filename, type, size) values (:a, :b, :c)");
-            $uploadtodb->bindParam(":a", $_FILES["toUpload"]["name"]);
-            $uploadtodb->bindParam(":b", $_FILES["toUpload"]["type"]);
-            $uploadtodb->bindParam(":c", $_FILES["toUpload"]["size"]);
-
-            $uploadtodb->execute();
-            echo $_FILES["toUpload"]["tmp_name"]."has been uploaded";
-        }
-        else{
-            echo "Sorry, there was an error uploading your file.";
-        }
-    }
-
-}
 
 $page = "myloculus";
 ?>
@@ -70,17 +38,17 @@ $page = "myloculus";
             if (isset($_GET['dir_id'])){
                 $dir = $_GET['dir_id'];
                 $stmt = "select * from resources a inner join directory_resource b on a.resource_id = b.resource_id join directories c on c.directory_id = b.directory_id where c.directory_id = $dir";
-            }else{
+            }else if (isset($_SESSION["id"])){
                 $stmt = "select * from resources a inner join directory_resource b on a.resource_id = b.resource_id join directories c on c.directory_id = b.directory_id where c.directory_name = '{$username}'";
             }
             
-            $results = $user->manage_sql($stmt);
+            if (isset($stmt)){
+                $results = $user->manage_sql($stmt);
     
-            if ($results->rowCount()== 0){
-                echo "Empty folder";
-            }
-    
-         
+                if ($results->rowCount()== 0){
+                    echo "Empty folder";
+                }
+            
              ?>
              
                 <div class="loculuscontainer">
@@ -107,7 +75,7 @@ $page = "myloculus";
                             </div>
                         </div>
                     </div>
-                            <?php    }  ?>
+                            <?php   } }  ?>
                 </div>
         
     </div>

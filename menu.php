@@ -5,18 +5,58 @@ error_reporting(E_ALL);
 
 require 'authentication.php';
 
-// if(isset($_SESSION['id'])){
-//     $id = $_SESSION['id'];
-//     $username = $_SESSION['username'];
-//     $email = $_SESSION['email'];
-//     $pass = $_SESSION['password'];
-// }else{
-//     header('location: index.php');
-// }
+if(isset($_SESSION['id'])){
+    $id = $_SESSION['id'];
+    $username = $_SESSION['username'];
+    $email = $_SESSION['email'];
+    $pass = $_SESSION['password'];
+}else{
+    header('location: index.php');
+}
 
 
 
 $page = 'menu';
+
+
+
+if(isset($_POST["submit"])){
+
+    $user = new user();
+
+    // echo exec('whoami');
+    $target_dir = "./Directories/";
+    $target_file = $target_dir.basename($_FILES["toUpload"]["name"]);
+    echo $target_file;
+    // $uploadOk = 1;
+    $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    
+
+
+    //check if file exist
+    if (file_exists($target_file)){
+        echo exec('pwd');
+        echo "sorry, file already exists.";
+    //     $uploadOk = 0;
+    }else{
+        if(move_uploaded_file($_FILES["toUpload"]["tmp_name"], $target_file)){
+            $uploadtodb = $user->db->prepare("insert into resources (resource_name, type, size) values (:a, :b, :c)");
+            $uploadtodb->bindParam(":a", $_FILES["toUpload"]["name"]);
+            $uploadtodb->bindParam(":b", $_FILES["toUpload"]["type"]);
+            $uploadtodb->bindParam(":c", $_FILES["toUpload"]["size"]);
+
+            $uploadtodb->execute();
+            echo exec('pwd');
+            echo $_FILES["toUpload"]["tmp_name"]."has been uploaded";
+        }
+        else{
+            echo "Sorry, there was an error uploading your file.";
+        }
+    }
+
+}
+
+
 
 ?>
 
@@ -56,7 +96,7 @@ $page = 'menu';
 
                             <?php
                             
-                            // if (isset($ids)){
+                            if (isset($id)){
 
                             //   echo $id.' hi';  
                                 
@@ -68,11 +108,12 @@ $page = 'menu';
                                     echo "no folder";
                                 }
 
-                                ?>
+                                
 
-                                <?php while($row = $results->fetch(PDO::FETCH_ASSOC)){ ?>
+                                while($row = $results->fetch(PDO::FETCH_ASSOC)){ ?>
                                 <li><a href="#loculus" onclick="reloadIframe('myloculus.php?dir_id=<?php echo $row['directory_id']; ?>')"> <?php echo $row['directory_name']; ?> </a></li>
                                 <?php }  ?>
+                            <?php }  ?>
                                 
                             </div>
                             <div class="objbar down"></div>
@@ -137,8 +178,10 @@ $page = 'menu';
                     
                         <img src="image/default.jpg" alt="">
                         <div class="details">
-                            <span> <?php echo $username; ?> </span>
-                            <span> <?php echo $email; ?> </span>
+                            <?php if (isset($username)){ ?>
+                                <span> <?php echo $username; ?> </span>
+                                <span> <?php echo $email; ?> </span>
+                            <?php } ?>
                             
                         </div>
                         <div class="social-media">
@@ -148,7 +191,7 @@ $page = 'menu';
                         </div>
                         <div class="card-i">
                             <i class="fa-solid fa-edit"></i>
-                            <a href="#"><i class="fa-solid fa-right-from-bracket"></i></a>
+                            <a href="menu.php?logout=logout"><i class="fa-solid fa-right-from-bracket"></i></a>
                         </div>
 
                     </div>
@@ -204,6 +247,8 @@ $page = 'menu';
 
 <script>
 
+// open menu
+
 var btn = document.querySelectorAll('.btn');
 
 console.log(btn);
@@ -216,8 +261,10 @@ btn.forEach(b => {
         console.log(container);
 
         btn.forEach(c => {
-            console.log(c);
-            console.log(c.contains(b));
+            // console.log(c);
+            // console.log(c.contains(b));
+
+            // close previous menu when another one is opened
             if(c != b && c.contains(b) == false){
                 c.classList.remove('active');
                 prevMenu = c.querySelector('.objects');
@@ -228,8 +275,8 @@ btn.forEach(b => {
         });
 
         
-        console.log(menu.getBoundingClientRect());
-        console.log(window.innerHeight);
+        // console.log(menu.getBoundingClientRect());
+        // console.log(window.innerHeight);
 
         var menuRect = menu.getBoundingClientRect();
         var viewport = window.innerWidth;
@@ -237,7 +284,7 @@ btn.forEach(b => {
         //reposition the menu div whenever it exceeds the viewport width
         if(menuRect.x + menuRect.right >= viewport){
             menu.style.right = "10px";
-            console.log(menuRect.x);
+            // console.log(menuRect.x);
 
             var menuRect = menu.getBoundingClientRect();
 
@@ -368,44 +415,52 @@ function loadTemplate(source, dirname) {
     var wp = document.querySelector('#workshop');    
     var menu = wp.querySelector('.popup-container');
     
-    //onclik
+    //onclick
     wp.addEventListener('click', ()=>{
         menu.innerHTML = '';
         const container = iframe2.contentWindow.document.querySelector('.spacecontainer');
         var obj1 = iframe2.contentWindow.document.querySelectorAll('.obj');
-        console.log(iframe2);
-        console.log(container);
-        console.log(obj1);
+        // console.log(iframe2);
+        // console.log(container);
+        // console.log(obj1);
 
         //loop through obj and add their name to the menu
     
         obj1.forEach(w=>{
         
-        var frameTitle = w.querySelector('h6').textContent;
-        console.log(w);
-        var listItem = document.createElement('li');
-        item = document.createElement('a');
+            var frameTitle = w.querySelector('h6').textContent;
+            // console.log(w);
+            var listItem = document.createElement('li');
+            item = document.createElement('a');
 
-        item.href = '#space';
-        item.textContent = frameTitle;
+            item.href = '#space';
+            item.textContent = frameTitle;
 
-        menu.appendChild(listItem);
-        listItem.appendChild(item);
+            menu.appendChild(listItem);
+            listItem.appendChild(item);
 
-        item.addEventListener('click', ()=>{
-            viewport = iframe2.contentWindow.window.scrollY;
-            console.log(viewport);
-            obj1.forEach(c=>{
-                c.style.zIndex = '1';
+            // position the frame on the center of the page
+            item.addEventListener('click', ()=>{
+                offsetTop = iframe2.contentWindow.window.scrollY;
+                // console.log(offsetTop);
+                obj1.forEach(c=>{
+                    c.style.zIndex = '1';
+                })
+                    // console.log('start');
+                    w.style.left = '35%';
+                    w.style.top = `${offsetTop+100}px`;
+                    w.style.zIndex = '5';
             })
-                console.log('start');
-                w.style.left = '35%';
-                w.style.top = `${viewport+100}px`;
-                w.style.zIndex = '5';
-        })
-    })
 
-})
+
+        })
+
+        // console.log("content =" + menu.innerHTML);
+
+        if (menu.innerHTML == ""){
+            menu.innerHTML = "Empty Workshop";
+        }
+    })
 </script>
 
 
@@ -443,12 +498,14 @@ function loadTemplate(source, dirname) {
 </script>
 
 <script>
-    //open searchbar on screen<765
+    //open searchbar on screen width<765
     btn = document.querySelectorAll('.btn');
     sc = document.getElementById('searchcontainer');
+    var bar = document.getElementById("bar");
     sc.onclick = function(){
-        console.log(sc);
+        // console.log(sc);
         sc.classList.toggle('on');
+        bar.focus();
         btn.forEach(b => {b.classList.toggle('off')});
         
 
@@ -462,13 +519,61 @@ function loadTemplate(source, dirname) {
         var iframe1 = document.getElementById('loculus');
 
         
-        console.log(iframe1);
+        // console.log(iframe1);
       // Refresh the iframe by setting its source to the current source
         iframe1.src = link;
-        const doc = iframe1.contentWindow.document.var;
-        console.log(doc);
+        // const doc = iframe1.contentWindow.document.var;
+        // console.log("doc is:"+doc);
 
 
+    }
+</script>
+
+
+<script>
+    // opens a file in the workspace
+    function openFile(path, filename, type){
+        const container = iframe2.contentWindow.document.querySelector('.spacecontainer');
+        var iframe2 = document.getElementById('space');
+        var iframe1 = document.getElementById('loculus');
+        var obj = iframe2.contentWindow.document.querySelectorAll('.obj');
+        var bar = document.getElementById("bar");
+
+        if(type == "txt"){
+            container.innerHTML += `<div class='obj'>
+                                        <div class='objbar up'>
+                                            <h6>${filename}</h6>
+                                            <span><i class='fa-solid fa-close'></i></span>
+                                        </div>
+                                        <textarea id='myTextarea'></textarea>
+                                        <input type='file' name='' id='inputFile'>
+
+                                        <br>
+                                    </div>`
+            
+        }else if(type == "mp4"){
+            container.innerHTML += `<div class='obj'>
+                                        <div class='objbar up'>
+                                            <h6>${filename}</h6>
+                                            <span><i class='fa-solid fa-close'></i></span>
+                                        </div>
+                                        <video src="${path}" controls></video>
+
+                                        <br>
+                                    </div>`
+            
+        }else{
+            container.innerHTML += `<div class='obj'>
+                                        <div class='objbar up'>
+                                            <h6>${filename}</h6>
+                                            <span><i class='fa-solid fa-close'></i></span>
+                                        </div>
+                                        <iframe src="${path}" frameborder="0"></iframe>
+
+                                        <br>
+                                    </div>`
+            
+        }
     }
 </script>
 </html>
