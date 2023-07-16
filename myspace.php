@@ -1,6 +1,6 @@
 <?php
 
-require 'authentication.php';
+// require 'authentication.php';
 
 $page="myspace";
 
@@ -75,7 +75,7 @@ $page="myspace";
     
 </body>
 
-<script>
+<!-- <script>
     // reads a file and embed it in a textarea
     const tArea = document.getElementById("myTextarea");
     const fInput = document.getElementById("inputFile");
@@ -91,35 +91,35 @@ $page="myspace";
 
         reader.readAsText(file);
     })
-</script>
+</script> -->
 
 <script >
     //search on page 'my space'
     var obj = document.querySelectorAll('.obj');
     var bar = document.getElementById("bar");
 
-    bar.addEventListener('keyup', (e)=>{
-        const data = e.target.value.toLowerCase();
-        console.log(data);
+    // bar.addEventListener('keyup', (e)=>{
+    //     const data = e.target.value.toLowerCase();
+    //     console.log(data);
         
 
-        obj.forEach(w => {
-            if (w.textContent.toLowerCase().includes(data)){
+    //     obj.forEach(w => {
+    //         if (w.textContent.toLowerCase().includes(data)){
 
-                w.style.display = "block";
-                obj.forEach(c => {
-                    c.style.zIndex = "1";
-                });
+    //             w.style.display = "block";
+    //             obj.forEach(c => {
+    //                 c.style.zIndex = "1";
+    //             });
 
-                w.style.zIndex = "5";
+    //             w.style.zIndex = "5";
 
-            }
-            else{
-                w.style.display = "none";
-            }
-        })
+    //         }
+    //         else{
+    //             w.style.display = "none";
+    //         }
+    //     })
 
-    })
+    // })
 </script>
 
 
@@ -191,7 +191,7 @@ $page="myspace";
 </script> -->
 
 
-<script>
+<!-- <script>
     //manipulate iframe on mouse events
     const body = document.querySelector('body');
     var obj = document.querySelectorAll('.obj');
@@ -376,6 +376,6 @@ $page="myspace";
 
             });
         });
-</script>
+</script> -->
 
 </html>

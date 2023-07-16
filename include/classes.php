@@ -78,7 +78,34 @@ class user {
 
             $stmt->execute();
 
-            mkdir("/Directories/$username");
+            $lastID = $user->db->prepare('select last_insert_id()');
+
+            // create home directory for new user
+            mkdir("/Directories/$username", 0777, true);
+
+            //insert into directories
+            $uploadtodb = $user->db->prepare("insert into directories (directory_name, path) values (:a, :b)");
+            $uploadtodb->bindParam(":a", $username);
+            $uploadtodb->bindParam(":b", "/Directories/$username");
+            $uploadtodb->execute();
+            $lastID1 = $user->db->prepare('select last_insert_id()');
+
+
+            // insert into user_directory
+            $uploadtodb = $user->db->prepare("insert into user_directory (user_id, directory_id, permission_id) values (:a, :b, :c)");
+            $uploadtodb->bindParam(":a", $lastID);
+            $uploadtodb->bindParam(":b", $lastID1);
+            $uploadtodb->bindParam(":c", '1');
+
+            $uploadtodb->execute();
+
+
+            // insert into history
+            $uploadtodb = $user->db->prepare("insert into history (user_id, action) values (:a, :b)");
+            $uploadtodb->bindParam(":a", $lastID);
+            $uploadtodb->bindParam(":b", "create account");
+
+            $uploadtodb->execute();
 
         }catch(PDOException $e){
             echo $e->getMessage();
@@ -91,7 +118,7 @@ class user {
     public function login($data){
         $user = $this->validate_input($data["username_email"]);
         $password = $this->validate_input($data["password"]);
-        echo $user;
+
         try{
             $stmt = $this->db->prepare("select * from users where username=:u and password=:p or email=:u and password=:p limit 1");
 
@@ -103,28 +130,36 @@ class user {
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if($stmt->rowcount() > 0){
+
+                if(isset($_SESSION['log_attempt'])){
+                    unset($_SESSION['log_attempt']);
+                }
+
                 // session_start();
-                echo $user;
                 $_SESSION['id']=$result['user_id'];
-                echo $_SESSION['id'];
                 $_SESSION['username']=$result['username'];
                 $_SESSION['email']=$result['email'];
                 $_SESSION['password']=$result['password'];
-                header('location: menu.php');
+                
             }else{
                 if(isset($_SESSION['log_attempt'])){
                     $_SESSION['log_attempt'] += 1;
+                    $message = "invalid user credentials";
+                    
 
-                    if($_SESSION['log_attempt'] = 3){
+                    if($_SESSION['log_attempt'] == 3){
+
                         $_SESSION['lock'] = time();
+
+                        $message = "Too many login attempts. Wait for 3 min";
                     }
 
                 }else{
-                    $_SESSION['lock'] = 1;
+                    $_SESSION['log_attempt'] = 1;
+                    
+                    $message = "Invalid user credentials";
                 }
 
-                $message = "invalid user credentials";
-                echo $message;
                 return $message;
             }
 

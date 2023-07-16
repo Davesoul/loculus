@@ -2,21 +2,25 @@
 
 require 'authentication.php';
 
-$user = new user();
+// $user = new user();
 
 if(isset($_SESSION['lock'])){
-    if(time()-$_SESSION['lock']>=10){
+    if(time()-$_SESSION['lock']>=120){
         unset($_SESSION['log_attempt']);
         unset($_SESSION['lock']);
     }
+    
+    $info = "Too many login attempts. Wait for 3 min";
 
+} else {
+
+    if (isset($_POST["login"])){
+        $info = $user->login($_POST);
+    }
 }
 
 
 
-if (isset($_POST["login"])){
-    $info = $user->login($_POST);
-}
 
 
 if(isset($_SESSION['id'])){
@@ -24,7 +28,7 @@ if(isset($_SESSION['id'])){
     $username = $_SESSION['username'];
     $email = $_SESSION['email'];
     $pass = $_SESSION['password'];
-    header('location: menu.php');
+    header('location: interface.php');
 }
 
 $page = 'login';
@@ -44,11 +48,11 @@ $page = 'login';
         <h1>Loculus</h1>
         <!-- login form -->
         <form method="POST">
-            <span class="err"> <?php if (isset($info)){echo $info;} ?></span>
+            <p class="err"> <?php if (isset($info)){echo $info;} ?></p>
             <input type="text" name="username_email" placeholder="Username or email">
             <input type="password" name="password" id="" placeholder="password">
             <input type="submit" name="login" value="login">
-            <a href="signup.php" class="info">Sign up</a>
+            <a href="signup.php" class="link">Sign up</a>
         </form>
     </div>
 </body>

@@ -111,7 +111,7 @@ if(isset($_POST["submit"])){
                                 
 
                                 while($row = $results->fetch(PDO::FETCH_ASSOC)){ ?>
-                                <li><a href="#loculus" onclick="reloadIframe('myloculus.php?dir_id=<?php echo $row['directory_id']; ?>')"> <?php echo $row['directory_name']; ?> </a></li>
+                                <li><a href="#loculus" onclick="reloadIframe('myloculus.php'<?php $_SESSION['dir_id']=$row['directory_id']; ?>)"> <?php echo $row['directory_name']; ?> </a></li>
                                 <?php }  ?>
                             <?php }  ?>
                                 

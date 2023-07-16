@@ -1,5 +1,5 @@
 <?php
-require 'authentication.php';
+require_once 'authentication.php';
 
 if(isset($_SESSION['id'])){
     $id = $_SESSION['id'];
@@ -8,9 +8,17 @@ if(isset($_SESSION['id'])){
     $pass = $_SESSION['password'];
 }
 
+if(isset($_GET['del'])){
+    //delete resource
+    $resid = $_GET['resid'];
+    $delstmt = "delete from resources where resource_id = $resid ";
+    $user->manage_sql($delstmt);
+}
 
+// echo "hello";
 
 $page = "myloculus";
+// echo $page;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,21 +42,40 @@ $page = "myloculus";
         <?php
         
         
-            
+            // echo $page;
             if (isset($_GET['dir_id'])){
                 $dir = $_GET['dir_id'];
+                $stmt0 = "select * from directories where directory_id = $dir";
                 $stmt = "select * from resources a inner join directory_resource b on a.resource_id = b.resource_id join directories c on c.directory_id = b.directory_id where c.directory_id = $dir";
             }else if (isset($_SESSION["id"])){
+                $stmt0 = "select * from directories where directory_name = '$username'";
                 $stmt = "select * from resources a inner join directory_resource b on a.resource_id = b.resource_id join directories c on c.directory_id = b.directory_id where c.directory_name = '{$username}'";
             }
             
-            if (isset($stmt)){
+            if (isset($stmt0) && isset($stmt)){
+                $results0 = $user->manage_sql($stmt0);
+                $row0 = $results0->fetch(PDO::FETCH_ASSOC);
+                
+                $_SESSION['dir_id'] = $row0['directory_id'];
+                $_SESSION['dir_name'] = $row0['directory_name'];
+                $_SESSION['dir_path'] = $row0['path'];
+
+
                 $results = $user->manage_sql($stmt);
     
+
+                ?>
+
+                <div class="gap"></div>
+                <h1><?php echo $_SESSION['dir_name']; ?></h1>
+                <div class="gap"></div>
+
+                <?php
                 if ($results->rowCount()== 0){
                     echo "Empty folder";
                 }
             
+                
              ?>
              
                 <div class="loculuscontainer">
@@ -69,9 +96,9 @@ $page = "myloculus";
                             <!-- <div class="fading-bg"></div> -->
                             <div class="options">
                                 <i class="fa-solid fa-chevron-down hint"></i>
-                                <a href="<?php $row["path"]. '/' .$row['resource_name']. ''.$row['type'];?>" target="_blank"><i class="fa-solid fa-play"></i></a>
-                                <a href="<?php $row["path"]. '/' .$row['resource_name']. ''.$row['type'];?>" download><i class="fa-solid fa-download"></i></a>
-                                <a href=""><i class="fa-solid fa-trash-can"></i></a>
+                                <a href="#space" onclick="openFile('<?php echo './'.$row['path']; ?>', '<?php echo $row['resource_name']; ?>', '<?php echo $row['type']; ?>')"><i class="fa-solid fa-play"></i></a>
+                                <a href="<?php echo './'.$row['path'] . '/' . $row['resource_name']; ?>" download><i class="fa-solid fa-download"></i></a>
+                                <a href="#?del=del&resid=<?php echo $row['resource_id'];?>"><i class="fa-solid fa-trash-can"></i></a>
                             </div>
                         </div>
                     </div>
@@ -89,20 +116,20 @@ $page = "myloculus";
     var info = document.getElementsByClassName("smalldescription");
     var bar = document.getElementById("bar");
 
-    bar.addEventListener('keyup', (e)=>{
-        const data = e.target.value.toLowerCase();
-        console.log(data);
+    // bar.addEventListener('keyup', (e)=>{
+    //     const data = e.target.value.toLowerCase();
+    //     console.log(data);
         
-        for(i=0; i<item.length; i++){
-            if(info[i].textContent.toLowerCase().includes(data)){
+    //     for(i=0; i<item.length; i++){
+    //         if(info[i].textContent.toLowerCase().includes(data)){
 
-                item[i].style.display = "flex"
-            }
-            else{
-                item[i].style.display = "none"
-            }
-        }
-    })
+    //             item[i].style.display = "flex"
+    //         }
+    //         else{
+    //             item[i].style.display = "none"
+    //         }
+    //     }
+    // })
 </script>
 
 <script>

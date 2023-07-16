@@ -56,8 +56,17 @@
     
 } */
 
+:root{
+    --primarycolor: #fff;
+    --secondarycolor: #155;
+    --fontcolor: #000;
+}
+
 body{
     /* min-height: 500vh; */
+    /* background-image: url(../WSC/assets/images/hero-banner.jpg);
+    background-repeat: no-repeat; */
+    background-color: var(--primarycolor);
 }
 
 .gap{
@@ -79,12 +88,11 @@ body{
     box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.5) ;
 }
 
-:root{
-    --primarycolor: #fff;
-    --secondarycolor: #155;
-    --fontcolor: #000;
-}
 
+
+h1{
+    margin: auto;
+}
 
 input{
     display: block;
@@ -142,11 +150,16 @@ input[type=submit]{
 }
 
 
-.formcontainer .info{
+.formcontainer .link{
     display: block;
     font-size: 16px;
     text-decoration: none;
     margin: 30px;
+}
+
+.err{
+    color: #ab0e0e;
+    padding: 10px;
 }
 
 /* video */
@@ -246,6 +259,7 @@ header h4{
 }
 
 #user-img{
+    cursor: pointer;
     /* padding: 18px; */
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
 
@@ -440,7 +454,7 @@ h3{
 
 .big-container{
     display: flex;
-
+    flex-direction: column;
 }
 
 
@@ -577,9 +591,10 @@ h3{
 
 .loculuscontainer{
     /* margin: 20px; */
+    min-height: 100vh;
     display: flex;
     flex-wrap: wrap;
-    width: 70%;
+    /* width: 70%; */
     justify-content: flex-start;
     flex: 1;
     /* gap: 5px; */
@@ -728,6 +743,9 @@ h3{
 
 
 /* myspace */
+.space{
+
+}
 
 .spacecontainer{
     min-height: 200vh;
