@@ -55,7 +55,7 @@ $page="myspace";
                 <h6>The Art of Electronics ( PDFDrive ) hello</h6>
                 <span><i class="fa-solid fa-close"></i></span>
             </div>
-            <iframe src="https://web.whatsapp.com/" frameborder="0"></iframe>
+            <iframe src="../loculus/interface.php" frameborder="0"></iframe>
             <br>
         </div>
 
@@ -65,7 +65,7 @@ $page="myspace";
                 <h6>bro</h6>
                 <span><i class="fa-solid fa-close"></i></span>
             </div>
-            <video src="https://www.youtube.com/watch?v=5qKTzu5_Ofk" controls></video>
+            <video src="aesthetic.mp4" controls></video>
         </div>
 
 
@@ -75,7 +75,7 @@ $page="myspace";
     
 </body>
 
-<!-- <script>
+<script>
     // reads a file and embed it in a textarea
     const tArea = document.getElementById("myTextarea");
     const fInput = document.getElementById("inputFile");
@@ -91,7 +91,7 @@ $page="myspace";
 
         reader.readAsText(file);
     })
-</script> -->
+</script>
 
 <script >
     //search on page 'my space'
@@ -377,5 +377,10 @@ $page="myspace";
             });
         });
 </script> -->
+
+<script>
+    
+</script>
+<script src="loculus.js"></script>
 
 </html>

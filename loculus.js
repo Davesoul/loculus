@@ -4,268 +4,152 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-    var btn = document.querySelectorAll('.btn');
 
-    console.log(btn);
-    btn.forEach(b => {
-        b.addEventListener('click', (e)=>{
-            e.stopPropagation();
-            console.log(b);
-            var menu = b.querySelector('.objects');
-            var container = b.querySelector('.objects > .popup-container');
-            console.log(container);
+    /**
+     * search for files and frames with search bar
+     */
 
-            btn.forEach(c => {
-                console.log(c);
-                console.log(c.contains(b));
-                if(c != b && c.contains(b) == false){
-                    c.classList.remove('active');
-                    prevMenu = c.querySelector('.objects');
-                    prevContainer = c.querySelector('.objects > .popup-container');
-                    prevMenu.classList.remove('active');
-                    prevContainer.classList.remove('active');
-                }
-            });
-
-            
-            console.log(menu.getBoundingClientRect());
-            console.log(window.innerHeight);
-
-            var menuRect = menu.getBoundingClientRect();
-            var viewport = window.innerWidth;
-
-            //reposition the menu div whenever it exceeds the viewport width
-            if(menuRect.x + menuRect.right >= viewport){
-                menu.style.right = "10px";
-                console.log(menuRect.x);
-
-                var menuRect = menu.getBoundingClientRect();
-
-                if(menuRect.x < 0){
-                    
-                    menu.style.left = "10px";
-                    console.log(menuRect.x);
-            }
-            }
-
-            b.classList.toggle('active');
-            menu.classList.toggle('active');
-            container.classList.toggle('active');
-
-            
-
-        });
-    });
-
-
-
-        //search on page 'my space'
-    
-    var iframe2 = document.getElementById('space');
-    var iframe1 = document.getElementById('loculus');
-    var obj = document.querySelectorAll('.obj');
-    var bar = document.getElementById("bar");
-
-//search for a window in workshop
-        //select search input
+    //search for files and windows in search bar
+    function onPageSearch(){
+        var workshop = document.getElementById('space');
+        var loculus = document.getElementById('loculus');
         var bar = document.getElementById("bar");
-
-        //event listener
+    
+        //search for a window in workshop
+    
+        var obj = workshop.querySelectorAll('.obj');
+    
         bar.addEventListener('keyup', (e)=>{
-            var obj = document.querySelectorAll('.obj');
         
             const data = e.target.value.toLowerCase();
-            console.log(data);
-            
-            //loop through all objects
+    
             obj.forEach(w => {
                 if (w.textContent.toLowerCase().includes(data)){
-
-                    //hide objects with names not corresponding to search
+                    console.log(w.textContent);
                     w.style.display = "block";
                     obj.forEach(c => {
                         c.style.zIndex = "1";
                     });
-
+    
                     w.style.zIndex = "5";
-
+    
                 }
                 else{
                     w.style.display = "none";
                 }
             })
-
-        });
     
-
-// search for a file in directory
-var bar = document.getElementById("bar");
-
-    bar.addEventListener('keyup', (e)=>{
-        var obj = document.querySelectorAll('.container');
-        
-    
-        const data = e.target.value.toLowerCase();
-        
-        console.log(obj);
-        obj.forEach(w => {
-            console.log(w.textContent);
-            if (w.textContent.toLowerCase().includes(data)){
-
-                w.style.display = "flex";
-            }
-            else{
-                w.style.display = "none";
-            }
-    });
-
-});
-
-
-
-    
-
-
-
-
-    // to open new window in workshop
-
-    function loadTemplate(source, dirname) {
-    fetch('windowTemplate.php')
-        .then(response => response.text())
-        .then(html => {
-            var iframe2 = document.getElementById('space');
-            const container = iframe2.contentWindow.document.querySelector('spacecontainer');
-
-
-            const obj = iframe2.contentWindow.document.createElement('.obj');
-            
-            container.innerHTML += html;
-        
-            // Extract the content from the fetched HTML
-            var nestedFrame = container.querySelector('iframe').src;
-            var frameTitle = container.querySelector('h6').innerHTML;
-            
-            // Replace the content of the element in the frame
-            nestedFrame = source;
-            frameTitle = title;
         })
-        .catch(error => {
-        console.log('Error loading template:', error);
-        });
+    
+    
+    
+        // search for a file in directory
+    
+        var cont = loculus.getElementsByClassName("container");
+        var info = loculus.getElementsByClassName("smalldescription");
+        
+    
+        bar.addEventListener('keyup', (e)=>{
+            const data = e.target.value.toLowerCase();
+            console.log(data);
+            console.log(info);
+            for(i=0; i<cont.length; i++){
+                console.log(info[i].textcontent);
+                if(info[i].textContent.toLowerCase().includes(data)){
+    
+                    cont[i].style.display = "flex"
+                }
+                else{
+                    cont[i].style.display = "none"
+                }
+            }
+        })
+    
+    }
+    
+    onPageSearch();
+
+
+
+
+    //open searchbar on screen width<765
+    btn = document.querySelectorAll('.btn');
+    sc = document.getElementById('searchcontainer');
+    var bar = document.getElementById("bar");
+    sc.onclick = function(){
+        // console.log(sc);
+        sc.classList.toggle('on');
+        bar.focus();
+        btn.forEach(b => {b.classList.toggle('off')});
+        
+
     }
 
-    //fills the workshop windows list
-        var wp = document.querySelector('#workshop');    
-        var menu = wp.querySelector('.popup-container');
-        
-        //onclik
-        wp.addEventListener('click', ()=>{
-            menu.innerHTML = '';
-            const container = document.querySelector('.spacecontainer');
-            var obj1 = document.querySelectorAll('.obj');
-            
-            console.log(container);
-            console.log(obj1);
 
-            //loop through obj and add their name to the menu
-        
-            obj1.forEach(w=>{
-            
-            var frameTitle = w.querySelector('h6').textContent;
-            console.log(w);
-            var listItem = document.createElement('li');
-            item = document.createElement('a');
 
-            item.href = '#space';
-            item.textContent = frameTitle;
 
-            menu.appendChild(listItem);
-            listItem.appendChild(item);
 
-            item.addEventListener('click', ()=>{
-                viewport = window.scrollY;
-                console.log(viewport);
-                obj1.forEach(c=>{
-                    c.style.zIndex = '1';
-                })
-                    console.log('start');
-                    w.style.left = '35%';
-                    w.style.top = `${viewport+100}px`;
-                    w.style.zIndex = '5';
-            })
-        })
 
-    })
 
-        //modal popup for file uploading
-        var modal = document.getElementById("backgrd");
-        var plus = document.getElementById("plus");
-
-        plus.onclick = function (){
-            modal.style.display = "block";
-        }
-
-        window.onclick = function (event){
-            if(event.target == modal){
-                modal.style.display = "none";
-            }
+    // solves the directory section overflowing in workshop
+    window.addEventListener('resize', ()=>{
+        if (window.location.hash == "#space"){
+            window.location.hash = "#space";
         }
         
-        //open searchbar on screen<765
-        btn = document.querySelectorAll('.btn');
-        sc = document.getElementById('searchcontainer');
-        sc.onclick = function(){
-            console.log(sc);
-            sc.classList.toggle('on');
-            btn.forEach(b => {b.classList.toggle('off')});
-            
-
-        }
-
-        var directory_name = '';
-        function reloadIframe(link) {
-        // Get the reference to the iframe element
-            var iframe1 = document.getElementById('loculus');
-
-            
-            console.log(iframe1);
-        // Refresh the iframe by setting its source to the current source
-            iframe1.src = link;
-            const doc = iframe1.contentWindow.document.var;
-            console.log(doc);
-
-
-        }
+    });
 
 
 
 
-            //manipulate iframe on mouse events
+    /**
+     * move frames
+     */
+
+    //manipulate iframe on mouse events
     const body = document.querySelector('body');
-    var obj = document.querySelectorAll('.obj');
+    
 
-
-    console.log(obj);
-    obj.forEach(w => {
-        var bar = w.querySelector('.objbar');
-        var close = w.querySelector('span');
+    function moveFrame(){
         
-            console.log(w.offsetLeft, w.offsetTop);
+        var obj = document.querySelectorAll('.obj');
+        obj.forEach(w => {
+            
+            var bar = w.querySelector('.objbar');
+            var close = w.querySelector('span');
+            let prevActive;
 
 
             close.addEventListener('click', ()=>{
                 w.remove();
             });
 
-            w.addEventListener('mousedown', ()=>{
+            w.addEventListener('mouseenter', ()=>{
 
+
+                console.log('start');
+                // all frames on the same stack
                 obj.forEach(c => {
-                    c.style.zIndex = "1";
+                    if(c.style.zIndex == 5){
+                        c.style.zIndex = "4";
+                        c.style.boxShadow = '0px 5px 1px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.border = 'solid 2px rgba(0,0,0,0)';
+                    }else if(c.style.zIndex == 4){
+                        c.style.zIndex = "2";
+                        c.style.boxShadow = '0px 5px 10px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.border = 'solid 2px rgba(0,0,0,0)';
+                    }else{
+                        c.style.zIndex = "1";
+                        c.style.boxShadow = '0px 5px 10px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.border = 'solid 2px rgba(0,0,0,0)';
+                    }
                 });
 
+                // selected frame on top of stack
+                
                 w.style.zIndex = "5";
-
+                w.style.boxShadow = '0px 10px 15px 0px rgba(0, 0, 0, 0.5)';
+                w.style.border = 'solid 2px var(--secondarycolor)';
 
             });
 
@@ -274,18 +158,18 @@ var bar = document.getElementById("bar");
 
                 
                 // e.stopPropagation();
-          
+            
                 
                 w.style.opacity = 0.6;
-               
+                
 
 
                 var menuRect = w.getBoundingClientRect();
                 var viewport = w.innerWidth;
 
-                var x = document.event.clientX - w.offsetLeft;
-                var y = document.event.clientY - w.offsetTop;
-   
+                var x = e.clientX - w.offsetLeft;
+                var y = e.clientY - w.offsetTop;
+
 
                 //reposition the frame div whenever it exceeds the viewport width
                 if(menuRect.x + menuRect.right >= viewport){
@@ -299,10 +183,10 @@ var bar = document.getElementById("bar");
 
                     w.style.position = "absolute";
 
-                    w.style.left = `${document.event.clientX - x}px`;
-                   
-                    w.style.top = `${document.event.clientY - y}px`;
-             
+                    w.style.left = `${e.clientX - x}px`;
+                    
+                    w.style.top = `${e.clientY - y}px`;
+                
 
 
 
@@ -333,86 +217,112 @@ var bar = document.getElementById("bar");
 
 
             });
-        });
-
-        
-    //manipulate iframe on touchscreen events
-
-    var obj = document.querySelectorAll('.obj');
-
-
-
-    obj.forEach(w => {
-        var bar = w.querySelector('.objbar');
-        
-        
-
 
             w.addEventListener('touchstart', ()=>{
 
+                console.log("touchstart");
                 obj.forEach(c => {
-                    c.style.zIndex = "1";
+                    console.log(c);
+                    console.log("zindex: " + c.style.zIndex);
+                    if(c.style.zIndex == 5){
+                        c.style.zIndex = "4";
+                        c.style.boxShadow = '0px 5px 1px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.border = 'solid 2px rgba(0,0,0,0)';
+                    }else if(c.style.zIndex == 4){
+                        c.style.zIndex = "2";
+                        c.style.boxShadow = '0px 5px 10px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.border = 'solid 2px rgba(0,0,0,0)';
+                    }else{
+                        c.style.zIndex = "1";
+                        c.style.boxShadow = '0px 5px 10px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.border = 'solid 2px rgba(0,0,0,0)';
+                    }
                 });
 
-                w.style.zIndex = "5";
- 
-
+                w.style.zIndex = '5';
+                w.style.boxShadow = '0px 10px 15px 0px rgba(0, 0, 0, 0.5)';
+                w.style.border = 'solid 2px var(--secondarycolor)';
             });
 
             bar.addEventListener('touchstart', (e)=>{
 
-                
+
 
                 // e.stopPropagation();
-            
-                
+
+
                 w.style.opacity = 0.6;
-            
+
                 var menuRect = w.getBoundingClientRect();
                 var viewport = w.innerWidth;
 
-                var x = event.touches[0].clientX - w.offsetLeft;
-                var y = event.touches[0].clientY - w.offsetTop;
-            
+                var x = e.touches[0].clientX - w.offsetLeft;
+                var y = e.touches[0].clientY - w.offsetTop;
 
-                // mouse coordinates minus the initial offset
+
+                // touch coordinates minus the initial offset
 
                 const moveObj = (e) => {
 
                     w.style.position = "absolute";
 
-                    w.style.left = `${event.touches[0].clientX - x}px`;
-                   
-                    w.style.top = `${event.touches[0].clientY - y}px`;
-                  
-
-
-
+                    w.style.left = `${e.touches[0].clientX - x}px`;
+                
+                    w.style.top = `${e.touches[0].clientY - y}px`;
 
                 };
 
+
+                e.preventDefault();
                 document.addEventListener("touchmove", moveObj);
 
                 bar.addEventListener("touchend", ()=>{
-                
-                document.removeEventListener("touchmove", moveObj);
-                w.style.opacity = 1;
-                
+
+                    document.removeEventListener("touchmove", moveObj);
+                    w.style.opacity = 1;
+
                 // objBarr.style.position = "relative";
                 })
+
                 body.addEventListener("mouseleave", ()=>{
                     
                     document.removeEventListener("touchmove", moveObj);
                     w.style.opacity = 1;
                     // objBarr.style.position = "relative";
                 })
-            
 
-            
+
+
 
 
             });
+                    
         });
+    }
+    moveFrame();
 
 
+
+        var deleteBtn = document.getElementById('delete');
+
+    function deleteFile(filename, fileID){
+        console.log('delete');
+        modal.style.display = "block";
+        modal.innerHTML = `                
+        <div class="modal-popup">    
+            <form action="" method="POST">
+                <i class="fa-solid fa-trash-can"></i>
+                <p>You are going to delete the file ${filename}</p>
+                <input id="deletion" type="submit" value="deletion" name="deletion">
+            </form>
+        </div>`;
+
+        var deleteBtn2 = document.getElementById('deletion');
+        deleteBtn2.onclick = function(){
+            loadContent('myloculus.php', session='del', fileID, 'loculus', 'GET');
+            modal.style.display = "none";
+        };
+    }
+
+    console.log(window.location.href);
 });

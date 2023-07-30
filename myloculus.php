@@ -1,4 +1,9 @@
 <?php
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+
 require_once 'authentication.php';
 
 if(isset($_SESSION['id'])){
@@ -8,12 +13,188 @@ if(isset($_SESSION['id'])){
     $pass = $_SESSION['password'];
 }
 
-if(isset($_GET['del'])){
-    //delete resource
-    $resid = $_GET['resid'];
-    $delstmt = "delete from resources where resource_id = $resid ";
-    $user->manage_sql($delstmt);
+// queries for directories and resources
+if (isset($_GET['dir_id'])){
+    // echo $_GET["dir_id"];
+    $dir = $_GET['dir_id'];
+    // $permStmt = "SELECT * FROM user_directory a LEFT JOIN directories b on a.directory_id = b.directory_id WHERE a.directory_id = $dir";
+    // $stmt0 = "SELECT * FROM user_directory a LEFT JOIN directories b on a.directory_id = b.directory_id WHERE b.directory_id = $dir and a.user_id = $id";
+    $stmt = "SELECT * FROM resources a INNER JOIN directory_resource b ON a.resource_id = b.resource_id join directories c on c.directory_id = b.directory_id where c.directory_id = $dir";
+}else if (isset($_SESSION["id"])){
+    // $permStmt = "SELECT * FROM user_directory a LEFT JOIN directories b on a.directory_id = b.directory_id WHERE b.directory_name = 'user_$id'";
+    // $stmt0 = "SELECT * FROM user_directory a LEFT JOIN directories b on a.directory_id = b.directory_id WHERE b.directory_name = 'user_$id'";
+    $stmt = "SELECT * FROM resources a inner join directory_resource b ON a.resource_id = b.resource_id join directories c on c.directory_id = b.directory_id where c.directory_name = 'user_$id'";
 }
+
+
+// $results0 = $user->manage_sql($stmt0);
+// $row0 = $results0->fetch(PDO::FETCH_ASSOC);
+
+// $_SESSION['dir_id'] = $row0['directory_id'];
+// $_SESSION['dir_name'] = $row0['directory_name'];
+// $_SESSION['dir_path'] = $row0['path'];
+// $_SESSION['perm_id'] = $row0['permission_id'];
+
+if(isset($_SESSION['perm_id'])){
+    $perm_id = $_SESSION['perm_id'];
+
+    
+}
+
+
+// echo "delete?";
+
+// echo $_POST['toUpload'];
+
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//     // echo '<pre>';
+//     // print_r($_POST);
+//     // echo '</pre>';
+//     var_dump($_POST);
+//     var_dump($_FILES);
+//     // echo $_FILES['toUpload'];
+//     if (isset($_FILES['toUpload'])) {
+//         // Do further processing with the file if needed
+//         // ...
+
+//         echo "File uploaded successfully!";
+//     } else {
+//         echo "Error uploading the file.";
+//     }
+// }
+
+// if (!is_dir($target_dir)) {
+//     mkdir($target_dir, 0775, true);
+// }
+
+echo "dir_id: ".$_SESSION['dir_id'];
+echo "dir_path: ".$_SESSION['dir_path'];
+// echo $_SESSION['dir_path'];
+
+// // upload new file
+// if($_SERVER["REQUEST_METHOD"] === "POST"){
+//     echo 'hi';
+//     // var_dump($_FILES['toUpload']);
+//     if(isset($_FILES["toUpload"])){
+//         // $user = new user();
+
+//         $file = $_FILES["toUpload"];
+        
+//         if(isset($_SESSION['dir_path'])){
+
+//             echo "this is the dir";
+//             $cleanFileName = preg_replace('/[^a-zA-Z0-9-_\.]/', '', $file['name']);
+//             $target_dir = '.'.$_SESSION['dir_path'].'/';
+//             echo $target_dir;
+
+//             $perm=fileperms($target_dir);
+//             $perm = substr(sprintf('%o', $perm), -4);
+            
+//             //create directory with enough permissions to upload file
+//             if (!is_dir($target_dir)) {
+//                 mkdir($target_dir, 0775, true);
+//             }
+//             echo $perm;
+
+//         };
+//         // $target_dir = "./Directories/";
+//         $target_file = $target_dir.basename($cleanFileName);
+//         echo $target_file;
+//         // $uploadOk = 1;
+//         $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        
+
+
+//         //check if file exist
+//         if (file_exists($target_file)){
+//             echo exec('pwd');
+//             echo "sorry, file already exists.";
+//         //     $uploadOk = 0;
+//         }else{
+//             if(move_uploaded_file($file["tmp_name"], $target_file)){
+//                 //insert into resources
+//                 $uploadtodb = $user->db->prepare("insert into resources (resource_name, type, size) values (:a, :b, :c)");
+//                 $uploadtodb->bindParam(":a", $cleanFileName);
+//                 $uploadtodb->bindParam(":b", $file["type"]);
+//                 $uploadtodb->bindParam(":c", $file["size"]);
+
+//                 $uploadtodb->execute();
+
+//                 //insert into directory_resource
+//                 $lastID = $user->db->prepare('select last_insert_id()');
+//                 $lastID->execute();
+//                 $row = $lastID->fetch(PDO::FETCH_ASSOC);
+
+//                 $uploadtodb = $user->db->prepare("insert into directory_resource (directory_id, resource_id) values (:a, :b)");
+//                 $uploadtodb->bindParam(":a", $_SESSION['dir_id']);
+//                 $uploadtodb->bindParam(":b", $row['last_insert_id()']);
+                
+
+//                 $uploadtodb->execute();
+//                 echo exec('pwd');
+//                 echo $file["tmp_name"]."has been uploaded";
+//             }
+//             else{
+//                 echo "Sorry, there was an error uploading your file.";
+//             }
+//         }
+
+//     }
+    
+// }
+
+// // create new loculus(folder)
+// if(isset($_POST['Newloculus'])){
+//     $path = '.'.$_SESSION['dir_path'].'/'.$_POST['loculusName'];
+    
+//     if(mkdir($path, 0755, true)){
+//         //insert into directories
+//         $uploadtodb = $user->db->prepare("insert into directories (directory_name, path) values (:a, :b)");
+//         $uploadtodb->bindParam(":a", $_POST['loculusName']);
+//         $uploadtodb->bindParam(":b", $path);
+//         $uploadtodb->execute();
+
+//         $lastID = $user->db->prepare('select last_insert_id()');
+
+//         $lastID->execute();
+
+//         $row = $lastID->fetch(PDO::FETCH_ASSOC);
+
+//         //insert into user_directory
+//         $pid = 1;
+//         $uploadtodb = $user->db->prepare("insert into user_directory (user_id, directory_id, permission_id) values (:a, :b, :c)");
+//         $uploadtodb->bindParam(":a", $id);
+//         $uploadtodb->bindParam(":b", $row['last_insert_id()']);
+//         $uploadtodb->bindParam(":c", $pid);
+//         $uploadtodb->execute();
+
+//     } else if (mkdir($path, 0755, false)){
+//         echo "folder already created";
+//     } else {
+//         echo "failed to create folder";
+//     }
+
+    
+// }
+
+// // transfer file
+// if(isset($_POST['share'])){}
+
+// // set theme
+// if(isset($_POST['theme'])){}
+
+
+// if(isset($_GET['del'])){
+//     $resource_id = $_GET['del'];
+//     $delstmt = "DELETE FROM resources where resource_id = '$resource_id' ";
+//     $user->manage_sql($delstmt);
+// }
+
+// if(isset($_GET['delLoculus'])){
+//     $directory_id = $_GET['del'];
+//     $delstmt = "DELETE FROM directories where directory_id = '$directory_id' ";
+//     $user->manage_sql($delstmt);
+// }
 
 // echo "hello";
 
@@ -29,6 +210,7 @@ $page = "myloculus";
     <link rel="stylesheet" href="style.css">
     <title>My loculus</title>
 
+    
     <script src="https://kit.fontawesome.com/766f30b49e.js" crossorigin="anonymous"></script>
 </head>
 
@@ -42,23 +224,23 @@ $page = "myloculus";
         <?php
         
         
-            // echo $page;
-            if (isset($_GET['dir_id'])){
-                $dir = $_GET['dir_id'];
-                $stmt0 = "select * from directories where directory_id = $dir";
-                $stmt = "select * from resources a inner join directory_resource b on a.resource_id = b.resource_id join directories c on c.directory_id = b.directory_id where c.directory_id = $dir";
-            }else if (isset($_SESSION["id"])){
-                $stmt0 = "select * from directories where directory_name = '$username'";
-                $stmt = "select * from resources a inner join directory_resource b on a.resource_id = b.resource_id join directories c on c.directory_id = b.directory_id where c.directory_name = '{$username}'";
-            }
+            // // echo $page;
+            // if (isset($_GET['dir_id'])){
+            //     $dir = $_GET['dir_id'];
+            //     $stmt0 = "select * from directories where directory_id = $dir";
+            //     $stmt = "select * from resources a inner join directory_resource b on a.resource_id = b.resource_id join directories c on c.directory_id = b.directory_id where c.directory_id = $dir";
+            // }else if (isset($_SESSION["id"])){
+            //     $stmt0 = "select * from directories where directory_name = '$username'";
+            //     $stmt = "select * from resources a inner join directory_resource b on a.resource_id = b.resource_id join directories c on c.directory_id = b.directory_id where c.directory_name = '{$username}'";
+            // }
             
-            if (isset($stmt0) && isset($stmt)){
-                $results0 = $user->manage_sql($stmt0);
-                $row0 = $results0->fetch(PDO::FETCH_ASSOC);
+            // if (isset($stmt0) && isset($stmt)){
+            //     $results0 = $user->manage_sql($stmt0);
+            //     $row0 = $results0->fetch(PDO::FETCH_ASSOC);
                 
-                $_SESSION['dir_id'] = $row0['directory_id'];
-                $_SESSION['dir_name'] = $row0['directory_name'];
-                $_SESSION['dir_path'] = $row0['path'];
+            //     $_SESSION['dir_id'] = $row0['directory_id'];
+            //     $_SESSION['dir_name'] = $row0['directory_name'];
+            //     $_SESSION['dir_path'] = $row0['path'];
 
 
                 $results = $user->manage_sql($stmt);
@@ -67,7 +249,9 @@ $page = "myloculus";
                 ?>
 
                 <div class="gap"></div>
-                <h1><?php echo $_SESSION['dir_name']; ?></h1>
+                <h1><?php if($_SESSION['dir_name'] == "user_$id"){
+                    echo "Home";
+                } else {echo $_SESSION['dir_name'];} ?></h1>
                 <div class="gap"></div>
 
                 <?php
@@ -84,25 +268,47 @@ $page = "myloculus";
 
                     <div class="container">
                         <div class="iconcontainer">
-                            <i class="fa-solid fa-file-pdf"></i>
+                            <?php if (stripos($row["type"], "pdf") !== false){ ?>
+                                <i class="fa-solid fa-file-pdf"></i>
+                            <?php } elseif (stripos($row["type"], "image") !== false){ ?>
+                                <i class="fa-solid fa-file-image"></i>
+                            <?php } elseif (stripos($row["type"], "audio") !== false){ ?>
+                                <i class="fa-solid fa-file-music"></i>
+                            <?php } elseif (stripos($row["type"], "video") !== false){ ?>
+                                <i class="fa-solid fa-file-video"></i>
+                                <?php } elseif (stripos($row["type"], "text") !== false || stripos($row["type"], "application") !== false){ ?>
+                                <i class="fa-solid fa-file-lines"></i>
+                            <?php } ?>
                         </div>
                         <div class="itemcontainer">                
                             <div class="smalldescription">
                                 <h4><?php echo $row["resource_name"];?></h4>
                                 <p><?php echo $row["type"];?></p>
-                                <p><?php echo $row["size"];?></p>
+                                <p><?php echo $row["size"]." kB"; ?></p>
                                 <p><?php echo $row["created_at"];?></p>
+                                <div class="gap"></div>
                             </div>
                             <!-- <div class="fading-bg"></div> -->
                             <div class="options">
                                 <i class="fa-solid fa-chevron-down hint"></i>
-                                <a href="#space" onclick="openFile('<?php echo './'.$row['path']; ?>', '<?php echo $row['resource_name']; ?>', '<?php echo $row['type']; ?>')"><i class="fa-solid fa-play"></i></a>
-                                <a href="<?php echo './'.$row['path'] . '/' . $row['resource_name']; ?>" download><i class="fa-solid fa-download"></i></a>
-                                <a href="#?del=del&resid=<?php echo $row['resource_id'];?>"><i class="fa-solid fa-trash-can"></i></a>
+                                <?php 
+                                    if ($_SESSION['perm_id']==1){ ?>
+                                        <a href="#space" onclick="openFile('<?php echo './'.$row['path']; ?>', '<?php echo $row['resource_name']; ?>', '<?php echo $row['type']; ?>')"><i class="fa-solid fa-play"></i></a>
+                                        <a href="<?php echo './'.$row['path'] . '/' . $row['resource_name']; ?>" download><i class="fa-solid fa-download"></i></a>
+                                        <a href="#"><i class="fa-solid fa-share"></i></a>
+                                        <a href="#" id='delete' onclick="deleteFile('<?php echo $row['resource_name']; ?>', <?php echo $row['resource_id']; ?>)"><i class="fa-solid fa-trash-can"></i></a>
+                                        
+                                <?php } else if ($_SESSION['perm_id']==2){ ?>
+                                        <a href="#space" onclick="openFile('<?php echo './'.$row['path']; ?>', '<?php echo $row['resource_name']; ?>', '<?php echo $row['type']; ?>')"><i class="fa-solid fa-play"></i></a>
+                                        <a href="<?php echo './'.$row['path'] . '/' . $row['resource_name']; ?>" download><i class="fa-solid fa-download"></i></a>
+                                        <a href="#"><i class="fa-solid fa-share"></i></a>
+                                <?php } else if ($_SESSION['perm_id']==3){ ?>
+                                        <a href="#space" onclick="openFile('<?php echo './'.$row['path']; ?>', '<?php echo $row['resource_name']; ?>', '<?php echo $row['type']; ?>')"><i class="fa-solid fa-play"></i></a>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
-                            <?php   } }  ?>
+                            <?php   }  ?>
                 </div>
         
     </div>
@@ -231,9 +437,14 @@ $page = "myloculus";
         popup.style.maxHeight = "0";
     }
 
+
+
+
+
+    
 </script>
 
-<script>
+<!-- <script>
     //modal popup for file uploading
     var modal = document.getElementById("backgrd");
     var plus = document.getElementById("plus");
@@ -248,8 +459,42 @@ $page = "myloculus";
         }
     }
     
+</script> -->
+
+
+<script>
+    // var loculus = document.getElementById('loculus');
+    // var optionBtn = document.getElementById('more-options');
+    // optionBtn.addEventListener('click', ()=>{
+        
+    //     var options = document.querySelector('#more-options ul');
+    //     console.log('load options');
+    
+       
+    //     console.log(pid);
+    //     if (pid == 1){
+    //         console.log(optionBtn);
+    //         options.innerHTML = `                        <li><a href='#' id='plus'><i class='fa-solid fa-plus'></i>Import</a></li>
+    //     <li><a href='#' id='newL'><i class='fa-solid fa-folder-plus'></i>New loculus</a></li>
+    //     <li><a href='#' id = 'share'><i class='fa-solid fa-share-nodes'></i>Share loculus</a></li>
+    //     <li><a href='#' id = 'del'><i class='fa-solid fa-trash-can'></i>Delete loculus</a></li>
+    //     <li><a href='#' id='chTheme'><i class='fa-solid fa-moon'></i>theme</a></li>`;
+    //     } else{
+    //         console.log('not admin');
+    //         options.innerHTML = '';
+    //         optionBtn.style.display = 'none';
+    //     };
+
+        
+    // });
+        
+    
+
 </script>
 
-
+<script>
+    
+</script>
+<!-- <script src="header.js"></script> -->
 
 </html>

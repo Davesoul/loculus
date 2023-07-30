@@ -77,9 +77,11 @@ INSERT INTO users (username, email, password) VALUES
 
 -- Insert directories
 INSERT INTO directories (directory_name, path) VALUES
-    ('user1', '/Directories/user1'),
-    ('user2', '/Directories/user2'),
-    ('user3', '/Directories/user3');
+    ('user1', '/Directories/user_1'),
+    ('user2', '/Directories/user_2'),
+    ('user3', '/Directories/user_3'),
+    ('user1', '/Directories/user_1/our_books');
+
 
 -- Insert permissions
 INSERT INTO permissions (permission_type) VALUES
@@ -91,7 +93,11 @@ INSERT INTO permissions (permission_type) VALUES
 INSERT INTO user_directory (user_id, directory_id, permission_id) VALUES
 (1, 1, 1),
 (2, 2, 1),
-(3, 3, 1);
+(3, 3, 1),
+(1, 4, 1),
+(2, 4, 2),
+(3, 4, 3);
+
 
 -- Insert into history
 INSERT INTO history (user_id, action) VALUES

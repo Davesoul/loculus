@@ -13,9 +13,11 @@
 #loculus, #space{
     width: 100%;
     height: 100vh;
+    overflow: scroll;
     border: none;
     position: relative;
     display: block;
+    transition: 1s;
 }
 
 
@@ -60,6 +62,7 @@
     --primarycolor: #fff;
     --secondarycolor: #155;
     --fontcolor: #000;
+    --borderradius: 30px;
 }
 
 body{
@@ -97,10 +100,28 @@ h1{
 input{
     display: block;
     border: none;
-    outline: none;
+    /* outline: none; */
     background-color: #fff;
     transition: .5s;
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+input[type=text], input[type=password], input[type=email], input[type=file]{
+    max-width: 80%;
+    max-height: 20%;
+    padding: 3%;
+    margin: 30px;
+    border-radius: var(--borderradius);
+}
+
+input[type=submit]{
+    color: #fff;
+    background-color: #155;
+    border-radius: var(--borderradius);
+    padding: 5% 10%;
+    margin: 30px;
+    cursor: pointer;
+    border-radius: var(--borderradius);
 }
 
 input:hover, input:focus{
@@ -128,25 +149,8 @@ input:hover, input:focus{
     color: #155;
 }
 
-.formcontainer input[type=text], input[type=password], input[type=email]{
-    border-radius: 10px;
-    max-width: 80%;
-    max-height: 20%;
-    padding: 5%;
-    margin: 30px;
-}
-
 .formcontainer input:focus{
     border: none;
-}
-
-input[type=submit]{
-    color: #fff;
-    background-color: #155;
-    border-radius: 20px;
-    /* width: 5em; */
-    padding: 5% 10%;
-    margin: 30px;
 }
 
 
@@ -160,6 +164,12 @@ input[type=submit]{
 .err{
     color: #ab0e0e;
     padding: 10px;
+}
+
+textarea {
+    width: 100%;
+    height: 95%;
+    resize: none;
 }
 
 /* video */
@@ -192,15 +202,29 @@ header{
 
 }
 
+.btn{
+    margin: 0 10px;
+    width: 35px;
+    height: 35px;
+    background: var(--primarycolor);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.btn i, #searchcontainer i{
+    line-height: 2;
+}
+
 #menu{
     position: relative;
-    padding: 5px 10px;
-    cursor: pointer;
+    /* padding: 5px 10px; */
+    
 }
 
 .btn.active{
-    background: #155;
-    color: #eee;
+    background: var(--secondarycolor);
+    color: var(--primarycolor);
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
 }
 
@@ -213,8 +237,8 @@ header h4{
     margin-left: auto;
     margin-right: 10px;
     width: 500px;
-    height: 60%;
-    padding: 10px;
+    height: 36px;
+    /* padding: 10px; */
     display: flex;
     align-items: center;
     background-color: #fff;
@@ -222,6 +246,11 @@ header h4{
     transition: .5s;
     overflow: hidden;
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+#searchbtn{
+    width: 35px;
+    height: 35px;
 }
 
 .searchcontainer:focus-within{
@@ -248,18 +277,8 @@ header h4{
 }
 
 
-.btn, .user-img, .more-options, .menu{
-    margin: 0 10px;
-    background: var(--primarycolor);
-    /* margin-bottom: 10px; */
-    border-radius: 50%;
-    /* right: 2%; */
-    border-radius: 50%;
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
-}
 
 #user-img{
-    cursor: pointer;
     /* padding: 18px; */
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
 
@@ -329,8 +348,8 @@ header img{
 } */
 
 #more-options {
-    padding: 5px 15px;
-    right: 7%;
+    /* padding: 5px 15px; */
+    /* right: 7%; */
     border-radius: 50%;
     cursor: pointer;
 }
@@ -398,7 +417,7 @@ header img{
 }
 
 
-#backgrd, #backgrd1, #backgrd2{
+.background{
     position: fixed;
     top: 0vh;
     left: 0vw;
@@ -411,8 +430,9 @@ header img{
 }
 
 .modal-popup{
-    width: 300px;
-    height: 500px;
+    width: 50%;
+    height: auto;
+    padding: 20px;
     /* display: block; */
     margin: auto;
     border-radius: 10px;
@@ -435,14 +455,14 @@ h3{
     color: #fff;
 }
 
-.modal-popup input{
+/* .modal-popup input{
     border-radius: 10px;
     max-width: 80%;
     max-height: 20%;
     padding: 5%;
     margin: 30px;
 
-}
+} */
 
 
 
@@ -503,6 +523,8 @@ h3{
     border-radius: 5px;
     margin: 10px;
     padding: 5px;
+    width: auto;
+    height: auto;
 }
 
 .menu-i span{
@@ -533,10 +555,11 @@ h3{
 }
 
 .objects.active{
-    max-height: 80vh;
+    max-height: 400px;
     max-width: 200px;
     visibility: visible;
     transform: translateY(10px);
+    overflow: visible;
     box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.5);
 }
 
@@ -549,7 +572,8 @@ h3{
 }
 
 .popup-container.active{
-    max-height: 500px;
+    max-height: 300px;
+    overflow: scroll;
 }
 
 .obj2{
@@ -598,6 +622,7 @@ h3{
     justify-content: flex-start;
     flex: 1;
     /* gap: 5px; */
+    transition: 1s;
 }
 
 .container{
@@ -615,7 +640,7 @@ h3{
      /* to make the container responsive */
     background: var(--primarycolor);
     width: 200px;
-    height: 150px;
+    max-height: 150px;
     padding: 5%;
     overflow: hidden;
     top: -30px;
@@ -632,7 +657,7 @@ h3{
     box-shadow: 5px 5px 10px 0px rgba(154, 255, 255, 0.25),
     -5px -5px 50px 0px rgba(1, 28, 45, 0.3);
     /* background-color: #000; */
-    height: 300px;
+    max-height: 500px;
 }
 
 .iconcontainer{
@@ -652,7 +677,7 @@ h3{
 
 .iconcontainer i{
     color: #155;
-    text-shadow: 0px 10px 5px #000;
+    /* text-shadow: 0px 10px 5px #000; */
 }
 
 
@@ -663,8 +688,20 @@ h3{
 
 .smalldescription{
     /* padding: 5%; */
-    position: relative;
+    width: 100%;
+    /* position: relative; */
     top: 50px;
+    /* text-overflow: ellipsis; */
+    /* display: block; */
+}
+
+.smalldescription h4{
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+      /* Set the maximum number of lines before cutting off text */
+    /* display: -webkit-box; */
+    /* -webkit-line-clamp: 3; Adjust the number of lines (e.g., 3 lines) */
+    /* -webkit-box-orient: vertical; */
 }
 
 .smalldescription p{
@@ -694,25 +731,27 @@ h3{
     position: absolute;
     justify-content: end;
     align-items: center;
-    padding-right: 10px;
+    /* padding-right: 10px; */
+    text-align: center;
     gap: 5px;
     /* box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.5); */
     transition: .5s;
 }
 
 .options a{
-    /* width: 30px;
-    height: 30px; */
+    width: 30px;
+    height: 30px;
+    margin: auto;
     /* border-radius: 30px;
     background: #eee;
     padding: 0px 10px;
     justify-content: center;
     color: #000; */
     /* text-align: center; */
-    right: -120px;
+    right: -200px;
     position: relative;
     top: 10px;
-    padding: 5px 10px;
+    /* padding: 5px 10px; */
     font-size: 13px;
     background: var(--primarycolor);
     border-radius: 50%;
@@ -740,7 +779,45 @@ h3{
     background-color: #000;
 }
 
+.options a i {
+    line-height: 2.5;
+}
 
+/* live search */
+
+#livesearchcontainer{
+    position: relative;
+    left: -150px;
+}
+
+#list {
+    width: 300px;
+    position: absolute;
+    text-align: start;
+    transition: .5s;
+}
+
+#loculusTarget{
+    margin: 0;
+}
+
+
+#list li{
+    list-style: none;
+    padding: 5px;
+    box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.5);
+    border-radius: 30px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: .5s;
+    background-color: var(--primarycolor);
+}
+
+#list li:hover{
+    padding: 10px;
+    background-color: var(--secondarycolor);
+    color: var(--primarycolor);
+}
 
 /* myspace */
 .space{
@@ -780,22 +857,49 @@ h3{
 
 .obj{
     width: 300px;
+    height: auto;
     resize:both;
     position: absolute;
     display: block;
-
-    transition: none;
-    border: #000 4px;
+    /* transition: none; */
+    /* border: #000 4px; */
     border-radius: 5px;
     overflow: hidden;
-    z-index: 0;
-    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    /* z-index: 0; */
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+    border: solid 2px rgba(0, 0, 0, 0);
+    padding: 0.5px;
+    transition: border .5s;
+}
+
+.obj .titleContainer{
+    width: 90%;
+}
+
+.obj h6{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .obj.active{
-    z-index: 5;
+    
+    box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.5);
 }
 
+.obj:hover{
+    border: solid 2px var(--secondarycolor);
+    /* padding: 3px; */
+    z-index:5;
+    
+}
+
+
+
+.obj img{
+    width: 100%;
+    object-fit: cover;
+}
 
 .obj video{
     width: 100%;
@@ -806,14 +910,14 @@ h3{
 
 .obj iframe{
     width: 100%;
-    height: 95%;
+    height: 93%;
     background: #fff;
 }
 
 @media  only screen and (max-width:768px) {
-    /* .container{
-        flex: 50%;
-    } */
+    .container{
+        flex: 0 0 50%;
+    }
 
     header h1 {
         font-size: 100%;
@@ -857,7 +961,7 @@ h3{
 
 @media only screen and (max-width:912px) {
     .container {
-        flex: 33%;
+        /* flex: 33%; */
     }
 }
 
@@ -866,4 +970,10 @@ h3{
 .template{
     max-height: 100vh;
     overflow-y: scroll;
+}
+
+@media only screen and (max-width:400px){
+    .container{
+        flex: 0 0 100%;
+    }
 }
