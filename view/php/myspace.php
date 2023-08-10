@@ -13,9 +13,9 @@ $page="myspace";
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>my space</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- <link rel="stylesheet" href="../css/style.css"> -->
 
-    <script src="https://kit.fontawesome.com/766f30b49e.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://kit.fontawesome.com/766f30b49e.js" crossorigin="anonymous"></script> -->
 
 
     <style>
@@ -55,7 +55,7 @@ $page="myspace";
                 <h6>The Art of Electronics ( PDFDrive ) hello</h6>
                 <span><i class="fa-solid fa-close"></i></span>
             </div>
-            <iframe src="../loculus/interface.php" frameborder="0"></iframe>
+            <iframe src="https://www.netflix.com/browse" frameborder="0"></iframe>
             <br>
         </div>
 
@@ -65,7 +65,7 @@ $page="myspace";
                 <h6>bro</h6>
                 <span><i class="fa-solid fa-close"></i></span>
             </div>
-            <video src="aesthetic.mp4" controls></video>
+            <video src="" controls></video>
         </div>
 
 

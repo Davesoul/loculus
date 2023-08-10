@@ -72,18 +72,18 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-    //open searchbar on screen width<765
-    btn = document.querySelectorAll('.btn');
-    sc = document.getElementById('searchcontainer');
-    var bar = document.getElementById("bar");
-    sc.onclick = function(){
-        // console.log(sc);
-        sc.classList.toggle('on');
-        bar.focus();
-        btn.forEach(b => {b.classList.toggle('off')});
+    // //open searchbar on screen width<765
+    // btn = document.querySelectorAll('.btn');
+    // sc = document.getElementById('searchcontainer');
+    // var bar = document.getElementById("bar");
+    // sc.onclick = function(){
+    //     // console.log(sc);
+    //     sc.classList.toggle('on');
+    //     bar.focus();
+    //     btn.forEach(b => {b.classList.toggle('off')});
         
 
-    }
+    // }
 
 
 

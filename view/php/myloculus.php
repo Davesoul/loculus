@@ -219,11 +219,10 @@ echo $dir_name;
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style.css">
     <title>My loculus</title>
 
     
-    <script src="https://kit.fontawesome.com/766f30b49e.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://kit.fontawesome.com/766f30b49e.js" crossorigin="anonymous"></script> -->
 </head>
 
 
@@ -501,151 +500,48 @@ echo $dir_name;
     // });
         
     
-
-    function modal_popup(option){
-        //modal popup for file uploading
-        const header = document.querySelector('header');
-        console.log(header);
-        var modal = header.querySelector("#backgrd");
-        console.log(modal);
-        var plus = header.querySelector("#plus");
-        console.log(plus);
-        var newL = header.querySelector("#newL");
-        var theme = header.querySelector("#chTheme");
-        var share = header.querySelector("#share");
-        var del = header.querySelector("#del");
-        
-
-        document.addEventListener('click', function(event) {
-            // Check if the click event is from the submit button
-            console.log(event.target);
-            // var eL = event.target.closest('#');
-            if (event.target.type === 'submit') {
-                event.preventDefault(); // Prevent the default form submission
-
-                if (event.target.id === 'delLoculus') {
-                    loadContent('../../controller/loculusoptions.php', 'delLoculus', '<?php echo $dir ?>', 'loculus', 'GET');
-                    loadContent('myloculus.php', '', '', 'loculus', 'GET');
-                    modal.style.display = "none";
-                }else if (event.target.id === 'share') {
-                    loadContent('../../controller/loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
-                    loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
-                    modal.style.display = "none";
-                }else if (event.target.id === 'theme') {
-                    loadContent('../../controller/loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
-                    loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
-                    modal.style.display = "none";
-                }else if (event.target.id === 'upload') {
-                    loadContent('../../controller/loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
-                    // loadContent('./myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
-                    modal.style.display = "none";
-                }else if (event.target.id === 'NewLoculus') {
-                    loadContent('../../controller/loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
-                    loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
-                    modal.style.display = "none";
-                }
-            }
-
-        });
-
-        if(option == "plus"){
-            modal.style.display = "block";
-            modal.innerHTML = `                <h3>Add new item</h3>
-                    <div class="modal-popup">    
-                        <form id="Form"  method="POST" enctype="multipart/form-data">
-                            select file to upload:
-                            <input type="file" name="toUpload" id="toUpload">
-                            <input type="text" name="loculusTarget" id="loculusTarget">
-                            <div id="livesearchcontainer">
-                                
-                                <ul id="list"></ul>
-                            </div>
-
-                            <input id="upload" type="submit" value="Upload" name="Upload">
-                        </form>
-                    </div>`;
-
-            livesearch();
-
-        }
-
-        else if(option == "newL"){
-            modal.style.display = "block";
-            modal.innerHTML = `                <h3>New Loculus</h3>
-                    <div class="modal-popup">    
-                        <form id="Form" action="" method="POST">
-                            <input type="text" name='loculusName' id="loculusName" placeholder="folder name...">
-                            <input id="NewLoculus" type="submit" value="New Loculus" name="Newloculus">
-                        </form>
-                    </div>`;
-        }
-
-        else if(option == "chTheme"){
-            modal.style.display = "block";
-            modal.innerHTML = `<h3>Theme</h3>
-                    <div class="modal-popup">    
-                        <form id="Form" action="" method="POST" enctype="multipart/form-data">
-                            Primary color:
-                            <input type="color" name="c1" id="c1">
-                            Secondary color:
-                            <input type="color" name="c2" id="c2">
-                            Accent color:
-                            <input type="color" name="c3" id="c3">
-                            <input onclick="chTheme(c1.value,c2.value,c3.value)" id="theme" type="submit" value="theme" name="Theme">
-                        </form>`;
-        }
-
-        if(option == "share"){
-            modal.style.display = "block";
-            modal.innerHTML = `
-                    <h3>Share loculus</h3>
-                    <div class="modal-popup">    
-                        <form id="Form" action="" method="POST" enctype="multipart/form-data">
-                            share with:
-                            <input type="text" name="shareLoculus" id="shareLoculus">
-                            <input id="share" type="submit" value="Upload" name="Upload">
-                        </form>
-                </div>`;
-        }
-
-        if(option == "del"){
-            // loadContent('myloculus.php', 'del', 'del', 'loculus', 'GET');
-            modal.style.display = "block";
-            modal.innerHTML = `                <h3>Delete Loculus</h3>
-                    <div class="modal-popup">    
-                        <form id="Form" action="">
-                            <label>Are you sure you want to delete this loculus?</label>
-                            <input id="delLoculus" type="submit" value="delete loculus" name="delLoculus">
-                        </form>
-                    </div>`;
-            // var form = document.getElementById("del");
-            // // console.log(submit);
-            // form.addEventListener('onclick', function(event){
-            //     event.preventDefault();
-            //     console.log('submit');
-                
-                
-            // });
-
-            
-        }
-
-        window.onclick = function (event){
-            if(event.target == modal){
-                modal.style.display = "none";
-                // modal1.style.display = "none";
-                // modal2.style.display = "none";
-            }
-        };
-        
-
-    }
+    // expand card
+ 
     
+    var loculus = document.querySelector('#loculus');
+    var itemcontainer = loculus.querySelectorAll(".itemcontainer");
+    
+    loculus.onclick = function (event){
+        var clickedEl = event.target;
+        var itemCard = clickedEl.closest('.itemcontainer');
+        if (itemCard){
+            itemcontainer.forEach(c => {
+                console.log('retract');
+                // c.style.maxHeight = '150px';
+                if (c != itemCard) {
+                    c.classList.remove('active');
+                }
+            })
+            console.log('expand');
+            // i.style.maxHeight = '500px';
+            itemCard.classList.toggle('active');
+        }
+    }
 
 
+    // loculus.querySelectorAll(".itemcontainer").forEach(i=>{
+    //     i.addEventListener("click", (e)=>{
+    //         itemcontainer.forEach(c => {
+    //             console.log('retract');
+    //             // c.style.maxHeight = '150px';
+    //             if (c != i) {
+    //                 c.classList.remove('active');
+    //             }
+    //         })
+    //         console.log('expand');
+    //         // i.style.maxHeight = '500px';
+    //         i.classList.toggle('active');
+
+    //     })
+    // }) 
 
 
-
+    // delete file
     var deleteBtn = document.getElementById('delete');
     var modal = document.getElementById("backgrd");
     function deleteFile(filename, fileID){
@@ -670,7 +566,7 @@ echo $dir_name;
     }
 
 
-
+    // change theme
     function chTheme(c1, c2, c3){
         const root = document.documentElement;
 

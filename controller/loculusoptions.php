@@ -17,7 +17,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
             echo "this is the dir";
             $cleanFileName = preg_replace('/[^a-zA-Z0-9-_\.]/', '', $file['name']);
-            $target_dir = '.'.$_SESSION['dir_path'].'/';
+            $target_dir = $_SESSION['dir_path'].'/';
             echo $target_dir;
 
             $perm=fileperms($target_dir);
@@ -78,7 +78,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     // create new loculus(folder)
     if(isset($_POST['loculusName'])){
         echo "create new loculus";
-        $path = '.'.$_SESSION['dir_path'].'/'.$_POST['loculusName'];
+        $path = '..'.$_SESSION['dir_path'].'/'.$_POST['loculusName'];
         echo $path;
 
         if(mkdir($path, 0755, true)){
@@ -111,25 +111,75 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         
     }
 
+    // set theme
+    if(isset($_POST['theme'])){
+        $_SESSION["c1"] = $_POST['c1'];
+        $_SESSION["c2"] = $_POST['c2'];
+        $_SESSION["c3"] = $_POST['c3'];
+    }
+
+
+    // transfer file
+    if(isset($_POST['share'])){
+        $searchedUser = $_POST['searchedUser'];
+        $searchedUserId = $_POST['searched_user_id'];
+
+        if ($_POST['userRole'] == "Admin") {
+            $userRole = 1;
+        }if ($_POST['userRole'] == "Standard") {
+            $userRole = 2;
+        } else {
+            $userRole = 3;
+        }
+
+        //select user_directory information
+        $statement = "SELECT * FROM user_directory WHERE user_id = $searchedUserId AND directory_id = $directory_id";
+        // echo $statement;
+        $results = $user->manage_sql($statement);
+
+        if ($results->rowCount()== 0){
+            
+            //insert into user_directory
+            $uploadtodb = $user->db->prepare("insert into user_directory (user_id, directory_id, permission_id) values (:a, :b, :c)");
+            $uploadtodb->bindParam(":a", $searchedUser);
+            $uploadtodb->bindParam(":b", $_SESSION["dir_id"]);
+            $uploadtodb->bindParam(":c", $userRole);
+            $uploadtodb->execute();
+
+        } else {
+
+        }
+        //find id
+        $uploadtodb = $user->db->prepare("UPDATE user_directory SET permission_id = $userRole WHERE user_id = $searchedUserId AND directory_id = $directory_id");
+        $uploadtodb->execute();
+
+
+
+        //insert into transfers
+        $uploadtodb = $user->db->prepare("insert into transfers (user_id, resource_id, destination_user_id) values (:a, :b, :c)");
+        $uploadtodb->bindParam(":a", $_POST['loculusName']);
+        $uploadtodb->bindParam(":b", $path);
+        $uploadtodb->execute();
+
+        $lastID = $user->db->prepare('seletransfersct last_insert_id()');
+
+        $lastID->execute();
+
+        $row = $lastID->fetch(PDO::FETCH_ASSOC);
+        
+    }
+
 
 }
 
 
-// transfer file
-if(isset($_POST['share'])){}
 
-// set theme
-if(isset($_POST['theme'])){
-    $_SESSION["c1"] = $_POST['c1'];
-    $_SESSION["c2"] = $_POST['c2'];
-    $_SESSION["c3"] = $_POST['c3'];
-}
 
 
 // Delete Loculus
 if(isset($_GET['delLoculus'])){
-    $directory_id = $_GET['delLoculus'];
-    $delstmt = "DELETE FROM directories where directory_id = '$directory_id' ";
+    // $directory_id = $_GET['delLoculus'];
+    $delstmt = "DELETE FROM directories WHERE directory_id = ".$_SESSION['dir_id'].";";
     $user->manage_sql($delstmt);
 }
 

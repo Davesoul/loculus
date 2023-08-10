@@ -631,6 +631,185 @@ require_once "../../controller/controller.php";
     }
 
 
+    function modal_popup(option){
+        //modal popup for file uploading
+        const header = document.querySelector('header');
+        console.log(header);
+        var modal = header.querySelector("#backgrd");
+        console.log(modal);
+        var plus = header.querySelector("#plus");
+        console.log(plus);
+        var newL = header.querySelector("#newL");
+        var theme = header.querySelector("#chTheme");
+        var share = header.querySelector("#share");
+        var del = header.querySelector("#del");
+        
+
+        document.addEventListener('click', function(event) {
+            // Check if the click event is from the submit button
+            console.log(event.target);
+            // var eL = event.target.closest('#');
+            if (event.target.type === 'submit') {
+                event.preventDefault(); // Prevent the default form submission
+
+                if (event.target.id === 'delLoculus') {
+                    loadContent('../../controller/loculusoptions.php', 'delLoculus', '<?php echo $dir ?>', 'loculus', 'GET');
+                    loadContent('myloculus.php', '', '', 'loculus', 'GET');
+                    modal.style.display = "none";
+                }else if (event.target.id === 'share') {
+                    loadContent('../../controller/loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
+                    loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
+                    modal.style.display = "none";
+                }else if (event.target.id === 'theme') {
+                    loadContent('../../controller/loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
+                    loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
+                    modal.style.display = "none";
+                }else if (event.target.id === 'upload') {
+                    loadContent('../../controller/loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
+                    loadContent('./myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
+                    modal.style.display = "none";
+                }else if (event.target.id === 'NewLoculus') {
+                    loadContent('../../controller/loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
+                    loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
+                    modal.style.display = "none";
+                }
+            }
+
+        });
+
+        if(option == "plus"){
+            modal.style.display = "block";
+            modal.innerHTML = `                <h3>Add new item</h3>
+                    <div class="modal-popup">    
+                        <form id="Form"  method="POST" enctype="multipart/form-data">
+                            select file to upload:
+                            <input type="file" name="toUpload" id="toUpload">
+                            <input type="text" name="loculusTarget" id="loculusTarget">
+                            <div id="livesearchcontainer">
+                                
+                                <ul id="list"></ul>
+                            </div>
+
+                            <input id="upload" type="submit" value="Upload" name="Upload">
+                        </form>
+                    </div>`;
+
+            livesearch();
+
+        }
+
+        else if(option == "newL"){
+            modal.style.display = "block";
+            modal.innerHTML = `                <h3>New Loculus</h3>
+                    <div class="modal-popup">    
+                        <form id="Form" action="" method="POST">
+                            <input type="text" name='loculusName' id="loculusName" placeholder="folder name...">
+                            <input id="NewLoculus" type="submit" value="New Loculus" name="Newloculus">
+                        </form>
+                    </div>`;
+        }
+
+        else if(option == "chTheme"){
+            modal.style.display = "block";
+            modal.innerHTML = `<h3>Theme</h3>
+                    <div class="modal-popup">    
+                        <form id="Form" action="" method="POST" enctype="multipart/form-data">
+                            Primary color:
+                            <input type="color" name="c1" id="c1">
+                            Secondary color:
+                            <input type="color" name="c2" id="c2">
+                            Accent color:
+                            <input type="color" name="c3" id="c3">
+                            <input onclick="chTheme(c1.value,c2.value,c3.value)" id="theme" type="submit" value="theme" name="Theme">
+                        </form>`;
+        }
+
+        if(option == "share"){
+            modal.style.display = "block";
+            modal.innerHTML = `
+                    <h3>Share loculus</h3>
+                    <div class="modal-popup">    
+                        <form id="Form" action="">
+                            share with:
+                            <select id="userRole" name="userRole" placeholder="user role">
+                                <option value="admin">Admin</option>
+                                <option value="standard">Standard</option>
+                                <option value="guest">Guest</option>
+                            </select>
+
+                            <input type="text" name="searchedUser" id="searchedUser">
+                            <input type="hidden" id="searched_user_id" name="searched_user_id">
+                            <div id="livesearchcontainer">
+                                
+                                <ul id="list"></ul>
+                            </div>
+                            <input id="share" type="submit" value="Share" name="shareLoculus">
+                        </form>
+                </div>`;
+
+            livesearch();
+        }
+
+
+        if(option == "del"){
+            // loadContent('myloculus.php', 'del', 'del', 'loculus', 'GET');
+            modal.style.display = "block";
+            modal.innerHTML = `                <h3>Delete Loculus</h3>
+                    <div class="modal-popup">    
+                        <form id="Form" action="">
+                            <label>Are you sure you want to delete this loculus?</label>
+                            <input id="delLoculus" type="submit" value="delete loculus" name="delLoculus">
+                        </form>
+                    </div>`;
+            // var form = document.getElementById("del");
+            // // console.log(submit);
+            // form.addEventListener('onclick', function(event){
+            //     event.preventDefault();
+            //     console.log('submit');
+                
+                
+            // });
+
+            
+        }
+
+        window.onclick = function (event){
+            if(event.target == modal){
+                modal.style.display = "none";
+                // modal1.style.display = "none";
+                // modal2.style.display = "none";
+            }
+
+            
+        };
+        
+
+    }
+
+
+
+    // livesearch
+
+    function livesearch(){
+        var researchedUser = document.getElementById('searchedUser');
+        console.log(researchedUser);
+        researchedUser.addEventListener('input', (e)=>{
+            console.log("input");
+            loadContent('../../controller/livesearch.php', 'receiver_name', e.target.value, 'list', 'GET');
+        })
+    }
+
+    function fillsearch(username, userID){
+        var researchedUser = document.getElementById('searchedUser');
+        var list = document.getElementById('list');
+        researchedUser.value = username;
+
+        // Store the corresponding user_id as a data attribute in the input field
+        researchedUser.setAttribute("searched_user_id", userId);
+
+        list.innerHTML = "";
+    }
+
 
     // function modal_popup(option){
     //     //modal popup for file uploading
@@ -771,6 +950,7 @@ require_once "../../controller/controller.php";
 
     // }
     
+
 
 
 </script>

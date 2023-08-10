@@ -415,13 +415,29 @@ wp.addEventListener('click', ()=>{
 //open searchbar on screen width<765
 btn = document.querySelectorAll('.btn');
 sc = document.getElementById('searchcontainer');
+sb = document.getElementById('searchbtn');
+
 var bar = document.getElementById("bar");
-sc.onclick = function(){
-    // console.log(sc);
+sb.onclick = function(){
+    console.log('open search bar');
+    console.log(sc);
     sc.classList.toggle('on');
-    bar.focus();
+    if (sc.classList.contains('on')){
+        bar.focus();
+    } else {
+        bar.value = '';
+    }
+
     btn.forEach(b => {b.classList.toggle('off')});
     
+    window.onclick = function(w){
+        if (w.target != sc && w.target != sb && w.target != bar){
+            console.log('close');
+            sc.classList.remove('on');
+            btn.forEach(b => {b.classList.remove('off')});
+            bar.value = '';
+        }
+    }
 
 }
 
