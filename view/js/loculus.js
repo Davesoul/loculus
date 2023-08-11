@@ -132,15 +132,15 @@ document.addEventListener('DOMContentLoaded', function(){
                 obj.forEach(c => {
                     if(c.style.zIndex == 5){
                         c.style.zIndex = "4";
-                        c.style.boxShadow = '0px 5px 1px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.boxShadow = '0px 5px 5px 0px rgba(0, 0, 0, 0.5)';
                         c.style.border = 'solid 2px rgba(0,0,0,0)';
                     }else if(c.style.zIndex == 4){
                         c.style.zIndex = "2";
-                        c.style.boxShadow = '0px 5px 10px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.boxShadow = '0px 5px 3px 0px rgba(0, 0, 0, 0.5)';
                         c.style.border = 'solid 2px rgba(0,0,0,0)';
                     }else{
                         c.style.zIndex = "1";
-                        c.style.boxShadow = '0px 5px 10px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.boxShadow = '0px 5px 1px 0px rgba(0, 0, 0, 0.5)';
                         c.style.border = 'solid 2px rgba(0,0,0,0)';
                     }
                 });
@@ -303,26 +303,26 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-        var deleteBtn = document.getElementById('delete');
+    //     var deleteBtn = document.getElementById('delete');
 
-    function deleteFile(filename, fileID){
-        console.log('delete');
-        modal.style.display = "block";
-        modal.innerHTML = `                
-        <div class="modal-popup">    
-            <form action="" method="POST">
-                <i class="fa-solid fa-trash-can"></i>
-                <p>You are going to delete the file ${filename}</p>
-                <input id="deletion" type="submit" value="deletion" name="deletion">
-            </form>
-        </div>`;
+    // function deleteFile(filename, fileID){
+    //     console.log('delete');
+    //     modal.style.display = "block";
+    //     modal.innerHTML = `                
+    //     <div class="modal-popup">    
+    //         <form action="" method="POST">
+    //             <i class="fa-solid fa-trash-can"></i>
+    //             <p>You are going to delete the file ${filename}</p>
+    //             <input id="deletion" type="submit" value="deletion" name="deletion">
+    //         </form>
+    //     </div>`;
 
-        var deleteBtn2 = document.getElementById('deletion');
-        deleteBtn2.onclick = function(){
-            loadContent('myloculus.php', session='del', fileID, 'loculus', 'GET');
-            modal.style.display = "none";
-        };
-    }
+    //     var deleteBtn2 = document.getElementById('deletion');
+    //     deleteBtn2.onclick = function(){
+    //         loadContent('myloculus.php', session='del', fileID, 'loculus', 'GET');
+    //         modal.style.display = "none";
+    //     };
+    // }
 
     console.log(window.location.href);
 });

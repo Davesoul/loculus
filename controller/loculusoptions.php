@@ -49,7 +49,8 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         // $uploadOk = 1;
         $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         
-
+        ini_set('upload_max_filesize', '1G');
+        ini_set('post_max_size', '1G');
 
         //check if file exist
         if (file_exists($target_file)){

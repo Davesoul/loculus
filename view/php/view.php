@@ -372,6 +372,9 @@ require_once "../../controller/controller.php";
         var obj = document.createElement('div');
         obj.classList.add('obj');
 
+        var objContent = document.createElement('div');
+        objContent.classList.add('objContent');
+
         const objBar = document.createElement('div');
         objBar.classList.add('objbar', 'up');
 
@@ -406,8 +409,10 @@ require_once "../../controller/controller.php";
             const e = document.createElement(el);
         
 
-            obj.appendChild(objBar);
-            obj.appendChild(e);
+            objContent.appendChild(objBar);
+            objContent.appendChild(e);
+
+            obj.appendChild(objContent);
 
             container.appendChild(obj);
 
@@ -430,8 +435,10 @@ require_once "../../controller/controller.php";
             const e = document.createElement(el);
         
 
-            obj.appendChild(objBar);
-            obj.appendChild(e);
+            objContent.appendChild(objBar);
+            objContent.appendChild(e);
+
+            obj.appendChild(objContent);
 
             container.appendChild(obj);
 
@@ -619,13 +626,16 @@ require_once "../../controller/controller.php";
             const e = document.createElement(el);
         
 
-            obj.appendChild(objBar);
-            obj.appendChild(e);
+            objContent.appendChild(objBar);
+            objContent.appendChild(e);
+
+            obj.appendChild(objContent);
+
 
             container.appendChild(obj);
             e.src = path + '/' + filename;
         }
-        sel
+  
         moveFrame();
         onPageSearch();
     }
@@ -762,6 +772,11 @@ require_once "../../controller/controller.php";
             
         }
 
+
+        
+
+    }
+
         window.onclick = function (event){
             if(event.target == modal){
                 modal.style.display = "none";
@@ -771,11 +786,6 @@ require_once "../../controller/controller.php";
 
             
         };
-        
-
-    }
-
-
 
     // livesearch
 

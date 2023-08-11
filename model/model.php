@@ -191,10 +191,11 @@ class user {
 
     public function logout() {   
         // session_start();
-        unset($_SESSION['id']);
-        unset($_SESSION['username']);
-        unset($_SESSION['email']);
-        unset($_SESSION['password']);
+        // unset($_SESSION['id']);
+        // unset($_SESSION['username']);
+        // unset($_SESSION['email']);
+        // unset($_SESSION['password']);
+        session_unset();
     }
 
 

@@ -307,7 +307,7 @@ echo $dir_name;
                                         <a href="#space" onclick="openFile('<?php echo '../'.$row['path']; ?>', '<?php echo $row['resource_name']; ?>', '<?php echo $row['type']; ?>')"><i class="fa-solid fa-play"></i></a>
                                         <a href="<?php echo '../'.$row['path'] . '/' . $row['resource_name']; ?>" download><i class="fa-solid fa-download"></i></a>
                                         <a href="#loculus"><i class="fa-solid fa-share"></i></a>
-                                        <a href="#loculus" id='delete' onclick="deleteFile('<?php echo '../'.$row['resource_name']; ?>', <?php echo $row['resource_id']; ?>)"><i class="fa-solid fa-trash-can"></i></a>
+                                        <a href="#loculus" id='delete' onclick="deleteFile('<?php echo $row['resource_name']; ?>', <?php echo $row['resource_id']; ?>)"><i class="fa-solid fa-trash-can"></i></a>
                                         
                                 <?php } else if ($_SESSION['perm_id']==2){ ?>
                                         <a href="#space" onclick="openFile('<?php echo '../'.$row['path']; ?>', '<?php echo $row['resource_name']; ?>', '<?php echo $row['type']; ?>')"><i class="fa-solid fa-play"></i></a>
@@ -544,7 +544,7 @@ echo $dir_name;
     // delete file
     var deleteBtn = document.getElementById('delete');
     var modal = document.getElementById("backgrd");
-    var modalP = header.querySelector("#modal-popup");
+    var modalP = document.querySelector("#modal-popup");
     function deleteFile(filename, fileID){
         console.log('delete');
         modal.style.display = "block";

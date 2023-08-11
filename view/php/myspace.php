@@ -51,12 +51,15 @@ $page="myspace";
         </div>
 
         <div class="obj" id="hello">
-            <div class="objbar up">
-                <h6>The Art of Electronics ( PDFDrive ) hello</h6>
-                <span><i class="fa-solid fa-close"></i></span>
+            <div class="objContent">
+                <div class="objbar up">
+                    <h6>The Art of Electronics ( PDFDrive ) hello</h6>
+                    <span><i class="fa-solid fa-close"></i></span>
+                </div>
+                <iframe src="" frameborder="0"></iframe>
+                <br>
             </div>
-            <iframe src="https://www.netflix.com/browse" frameborder="0"></iframe>
-            <br>
+
         </div>
 
 
