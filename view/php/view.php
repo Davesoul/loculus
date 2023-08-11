@@ -625,7 +625,7 @@ require_once "../../controller/controller.php";
             container.appendChild(obj);
             e.src = path + '/' + filename;
         }
-
+        sel
         moveFrame();
         onPageSearch();
     }
@@ -636,6 +636,7 @@ require_once "../../controller/controller.php";
         const header = document.querySelector('header');
         console.log(header);
         var modal = header.querySelector("#backgrd");
+        var modalP = header.querySelector("#modal-popup");
         console.log(modal);
         var plus = header.querySelector("#plus");
         console.log(plus);
@@ -654,24 +655,24 @@ require_once "../../controller/controller.php";
 
                 if (event.target.id === 'delLoculus') {
                     loadContent('../../controller/loculusoptions.php', 'delLoculus', '<?php echo $dir ?>', 'loculus', 'GET');
-                    loadContent('myloculus.php', '', '', 'loculus', 'GET');
+                    loadContent('myloculus.php', 'dir_id', '', 'loculus', 'GET');
                     modal.style.display = "none";
-                }else if (event.target.id === 'share') {
-                    loadContent('../../controller/loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
+                }else if (event.target.id === 'shareLoculus') {
+                    loadContent('../../controller/loculusoptions.php', '', '', 'modal-popup', 'POST', 'Form');
                     loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
-                    modal.style.display = "none";
+                    // modal.style.display = "none";
                 }else if (event.target.id === 'theme') {
                     loadContent('../../controller/loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
                     loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
-                    modal.style.display = "none";
+                    // modal.style.display = "none";
                 }else if (event.target.id === 'upload') {
-                    loadContent('../../controller/loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
+                    loadContent('../../controller/loculusoptions.php', '', '', 'modal-popup', 'POST', 'Form');
                     loadContent('./myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
-                    modal.style.display = "none";
+                    // modal.style.display = "none";
                 }else if (event.target.id === 'NewLoculus') {
-                    loadContent('../../controller/loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
+                    loadContent('../../controller/loculusoptions.php', '', '', 'modal-popup', 'POST', 'Form');
                     loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
-                    modal.style.display = "none";
+                    // modal.style.display = "none";
                 }
             }
 
@@ -679,41 +680,31 @@ require_once "../../controller/controller.php";
 
         if(option == "plus"){
             modal.style.display = "block";
-            modal.innerHTML = `                <h3>Add new item</h3>
-                    <div class="modal-popup">    
+            modalP.innerHTML = `<h1>Add new item</h1>
+ 
                         <form id="Form"  method="POST" enctype="multipart/form-data">
                             select file to upload:
                             <input type="file" name="toUpload" id="toUpload">
-                            <input type="text" name="loculusTarget" id="loculusTarget">
-                            <div id="livesearchcontainer">
-                                
-                                <ul id="list"></ul>
-                            </div>
-
                             <input id="upload" type="submit" value="Upload" name="Upload">
-                        </form>
-                    </div>`;
-
-            livesearch();
+                        </form>`;
 
         }
 
         else if(option == "newL"){
             modal.style.display = "block";
-            modal.innerHTML = `                <h3>New Loculus</h3>
-                    <div class="modal-popup">    
+            modalP.innerHTML = `<h1>New Loculus</h1>
+                       
                         <form id="Form" action="" method="POST">
                             <input type="text" name='loculusName' id="loculusName" placeholder="folder name...">
                             <input id="NewLoculus" type="submit" value="New Loculus" name="Newloculus">
-                        </form>
-                    </div>`;
+                        </form>`;
         }
 
         else if(option == "chTheme"){
             modal.style.display = "block";
-            modal.innerHTML = `<h3>Theme</h3>
-                    <div class="modal-popup">    
-                        <form id="Form" action="" method="POST" enctype="multipart/form-data">
+            modalP.innerHTML = `<h2>Theme</h2>
+                       
+                        <form id="Form" action="">
                             Primary color:
                             <input type="color" name="c1" id="c1">
                             Secondary color:
@@ -726,9 +717,9 @@ require_once "../../controller/controller.php";
 
         if(option == "share"){
             modal.style.display = "block";
-            modal.innerHTML = `
-                    <h3>Share loculus</h3>
-                    <div class="modal-popup">    
+            modalP.innerHTML = `
+                    <h2>Share loculus</h2>
+                 
                         <form id="Form" action="">
                             share with:
                             <select id="userRole" name="userRole" placeholder="user role">
@@ -738,14 +729,13 @@ require_once "../../controller/controller.php";
                             </select>
 
                             <input type="text" name="searchedUser" id="searchedUser">
-                            <input type="hidden" id="searched_user_id" name="searched_user_id">
+                            <input type="hidden" id="searchedUserId" name="searchedUserId">
                             <div id="livesearchcontainer">
                                 
                                 <ul id="list"></ul>
                             </div>
-                            <input id="share" type="submit" value="Share" name="shareLoculus">
-                        </form>
-                </div>`;
+                            <input id="shareLoculus" type="submit" value="Share" name="shareLoculus">
+                        </form>`;
 
             livesearch();
         }
@@ -754,13 +744,12 @@ require_once "../../controller/controller.php";
         if(option == "del"){
             // loadContent('myloculus.php', 'del', 'del', 'loculus', 'GET');
             modal.style.display = "block";
-            modal.innerHTML = `                <h3>Delete Loculus</h3>
-                    <div class="modal-popup">    
+            modalP.innerHTML = `<h2>Delete Loculus</h2>
+                     
                         <form id="Form" action="">
                             <label>Are you sure you want to delete this loculus?</label>
                             <input id="delLoculus" type="submit" value="delete loculus" name="delLoculus">
-                        </form>
-                    </div>`;
+                        </form>`;
             // var form = document.getElementById("del");
             // // console.log(submit);
             // form.addEventListener('onclick', function(event){
@@ -801,11 +790,13 @@ require_once "../../controller/controller.php";
 
     function fillsearch(username, userID){
         var researchedUser = document.getElementById('searchedUser');
+        var researchedUserId = document.getElementById('searchedUserId');
         var list = document.getElementById('list');
         researchedUser.value = username;
+        researchedUserId.value = userID;
 
         // Store the corresponding user_id as a data attribute in the input field
-        researchedUser.setAttribute("searched_user_id", userId);
+        // researchedUser.setAttribute("searched_user_id", userID);
 
         list.innerHTML = "";
     }

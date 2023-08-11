@@ -89,36 +89,40 @@ class user {
 
             $stmt->execute();
 
-            $lastID = $user->db->prepare('select last_insert_id()');
+            $lastID = $this->db->prepare('select last_insert_id()');
             $lastID->execute();
-            $row0 = $lastID->fetch[PDO::FETCH_ASSOC];
+            $row0 = $lastID->fetch(PDO::FETCH_ASSOC);
 
             // create home directory for new user
-            mkdir("./Directories/user_$id", 0755, true);
+            mkdir("../../../Directories/user_".$row0['last_insert_id()']."", 0755, true);
 
             //insert into directories
-            $uploadtodb = $user->db->prepare("insert into directories (directory_name, path) values (:a, :b)");
-            $uploadtodb->bindParam(":a", "user_$id");
-            $uploadtodb->bindParam(":b", "./Directories/user_$id");
+            $homeFolder = "user_".$row0['last_insert_id()'];
+            $homePath = "../../Directories/user_".$row0['last_insert_id()'];
+            $uploadtodb = $this->db->prepare("insert into directories (directory_name, path) values (:a, :b)");
+            $uploadtodb->bindParam(":a", $homeFolder);
+            $uploadtodb->bindParam(":b", $homePath);
             $uploadtodb->execute();
-            $lastID1 = $user->db->prepare('select last_insert_id()');
+            $lastID1 = $this->db->prepare('select last_insert_id()');
 
             $lastID1->execute();
-            $row = $lastID1->fetch[PDO::FETCH_ASSOC];
+            $row = $lastID1->fetch(PDO::FETCH_ASSOC);
 
             // insert into user_directory
-            $uploadtodb = $user->db->prepare("insert into user_directory (user_id, directory_id, permission_id) values (:a, :b, :c)");
+            $permission = 1;
+            $uploadtodb = $this->db->prepare("insert into user_directory (user_id, directory_id, permission_id) values (:a, :b, :c)");
             $uploadtodb->bindParam(":a", $row0['last_insert_id()']);
             $uploadtodb->bindParam(":b", $row['last_insert_id()']);
-            $uploadtodb->bindParam(":c", '1');
+            $uploadtodb->bindParam(":c", $permission);
 
             $uploadtodb->execute();
 
 
             // insert into history
-            $uploadtodb = $user->db->prepare("insert into history (user_id, action) values (:a, :b)");
+            $action = "create account";
+            $uploadtodb = $this->db->prepare("insert into history (user_id, action) values (:a, :b)");
             $uploadtodb->bindParam(":a", $row0['last_insert_id()']);
-            $uploadtodb->bindParam(":b", "create account");
+            $uploadtodb->bindParam(":b", $action);
 
             $uploadtodb->execute();
 
@@ -215,7 +219,7 @@ class item{
         $user = new user();
 
         $stmt = "select * from user";
-        $user->manage_sql($stmt);
+        $this->manage_sql($stmt);
     }
 
     public function upload(){

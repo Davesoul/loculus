@@ -1,7 +1,9 @@
 <?php
-include("include/classes.php");
+$page = 'signup';
 
-$user = new user();
+require '../../controller/controller.php';
+
+// $user = new user();
 
 
 $nameErr="";
@@ -10,7 +12,7 @@ $passwordErr="";
 
 
 
-if (isset($_POST["submit"])){
+if (isset($_POST["signup"])){
     if(empty($_POST["username"])){
         $nameErr = "username required";
     }
@@ -45,7 +47,7 @@ if (isset($_POST["submit"])){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <title>Sign up</title>
 </head>
 <body>
@@ -54,13 +56,23 @@ if (isset($_POST["submit"])){
         <!-- sign up form -->
         <form method="POST">
             <input type="text" name="username" placeholder="Username">
-            <span class="err"><?php echo $nameErr ?></span>
+            <?php if ($nameErr != "") {?>
+                <span class="err"><?php echo $nameErr ?></span>    
+            <?php } ?>
+            
             <input type="email" name="email" id="" placeholder="Email">
-            <span class="err"><?php echo $emailErr ?></span>
+            <?php if ($emailErr != "") {?>
+                <span class="err"><?php echo $emailErr ?></span> 
+            <?php } ?>
+
+            
             <input type="password" name="password" id="" placeholder="Password">
-            <span class="err"><?php echo $passwordErr ?></span>
-            <input type="submit" name="submit" class="btn" value="Signup">
-            <a href="index.php" class="info">Log in</a>
+            <?php if ($passwordErr != "") {?>
+                <span class="err"><?php echo $passwordErr ?></span>
+            <?php } ?>
+            
+            <input type="submit" name="signup" value="Signup">
+            <a href="login.php" class="info">Log in</a>
         </form>
     </div>
 </body>

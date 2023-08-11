@@ -65,6 +65,15 @@ CREATE TABLE transfers (
     FOREIGN KEY (destination_user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
+CREATE TABLE user_preferences (
+    preference_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    profile_picture VARCHAR(255),
+    color1 VARCHAR(20),
+    color2 VARCHAR(20),
+    color3 VARCHAR(20),
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
 
 -- INSERT INTO --
 
@@ -77,10 +86,10 @@ INSERT INTO users (username, email, password) VALUES
 
 -- Insert directories
 INSERT INTO directories (directory_name, path) VALUES
-    ('user_1', './Directories/user_1'),
-    ('user_2', './Directories/user_2'),
-    ('user_3', './Directories/user_3'),
-    ('Our_books', './Directories/user_1/our_books');
+    ('user_1', '../../Directories/user_1'),
+    ('user_2', '../../Directories/user_2'),
+    ('user_3', '../../Directories/user_3'),
+    ('Our_books', '../../Directories/user_1/our_books');
 
 
 -- Insert permissions
@@ -104,5 +113,11 @@ INSERT INTO history (user_id, action) VALUES
 (1, 'create account'),
 (2, 'create account'),
 (3, 'create account');
+
+-- Insert into user_preferences
+INSERT INTO user_preferences (user_id, profile_picture, color1, color2, color3) VALUES
+(1, 'default.jpg', '#FF5733', '#3E95CD', '#3E3E3E'),
+(2, 'default.jpg', '#E84393', '#41B883', '#6C757D'),
+(3, 'default.jpg', '#5F27CD', '#F39C12', '#00BCD4');
 
 

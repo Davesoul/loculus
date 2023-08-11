@@ -129,7 +129,7 @@ require_once("../../controller/controller.php");
             <!-- </div> -->
 
             <div id="user-img" class="btn">
-                <img src="image/default.jpg" alt="">
+                <img id='pp' src="image/default.jpg" alt="profile picuture">
                 <div id="user-card" class="objects">
                     <div class="popup-container">
                     
@@ -161,8 +161,7 @@ require_once("../../controller/controller.php");
 
             <!-- file import -->
             <div class="background" id="backgrd">
-                <h3>Add new item</h3>
-                <div class="modal-popup">    
+                <div id="modal-popup">    
                     <form action="" method="POST" enctype="multipart/form-data">
                         select file to upload:
                         <input type="file" name="toUpload" id="toUpload">

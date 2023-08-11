@@ -1,7 +1,20 @@
 <?php
 require_once("controller.php");
 
-var_dump($_SESSION);
+// var_dump($_SESSION);
+if(isset($_SESSION['id'])){
+    $id = $_SESSION['id'];
+    $username = $_SESSION['username'];
+    $email = $_SESSION['email'];
+    $pass = $_SESSION['password'];
+    $dir = $_SESSION['dir_id'];
+    $path = $_SESSION['dir_path'];
+    $dir_name = $_SESSION['dir_name'];
+}
+
+echo $dir;
+echo $path;
+
 
 // upload new file
 if($_SERVER["REQUEST_METHOD"] === "POST"){
@@ -17,7 +30,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
             echo "this is the dir";
             $cleanFileName = preg_replace('/[^a-zA-Z0-9-_\.]/', '', $file['name']);
-            $target_dir = $_SESSION['dir_path'].'/';
+            $target_dir = $_SESSION['dir_path'];
             echo $target_dir;
 
             $perm=fileperms($target_dir);
@@ -31,7 +44,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
         };
         // $target_dir = "./Directories/";
-        $target_file = $target_dir.basename($cleanFileName);
+        $target_file = $target_dir.'/'.basename($cleanFileName);
         echo $target_file;
         // $uploadOk = 1;
         $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -61,9 +74,18 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                 $uploadtodb = $user->db->prepare("insert into directory_resource (directory_id, resource_id) values (:a, :b)");
                 $uploadtodb->bindParam(":a", $_SESSION['dir_id']);
                 $uploadtodb->bindParam(":b", $row['last_insert_id()']);
-                
 
                 $uploadtodb->execute();
+
+
+                // insert into history
+                $action = "upload file";
+                $uploadtodb = $user->db->prepare("insert into history (user_id, action) values (:a, :b)");
+                $uploadtodb->bindParam(":a", $id);
+                $uploadtodb->bindParam(":b", $action);
+
+                $uploadtodb->execute();
+
                 echo exec('pwd');
                 echo $file["tmp_name"]."has been uploaded";
             }
@@ -78,7 +100,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     // create new loculus(folder)
     if(isset($_POST['loculusName'])){
         echo "create new loculus";
-        $path = '..'.$_SESSION['dir_path'].'/'.$_POST['loculusName'];
+        $path = $_SESSION['dir_path'].'/'.$_POST['loculusName'];
         echo $path;
 
         if(mkdir($path, 0755, true)){
@@ -88,6 +110,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
             $uploadtodb->bindParam(":b", $path);
             $uploadtodb->execute();
 
+            //get the created directory id
             $lastID = $user->db->prepare('select last_insert_id()');
 
             $lastID->execute();
@@ -100,6 +123,15 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
             $uploadtodb->bindParam(":a", $id);
             $uploadtodb->bindParam(":b", $row['last_insert_id()']);
             $uploadtodb->bindParam(":c", $pid);
+            $uploadtodb->execute();
+
+
+            // insert into history
+            $action = "create loculus ";
+            $uploadtodb = $user->db->prepare("insert into history (user_id, action) values (:a, :b)");
+            $uploadtodb->bindParam(":a", $id);
+            $uploadtodb->bindParam(":b", $action);
+
             $uploadtodb->execute();
 
         } else if (mkdir($path, 0755, false)){
@@ -119,8 +151,59 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     }
 
 
-    // transfer file
-    if(isset($_POST['share'])){
+    // share loculus
+    if(isset($_POST['searchedUser'])){
+        $searchedUser = $_POST['searchedUser'];
+        $searchedUserId = $_POST['searchedUserId'];
+
+        echo $searchedUser;
+        echo $searchedUserId;
+
+        if ($_POST['userRole'] == "admin") {
+            $userRole = 1;
+        }else if ($_POST['userRole'] == "standard") {
+            $userRole = 2;
+        } else {
+            $userRole = 3;
+        }
+        echo $userRole;
+
+        //select user_directory information
+        $statement = "SELECT * FROM user_directory WHERE user_id = $searchedUserId AND directory_id = $dir";
+        echo $statement;
+        $results = $user->manage_sql($statement);
+
+        if ($results->rowCount()== 0){
+            echo 'not existing';
+            //insert into user_directory if permissions not set
+            $uploadtodb = $user->db->prepare("insert into user_directory (user_id, directory_id, permission_id) values (:a, :b, :c)");
+            $uploadtodb->bindParam(":a", $searchedUserId);
+            $uploadtodb->bindParam(":b", $dir);
+            $uploadtodb->bindParam(":c", $userRole);
+            $uploadtodb->execute();
+
+            
+        } else {
+            echo 'existing';
+            //update user_directory if permissions already set
+            $uploadtodb = $user->db->prepare("UPDATE user_directory SET permission_id = $userRole WHERE user_id = $searchedUserId AND directory_id = ".$_SESSION['dir_id']."");
+            $uploadtodb->execute();
+        }
+
+        // insert into history
+        $action = "granted access";
+        $uploadtodb = $user->db->prepare("insert into history (user_id, action) values (:a, :b)");
+        $uploadtodb->bindParam(":a", $id);
+        $uploadtodb->bindParam(":b", $action);
+
+        $uploadtodb->execute();
+
+        
+    }
+
+
+    // share file
+    if(isset($_POST['shareF'])){
         $searchedUser = $_POST['searchedUser'];
         $searchedUserId = $_POST['searched_user_id'];
 
@@ -139,20 +222,27 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
         if ($results->rowCount()== 0){
             
-            //insert into user_directory
+            //insert into user_directory if permissions not set
             $uploadtodb = $user->db->prepare("insert into user_directory (user_id, directory_id, permission_id) values (:a, :b, :c)");
             $uploadtodb->bindParam(":a", $searchedUser);
             $uploadtodb->bindParam(":b", $_SESSION["dir_id"]);
             $uploadtodb->bindParam(":c", $userRole);
             $uploadtodb->execute();
 
+            
         } else {
-
+            //update user_directory if permissions already set
+            $uploadtodb = $user->db->prepare("UPDATE user_directory SET permission_id = $userRole WHERE user_id = $searchedUserId AND directory_id = ".$_SESSION['dir_id']."");
+            $uploadtodb->execute();
         }
-        //find id
-        $uploadtodb = $user->db->prepare("UPDATE user_directory SET permission_id = $userRole WHERE user_id = $searchedUserId AND directory_id = $directory_id");
-        $uploadtodb->execute();
 
+        // insert into history
+        $action = "share file";
+        $uploadtodb = $user->db->prepare("insert into history (user_id, action) values (:a, :b)");
+        $uploadtodb->bindParam(":a", $id);
+        $uploadtodb->bindParam(":b", $action);
+
+        $uploadtodb->execute();
 
 
         //insert into transfers
@@ -161,15 +251,13 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         $uploadtodb->bindParam(":b", $path);
         $uploadtodb->execute();
 
-        $lastID = $user->db->prepare('seletransfersct last_insert_id()');
+        $lastID = $user->db->prepare('select last_insert_id()');
 
         $lastID->execute();
 
         $row = $lastID->fetch(PDO::FETCH_ASSOC);
         
     }
-
-
 }
 
 
@@ -181,6 +269,15 @@ if(isset($_GET['delLoculus'])){
     // $directory_id = $_GET['delLoculus'];
     $delstmt = "DELETE FROM directories WHERE directory_id = ".$_SESSION['dir_id'].";";
     $user->manage_sql($delstmt);
+    rmdir($_SESSION['dir_path']);
+
+    // insert into history
+    $action = "delete loculus";
+    $uploadtodb = $user->db->prepare("insert into history (user_id, action) values (:a, :b)");
+    $uploadtodb->bindParam(":a", $id);
+    $uploadtodb->bindParam(":b", $action);
+
+    $uploadtodb->execute();
 }
 
 

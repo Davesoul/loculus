@@ -304,17 +304,17 @@ echo $dir_name;
                                 <i class="fa-solid fa-chevron-down hint"></i>
                                 <?php 
                                     if ($_SESSION['perm_id']==1){ ?>
-                                        <a href="#space" onclick="openFile('<?php echo './'.$row['path']; ?>', '<?php echo $row['resource_name']; ?>', '<?php echo $row['type']; ?>')"><i class="fa-solid fa-play"></i></a>
-                                        <a href="<?php echo './'.$row['path'] . '/' . $row['resource_name']; ?>" download><i class="fa-solid fa-download"></i></a>
+                                        <a href="#space" onclick="openFile('<?php echo '../'.$row['path']; ?>', '<?php echo $row['resource_name']; ?>', '<?php echo $row['type']; ?>')"><i class="fa-solid fa-play"></i></a>
+                                        <a href="<?php echo '../'.$row['path'] . '/' . $row['resource_name']; ?>" download><i class="fa-solid fa-download"></i></a>
                                         <a href="#loculus"><i class="fa-solid fa-share"></i></a>
-                                        <a href="#loculus" id='delete' onclick="deleteFile('<?php echo $row['resource_name']; ?>', <?php echo $row['resource_id']; ?>)"><i class="fa-solid fa-trash-can"></i></a>
+                                        <a href="#loculus" id='delete' onclick="deleteFile('<?php echo '../'.$row['resource_name']; ?>', <?php echo $row['resource_id']; ?>)"><i class="fa-solid fa-trash-can"></i></a>
                                         
                                 <?php } else if ($_SESSION['perm_id']==2){ ?>
-                                        <a href="#space" onclick="openFile('<?php echo './'.$row['path']; ?>', '<?php echo $row['resource_name']; ?>', '<?php echo $row['type']; ?>')"><i class="fa-solid fa-play"></i></a>
-                                        <a href="<?php echo './'.$row['path'] . '/' . $row['resource_name']; ?>" download><i class="fa-solid fa-download"></i></a>
+                                        <a href="#space" onclick="openFile('<?php echo '../'.$row['path']; ?>', '<?php echo $row['resource_name']; ?>', '<?php echo $row['type']; ?>')"><i class="fa-solid fa-play"></i></a>
+                                        <a href="<?php echo '../'.$row['path'] . '/' . $row['resource_name']; ?>" download><i class="fa-solid fa-download"></i></a>
                                         <a href="#"><i class="fa-solid fa-share"></i></a>
                                 <?php } else if ($_SESSION['perm_id']==3){ ?>
-                                        <a href="#space" onclick="openFile('<?php echo './'.$row['path']; ?>', '<?php echo $row['resource_name']; ?>', '<?php echo $row['type']; ?>')"><i class="fa-solid fa-play"></i></a>
+                                        <a href="#space" onclick="openFile('<?php echo '../'.$row['path']; ?>', '<?php echo $row['resource_name']; ?>', '<?php echo $row['type']; ?>')"><i class="fa-solid fa-play"></i></a>
                                 <?php } ?>
                             </div>
                         </div>
@@ -544,17 +544,16 @@ echo $dir_name;
     // delete file
     var deleteBtn = document.getElementById('delete');
     var modal = document.getElementById("backgrd");
+    var modalP = header.querySelector("#modal-popup");
     function deleteFile(filename, fileID){
         console.log('delete');
         modal.style.display = "block";
-        modal.innerHTML = `                
-        <div class="modal-popup">    
+        modalP.innerHTML = `                  
             <form action="" method="POST">
                 <i class="fa-solid fa-trash-can"></i>
                 <p>You are going to delete the file ${filename}</p>
                 <input id="deletion" type="submit" value="deletion" name="deletion">
-            </form>
-        </div>`;
+            </form>`;
 
         var deleteBtn2 = document.getElementById('deletion');
         deleteBtn2.onclick = function(){

@@ -11,7 +11,7 @@ require_once("controller.php");
         // echo $user_search;
         
         //select user_directory information
-        $statement = "SELECT * FROM users WHERE username LIKE '%$user_search%';";
+        $statement = "SELECT * FROM users WHERE username LIKE '%$user_search%' AND username <> '".$_SESSION['username']."';";
         // echo $statement;
         $results = $user->manage_sql($statement);
 

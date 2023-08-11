@@ -74,145 +74,145 @@ header.addEventListener("click", function(a){
 
 
 
-function modal_popup(option){
-    //modal popup for file uploading
-    const header = document.querySelector('header');
-    console.log(header);
-    var modal = header.querySelector("#backgrd");
-    console.log(modal);
-    var plus = header.querySelector("#plus");
-    console.log(plus);
-    var newL = header.querySelector("#newL");
-    var theme = header.querySelector("#chTheme");
-    var share = header.querySelector("#share");
-    var del = header.querySelector("#del");
+// function modal_popup(option){
+//     //modal popup for file uploading
+//     const header = document.querySelector('header');
+//     console.log(header);
+//     var modal = header.querySelector("#backgrd");
+//     console.log(modal);
+//     var plus = header.querySelector("#plus");
+//     console.log(plus);
+//     var newL = header.querySelector("#newL");
+//     var theme = header.querySelector("#chTheme");
+//     var share = header.querySelector("#share");
+//     var del = header.querySelector("#del");
     
 
-    document.addEventListener('click', function(event) {
-        // Check if the click event is from the submit button
-        console.log(event.target);
-        // var eL = event.target.closest('#');
-        if (event.target.type === 'submit') {
-            event.preventDefault(); // Prevent the default form submission
+//     document.addEventListener('click', function(event) {
+//         // Check if the click event is from the submit button
+//         console.log(event.target);
+//         // var eL = event.target.closest('#');
+//         if (event.target.type === 'submit') {
+//             event.preventDefault(); // Prevent the default form submission
 
-            if (event.target.id === 'del') {
-                loadContent('loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
-                loadContent('myloculus.php', 'dir_id', '<?php echo $_SESSION["dir_id"] ?>', 'loculus', 'GET');
-                modal.style.display = "none";
-            }else if (event.target.id === 'share') {
-                loadContent('loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
-                loadContent('myloculus.php', 'dir_id', '<?php echo $_SESSION["dir_id"] ?>', 'loculus', 'GET');
-                modal.style.display = "none";
-            }else if (event.target.id === 'theme') {
-                loadContent('loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
-                loadContent('myloculus.php', 'dir_id', '<?php echo $_SESSION["dir_id"] ?>', 'loculus', 'GET');
-                modal.style.display = "none";
-            }else if (event.target.id === 'upload') {
-                loadContent('loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
-                loadContent('myloculus.php', 'dir_id', '<?php echo $_SESSION["dir_id"] ?>', 'loculus', 'GET');
-                // post('plusForm');
-                modal.style.display = "none";
-            }else if (event.target.id === 'NewLoculus') {
-                loadContent('loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
-                // loadContent('myloculus.php', 'dir_id', '<?php echo $_SESSION["dir_id"] ?>', 'loculus', 'GET');
-                modal.style.display = "none";
-            }
-        }
+//             if (event.target.id === 'del') {
+//                 loadContent('loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
+//                 loadContent('myloculus.php', 'dir_id', '<?php echo $_SESSION["dir_id"] ?>', 'loculus', 'GET');
+//                 modal.style.display = "none";
+//             }else if (event.target.id === 'share') {
+//                 loadContent('loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
+//                 loadContent('myloculus.php', 'dir_id', '<?php echo $_SESSION["dir_id"] ?>', 'loculus', 'GET');
+//                 modal.style.display = "none";
+//             }else if (event.target.id === 'theme') {
+//                 loadContent('loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
+//                 loadContent('myloculus.php', 'dir_id', '<?php echo $_SESSION["dir_id"] ?>', 'loculus', 'GET');
+//                 modal.style.display = "none";
+//             }else if (event.target.id === 'upload') {
+//                 loadContent('loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
+//                 loadContent('myloculus.php', 'dir_id', '<?php echo $_SESSION["dir_id"] ?>', 'loculus', 'GET');
+//                 // post('plusForm');
+//                 modal.style.display = "none";
+//             }else if (event.target.id === 'NewLoculus') {
+//                 loadContent('loculusoptions.php', '', '', 'modal', 'POST', 'Form');
+//                 // loadContent('myloculus.php', 'dir_id', '<?php echo $_SESSION["dir_id"] ?>', 'loculus', 'GET');
+//                 modal.style.display = "none";
+//             }
+//         }
 
-    });
+//     });
 
-    if(option == "plus"){
-        modal.style.display = "block";
-        modal.innerHTML = `                <h3>Add new item</h3>
-                <div class="modal-popup">    
-                    <form id="Form" action="myloculus.php"  method="POST" enctype="multipart/form-data">
-                        select file to upload:
-                        <input type="file" name="toUpload" id="toUpload">
-                        <input type="text" name="loculusTarget" id="loculusTarget">
-                        <div id="livesearchcontainer">
+//     if(option == "plus"){
+//         modal.style.display = "block";
+//         modal.innerHTML = `                <h3>Add new item</h3>
+//                 <div class="modal-popup">    
+//                     <form id="Form" action="myloculus.php"  method="POST" enctype="multipart/form-data">
+//                         select file to upload:
+//                         <input type="file" name="toUpload" id="toUpload">
+//                         <input type="text" name="loculusTarget" id="loculusTarget">
+//                         <div id="livesearchcontainer">
                             
-                            <ul id="list"></ul>
-                        </div>
+//                             <ul id="list"></ul>
+//                         </div>
 
-                        <input id="upload" type="submit" value="Upload" name="Upload">
-                    </form>
-                </div>`;
+//                         <input id="upload" type="submit" value="Upload" name="Upload">
+//                     </form>
+//                 </div>`;
 
-        livesearch();
+//         livesearch();
 
-    }
+//     }
 
-    else if(option == "newL"){
-        modal.style.display = "block";
-        modal.innerHTML = `                <h3>New Loculus</h3>
-                <div class="modal-popup">    
-                    <form id="Form" action="" method="POST">
-                        <input type="text" name='loculusName' id="loculusName" placeholder="folder name...">
-                        <input id="NewLoculus" type="submit" value="New Loculus" name="Newloculus">
-                    </form>
-                </div>`;
-    }
+//     else if(option == "newL"){
+//         modal.style.display = "block";
+//         modal.innerHTML = `                <h3>New Loculus</h3>
+//                 <div class="modal-popup">    
+//                     <form id="Form" action="" method="POST">
+//                         <input type="text" name='loculusName' id="loculusName" placeholder="folder name...">
+//                         <input id="NewLoculus" type="submit" value="New Loculus" name="Newloculus">
+//                     </form>
+//                 </div>`;
+//     }
 
-    else if(option == "chTheme"){
-        modal.style.display = "block";
-        modal.innerHTML = `<h3>Theme</h3>
-                <div class="modal-popup">    
-                    <form action="" method="POST" enctype="multipart/form-data">
-                        Primary color:
-                        <input type="color" name="" id="">
-                        Secondary color:
-                        <input type="color" name="" id="">
-                        Accent color:
-                        <input type="color" name="" id="">
-                        <input id="theme" type="submit" value="theme" name="Theme">
-                    </form>`;
-    }
+//     else if(option == "chTheme"){
+//         modal.style.display = "block";
+//         modal.innerHTML = `<h3>Theme</h3>
+//                 <div class="modal-popup">    
+//                     <form action="" method="POST" enctype="multipart/form-data">
+//                         Primary color:
+//                         <input type="color" name="" id="">
+//                         Secondary color:
+//                         <input type="color" name="" id="">
+//                         Accent color:
+//                         <input type="color" name="" id="">
+//                         <input id="theme" type="submit" value="theme" name="Theme">
+//                     </form>`;
+//     }
 
-    if(option == "share"){
-        modal.style.display = "block";
-        modal.innerHTML = `
-                <h3>Share loculus</h3>
-                <div class="modal-popup">    
-                    <form action="" method="POST" enctype="multipart/form-data">
-                        share with:
-                        <input type="text" name="shareLoculus" id="shareLoculus">
-                        <input id="share" type="submit" value="Upload" name="Upload">
-                    </form>
-            </div>`;
-    }
+//     if(option == "share"){
+//         modal.style.display = "block";
+//         modal.innerHTML = `
+//                 <h3>Share loculus</h3>
+//                 <div class="modal-popup">    
+//                     <form action="" method="POST" enctype="multipart/form-data">
+//                         share with:
+//                         <input type="text" name="shareLoculus" id="shareLoculus">
+//                         <input id="share" type="submit" value="Upload" name="Upload">
+//                     </form>
+//             </div>`;
+//     }
 
-    if(option == "del"){
-        // loadContent('myloculus.php', 'del', 'del', 'loculus', 'GET');
-        modal.style.display = "block";
-        modal.innerHTML = `                <h3>Delete Loculus</h3>
-                <div class="modal-popup">    
-                    <form action="" >
-                        <label>Are you sure you want to delete this loculus?</label>
-                        <input id="del" type="submit" value="delete loculus">
-                    </form>
-                </div>`;
-        // var form = document.getElementById("del");
-        // // console.log(submit);
-        // form.addEventListener('onclick', function(event){
-        //     event.preventDefault();
-        //     console.log('submit');
+//     if(option == "del"){
+//         // loadContent('myloculus.php', 'del', 'del', 'loculus', 'GET');
+//         modal.style.display = "block";
+//         modal.innerHTML = `                <h3>Delete Loculus</h3>
+//                 <div class="modal-popup">    
+//                     <form action="" >
+//                         <label>Are you sure you want to delete this loculus?</label>
+//                         <input id="del" type="submit" value="delete loculus">
+//                     </form>
+//                 </div>`;
+//         // var form = document.getElementById("del");
+//         // // console.log(submit);
+//         // form.addEventListener('onclick', function(event){
+//         //     event.preventDefault();
+//         //     console.log('submit');
             
             
-        // });
+//         // });
 
         
-    }
+//     }
 
-    window.onclick = function (event){
-        if(event.target == modal){
-            modal.style.display = "none";
-            // modal1.style.display = "none";
-            // modal2.style.display = "none";
-        }
-    };
+//     window.onclick = function (event){
+//         if(event.target == modal){
+//             modal.style.display = "none";
+//             // modal1.style.display = "none";
+//             // modal2.style.display = "none";
+//         }
+//     };
     
 
-}
+// }
 
 
 
