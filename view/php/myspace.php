@@ -56,7 +56,7 @@ $page="myspace";
                     <h6>The Art of Electronics ( PDFDrive ) hello</h6>
                     <span><i class="fa-solid fa-close"></i></span>
                 </div>
-                <iframe src="" frameborder="0"></iframe>
+                <iframe src="https://www.youtube.com/watch?v=_j7JEDWuqLE" frameborder="0"></iframe>
                 <br>
             </div>
 
@@ -68,7 +68,12 @@ $page="myspace";
                 <h6>bro</h6>
                 <span><i class="fa-solid fa-close"></i></span>
             </div>
-            <video src="" controls></video>
+            <audio controls autoplay>
+                <source src="../../../Directories/user_1/test2.wav" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio> 
+            <!-- <audio src="../../../Directories/user_1/test2.wav" controls></audio> -->
+            <!-- <video src="../../aesthetic.mp4" controls></video> -->
         </div>
 
 

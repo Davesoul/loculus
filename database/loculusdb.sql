@@ -18,6 +18,7 @@ CREATE TABLE directories (
 CREATE TABLE resources (
     resource_id INT AUTO_INCREMENT PRIMARY KEY,
     resource_name VARCHAR(255) NOT NULL,
+    resource_thumbnail VARCHAR (255) NOT NULL,
     type VARCHAR(255),
     size BIGINT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -57,21 +58,23 @@ CREATE TABLE history (
 CREATE TABLE transfers (
     transfer_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    resource_id INT NOT NULL,
+    transfered_resource INT NOT NULL,
     destination_user_id INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    transfer_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    acceptance TINYINT(1) DEFAULT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (resource_id) REFERENCES resources(resource_id) ON DELETE CASCADE,
+    FOREIGN KEY (transfered_resource) REFERENCES resources(resource_id) ON DELETE CASCADE,
     FOREIGN KEY (destination_user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE user_preferences (
     preference_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    profile_picture VARCHAR(255),
-    color1 VARCHAR(20),
-    color2 VARCHAR(20),
-    color3 VARCHAR(20),
+    profile_picture VARCHAR(255) DEFAULT "../image/default.jpg",
+    bg_picture VARCHAR(255) DEFAULT NULL,
+    color1 VARCHAR(20) DEFAULT NULL,
+    color2 VARCHAR(20) DEFAULT NULL,
+    color3 VARCHAR(20) DEFAULT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
@@ -86,10 +89,10 @@ INSERT INTO users (username, email, password) VALUES
 
 -- Insert directories
 INSERT INTO directories (directory_name, path) VALUES
-    ('user_1', '../../Directories/user_1'),
-    ('user_2', '../../Directories/user_2'),
-    ('user_3', '../../Directories/user_3'),
-    ('Our_books', '../../Directories/user_1/our_books');
+    ('user_1', '../Directories/user_1'),
+    ('user_2', '../Directories/user_2'),
+    ('user_3', '../Directories/user_3'),
+    ('Our_books', '../Directories/user_1/our_books');
 
 
 -- Insert permissions
@@ -116,8 +119,8 @@ INSERT INTO history (user_id, action) VALUES
 
 -- Insert into user_preferences
 INSERT INTO user_preferences (user_id, profile_picture, color1, color2, color3) VALUES
-(1, 'default.jpg', '#FF5733', '#3E95CD', '#3E3E3E'),
-(2, 'default.jpg', '#E84393', '#41B883', '#6C757D'),
-(3, 'default.jpg', '#5F27CD', '#F39C12', '#00BCD4');
+(1, '../image/default.jpg', '#FF5733', '#3E95CD', '#3E3E3E'),
+(2, '../default.jpg', '#E84393', '#41B883', '#6C757D'),
+(3, '../default.jpg', '#5F27CD', '#F39C12', '#00BCD4');
 
 

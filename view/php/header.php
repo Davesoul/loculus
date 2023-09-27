@@ -129,11 +129,11 @@ require_once("../../controller/controller.php");
             <!-- </div> -->
 
             <div id="user-img" class="btn">
-                <img id='pp' src="image/default.jpg" alt="profile picuture">
-                <div id="user-card" class="objects">
+                <img id='pp' src="../<?php echo $pp; ?>" alt="profile picuture">
+                <div id="user-card" class="objects" onclick="event.stopImmediatePropagation();">
                     <div class="popup-container">
                     
-                        <img src="image/default.jpg" alt="">
+                        <img src="../<?php echo $pp; ?>" alt="">
                         <div class="details">
                             <?php if (isset($username)){ ?>
                                 <span> <?php echo $username; ?> </span>
@@ -148,6 +148,7 @@ require_once("../../controller/controller.php");
                         </div>
                         <div class="card-i">
                             <i class="fa-solid fa-edit"></i>
+                            <i class="fa-solid fa-gift" onclick="showTransfers()" id="transferIcon"></i>
                             <a href="view.php?logout=logout"><i class="fa-solid fa-right-from-bracket"></i></a>
                         </div>
 

@@ -98,7 +98,7 @@ class user {
 
             //insert into directories
             $homeFolder = "user_".$row0['last_insert_id()'];
-            $homePath = "../../Directories/user_".$row0['last_insert_id()'];
+            $homePath = "../Directories/user_".$row0['last_insert_id()'];
             $uploadtodb = $this->db->prepare("insert into directories (directory_name, path) values (:a, :b)");
             $uploadtodb->bindParam(":a", $homeFolder);
             $uploadtodb->bindParam(":b", $homePath);

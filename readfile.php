@@ -1,0 +1,1 @@
+<?php echo '<pre>'; readfile("image/booklists.txt"); echo '<pre>'; ?>

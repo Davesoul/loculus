@@ -11,3 +11,5 @@ to change permissions:
 
 $ chmod 774 directoryname
 $ chmod g=u directoryname
+
+extension = gd

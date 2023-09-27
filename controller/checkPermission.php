@@ -22,10 +22,11 @@ if (isset($_GET['dir_id'])){
     // echo $_GET["dir_id"];
     $dir = $_GET['dir_id'];
     // $permStmt = "SELECT * FROM user_directory a LEFT JOIN directories b on a.directory_id = b.directory_id WHERE a.directory_id = $dir";
-    $stmt0 = "SELECT * FROM user_directory a LEFT JOIN directories b on a.directory_id = b.directory_id WHERE b.directory_id = $dir AND a.user_id = $id";
+    $stmt0 = "SELECT * FROM user_directory a LEFT JOIN directories b on a.directory_id = b.directory_id JOIN user_preferences c ON a.user_id = c.user_id WHERE b.directory_id = $dir AND a.user_id = $id";
+    
 }else if (isset($_SESSION["id"])){
     // $permStmt = "SELECT * FROM user_directory a LEFT JOIN directories b on a.directory_id = b.directory_id WHERE b.directory_name = 'user_$id'";
-    $stmt0 = "SELECT * FROM user_directory a LEFT JOIN directories b on a.directory_id = b.directory_id WHERE b.directory_name = 'user_$id'  AND a.user_id = $id";
+    $stmt0 = "SELECT * FROM user_directory a LEFT JOIN directories b on a.directory_id = b.directory_id JOIN user_preferences c ON a.user_id = c.user_id WHERE b.directory_name = 'user_$id'  AND a.user_id = $id";
 }
 
 
@@ -36,6 +37,10 @@ $_SESSION['dir_id'] = $row0['directory_id'];
 $_SESSION['dir_name'] = $row0['directory_name'];
 $_SESSION['dir_path'] = $row0['path'];
 $_SESSION['perm_id'] = $row0['permission_id'];
+$_SESSION['pp'] = $row0['profile_picture'];
+$_SESSION['c1'] = $row0['color1'];
+$_SESSION['c2'] = $row0['color2'];
+$_SESSION['c3'] = $row0['color3'];
 
 
 // var_dump($_SESSION);
@@ -149,7 +154,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
 // create new loculus(folder)
 if(isset($_POST['Newloculus'])){
-    $path = '.'.$_SESSION['dir_path'].'/'.$_POST['loculusName'];
+    $path = '../'.$_SESSION['dir_path'].'/'.$_POST['loculusName'];
     
     if(mkdir($path, 0755, true)){
         //insert into directories

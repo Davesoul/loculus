@@ -20,7 +20,7 @@ require_once("controller.php");
         } else {
             while($row = $results->fetch(PDO::FETCH_ASSOC)){
                 ?>
-                <li onclick="fillsearch('<?php echo $row['username']; ?>', <?php echo $row['user_id']; ?>)"><?php echo $row['username']; ?></li>
+                <li onclick="fillsearch('<?php echo $row['username']; ?>', <?php echo $row['user_id']; ?>)"> <img id='pp' src="image/default.jpg" alt="profile picuture"> <p><?php echo $row['username']; ?></p></li>
                 <?php
             }
         }

@@ -18,10 +18,7 @@ if(isset($_SESSION['id'])){
     $dir_name = $_SESSION['dir_name'];
 }
 
-if (isset($_SESSION["c1"])){
-    echo "<script>chTheme(c1.value,c2.value,c3.value);<script>";
-    echo $_SESSION["c1"];
-}
+
 
 // queries for directories and resources
 if (isset($dir)){
@@ -222,7 +219,7 @@ echo $dir_name;
     <title>My loculus</title>
 
     
-    <!-- <script src="https://kit.fontawesome.com/766f30b49e.js" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://kit.fontawesome.com/766f30b49e.js" crossorigin="anonymous"></> -->
 </head>
 
 
@@ -281,14 +278,21 @@ echo $dir_name;
                         <div class="iconcontainer">
                             <?php if (stripos($row["type"], "pdf") !== false){ ?>
                                 <i class="fa-solid fa-file-pdf"></i>
+
                             <?php } elseif (stripos($row["type"], "image") !== false){ ?>
-                                <i class="fa-solid fa-file-image"></i>
+                                <!-- <i class="fa-solid fa-file-image"></i> -->
+                                <img src="<?php echo '../'.$row['resource_thumbnail']; ?>" alt="">
+
                             <?php } elseif (stripos($row["type"], "audio") !== false){ ?>
-                                <i class="fa-solid fa-file-music"></i>
+                                <i class="fa-solid fa-file-audio"></i>
+
                             <?php } elseif (stripos($row["type"], "video") !== false){ ?>
-                                <i class="fa-solid fa-file-video"></i>
-                                <?php } elseif (stripos($row["type"], "text") !== false || stripos($row["type"], "application") !== false){ ?>
-                                <i class="fa-solid fa-file-lines"></i>
+                                <!-- <i class="fa-solid fa-file-video"></i> -->
+                                <video src="<?php echo '../'.$row['resource_thumbnail']; ?>" autoplay muted loop>
+
+                            <?php } elseif (stripos($row["type"], "text") !== false || stripos($row["type"], "application") !== false){ ?>
+                                <!-- <i class="fa-solid fa-file-lines"></i> -->
+                                <img src="<?php echo '../'.$row['resource_thumbnail']; ?>" alt="">
                             <?php } ?>
                         </div>
                         <div class="itemcontainer">                
@@ -305,13 +309,13 @@ echo $dir_name;
                                 <?php 
                                     if ($_SESSION['perm_id']==1){ ?>
                                         <a href="#space" onclick="openFile('<?php echo '../'.$row['path']; ?>', '<?php echo $row['resource_name']; ?>', '<?php echo $row['type']; ?>')"><i class="fa-solid fa-play"></i></a>
-                                        <a href="<?php echo '../'.$row['path'] . '/' . $row['resource_name']; ?>" download><i class="fa-solid fa-download"></i></a>
-                                        <a href="#loculus"><i class="fa-solid fa-share"></i></a>
+                                        <a href="<?php echo '../../'.$row['path'] . '/' . $row['resource_name']; ?>" download><i class="fa-solid fa-download"></i></a>
+                                        <a href="#loculus" id='shareF' onclick="shareFile('<?php echo $row['resource_name']; ?>', <?php echo $row['resource_id']; ?>)"><i class="fa-solid fa-share"></i></a>
                                         <a href="#loculus" id='delete' onclick="deleteFile('<?php echo $row['resource_name']; ?>', <?php echo $row['resource_id']; ?>)"><i class="fa-solid fa-trash-can"></i></a>
                                         
                                 <?php } else if ($_SESSION['perm_id']==2){ ?>
                                         <a href="#space" onclick="openFile('<?php echo '../'.$row['path']; ?>', '<?php echo $row['resource_name']; ?>', '<?php echo $row['type']; ?>')"><i class="fa-solid fa-play"></i></a>
-                                        <a href="<?php echo '../'.$row['path'] . '/' . $row['resource_name']; ?>" download><i class="fa-solid fa-download"></i></a>
+                                        <a href="<?php echo '../../'.$row['path'] . '/' . $row['resource_name']; ?>" download><i class="fa-solid fa-download"></i></a>
                                         <a href="#"><i class="fa-solid fa-share"></i></a>
                                 <?php } else if ($_SESSION['perm_id']==3){ ?>
                                         <a href="#space" onclick="openFile('<?php echo '../'.$row['path']; ?>', '<?php echo $row['resource_name']; ?>', '<?php echo $row['type']; ?>')"><i class="fa-solid fa-play"></i></a>
@@ -545,6 +549,7 @@ echo $dir_name;
     var deleteBtn = document.getElementById('delete');
     var modal = document.getElementById("backgrd");
     var modalP = document.querySelector("#modal-popup");
+
     function deleteFile(filename, fileID){
         console.log('delete');
         modal.style.display = "block";
@@ -557,10 +562,46 @@ echo $dir_name;
 
         var deleteBtn2 = document.getElementById('deletion');
         deleteBtn2.onclick = function(){
+            event.preventDefault(); // Prevent the default form submission
             // loadContent('myloculus.php', session='del', fileID, 'loculus', 'GET');
-            loadContent('../../controller/loculusoptions.php', 'deletion', fileID, 'loculus', 'GET');
+            loadContent('../../controller/loculusoptions.php', 'deletion', fileID, 'modal-popup', 'GET');
             loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
-            modal.style.display = "none";
+            // modal.style.display = "none";
+        };
+    }
+
+    var shareBtn = document.getElementById('shareF');
+
+    function shareFile(filename, fileID){
+        console.log('share');
+        modal.style.display = "block";
+        modalP.innerHTML = `                  
+        <form id="Form" action="">
+            share ${filename} with:
+            <input type="text" name="searchedUser" id="searchedUser">
+            <input type="hidden" id="searchedUserId" name="searchedUserId">
+            <input type="hidden" id="fileID" name="fileID">
+            <div id="livesearchcontainer">
+                
+                <ul id="list"></ul>
+            </div>
+            <input id="shareF" type="submit" value="Send" name="shareFile">
+        </form>`;
+
+
+        var fID = document.getElementById('fileID');
+        fID.value = fileID;
+
+        //allow to look up for users
+        livesearch();
+
+        var shareBtn2 = document.getElementById('shareF');
+        shareBtn2.onclick = function(){
+            event.preventDefault(); // Prevent the default form submission
+            // loadContent('myloculus.php', session='del', fileID, 'loculus', 'GET');
+            loadContent('../../controller/loculusoptions.php', '', '', 'modal-popup', 'POST', "Form");
+            loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
+            // modal.style.display = "none";
         };
     }
 

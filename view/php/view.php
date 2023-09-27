@@ -7,6 +7,13 @@ require_once "../../controller/controller.php";
 
 <script src=../js/header.js></script>
 
+<?php
+        if (isset($_SESSION["c1"])){
+            echo "<script> chTheme(".$_SESSION['c1'].",".$_SESSION['c2'].",".$_SESSION['c3']."); </script>";
+            // echo $_SESSION["c1"];
+        }
+    ?>
+
 
 <body>
     
@@ -43,15 +50,16 @@ require_once "../../controller/controller.php";
 
 
 <script>
-
-
+// chTheme(<?php echo $_SESSION['c1']; ?>,<?php echo $_SESSION['c2']; ?>,<?php echo $_SESSION['c3'] ?>)
 
     // ajax
-    function loadContent(page, session='', val='', target, method, formId=''){
+function loadContent(page, session='', val='', targetID="", method, formId='', targetEl=''){
     console.log("start");
     var req = new XMLHttpRequest();
 
-    var t = document.getElementById(target);
+    if (targetID != ""){
+        var t = document.getElementById(targetID);
+    }
 
     if (session == ''){
         link = page;
@@ -64,7 +72,14 @@ require_once "../../controller/controller.php";
 
     req.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200){
-            t.innerHTML = req.responseText;
+            if (t){
+                t.innerHTML = req.responseText;
+            }else{
+                console.log(req.responseText);
+                console.log(targetEl);
+                console.log(targetEl.texContent);
+                targetEl.textContent = req.responseText;
+            }
             console.log(req.responseText);
         } else {
             console.log('invalid request');
@@ -73,6 +88,9 @@ require_once "../../controller/controller.php";
 
     if (formId != '' && method === 'POST'){
         const form = document.getElementById(formId);
+
+        console.log('sending form...');
+
         var formData = new FormData(form);
 
         // req.onreadystatechange = function() {
@@ -84,11 +102,69 @@ require_once "../../controller/controller.php";
         //     }
         // };
 
+
         req.send(formData);
-    } else {
+
+    
+    }else {
         req.send();
     }
-};
+}
+;
+
+
+function updateFile(page, filename, content) {
+    console.log("start");
+    var req = new XMLHttpRequest();
+
+    req.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            // Handle the response here, e.g., update the content of an element with the response.
+            // You can also add more logic based on the response, such as error handling.
+            console.log(req.responseText);
+        } else {
+            console.log('Invalid request');
+        }
+    };
+
+    // Create a FormData object to send the filename and content as POST data.
+    var formData = new FormData();
+    formData.append('fileName', filename);
+    formData.append('content', content);
+
+    // Open a POST request to the specified page.
+    req.open('POST', page, true);
+
+    // Send the FormData object as the request body.
+    req.send(formData);
+}
+
+
+function acceptTransfer(page, transferID, acceptance) {
+    console.log("start");
+    var req = new XMLHttpRequest();
+
+    req.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            // Handle the response here, e.g., update the content of an element with the response.
+            // You can also add more logic based on the response, such as error handling.
+            console.log(req.responseText);
+        } else {
+            console.log('Invalid request');
+        }
+    };
+
+    // Create a FormData object to send the filename and content as POST data.
+    var formData = new FormData();
+    formData.append('transferID', transferID);
+    formData.append('acceptance', acceptance);
+
+    // Open a POST request to the specified page.
+    req.open('POST', page, true);
+
+    // Send the FormData object as the request body.
+    req.send(formData);
+}
 
 
 </script>
@@ -175,12 +251,36 @@ require_once "../../controller/controller.php";
         obj.forEach(w => {
             
             var bar = w.querySelector('.objbar');
+            
             var close = w.querySelector('span');
             let prevActive;
 
 
             close.addEventListener('click', ()=>{
-                w.remove();
+                var fname = w.querySelector('h6').textContent;
+                console.log(fname);
+                if(fname.endsWith("*")){
+                    // Remove the asterisk (*) from the end of the string
+                    console.log('trying to save');
+                    
+                    fname = fname.replace(/\*$/, "");
+                    console.log('saving');
+
+                    var txtarea = w.querySelector('.obj textarea');
+
+                    // console.log(txtarea.value);
+                    // console.log(fname);
+
+                    
+                    updateFile('../../controller/update_file.php', fname, txtarea.value);
+
+                    w.remove();
+
+                }else{
+                    console.log('closing');
+
+                    w.remove();
+                }
             });
 
             w.addEventListener('mouseenter', ()=>{
@@ -215,7 +315,7 @@ require_once "../../controller/controller.php";
 
             bar.addEventListener('mousedown', (e)=>{
 
-                
+                // obj.forEach(o => {o.removeEventListener('mouseenter');});
                 // e.stopPropagation();
             
                 
@@ -405,8 +505,9 @@ require_once "../../controller/controller.php";
         
         if(type.includes("text") || type.includes("application") && !type.includes("pdf")  && !type.includes("php")){
 
+            console.log("txt...");
             el = 'textarea';
-            const e = document.createElement(el);
+            var e = document.createElement(el);
         
 
             objContent.appendChild(objBar);
@@ -416,21 +517,31 @@ require_once "../../controller/controller.php";
 
             container.appendChild(obj);
 
-            fetch(path + '/' + filename)
-            .then(response => response.text())
-            .then(contents => {
-                
-                e.textContent = contents;
+            // fetch(path + '/' + filename)
+
+            filePath = path + '/' + filename;
+
+            // console.log("loadContent('../../controller/loculusoptions.php', 'filePath', filePath, '', 'GET')");
+            loadContent('../../controller/loculusoptions.php', 'filePath', filePath, '', 'GET', '', e);
+
+            // e.textContent = ;
+            console.log("filepath");
+
+            // notice changes in txt file
+            var initialText = e.textContent;
+
+            e.addEventListener('input', function(){
+                if (e.textcontent != initialText){
+                    h6.textContent = filename + "*";
+                }
             })
+
 
             
-            .catch(error => {
-            console.error("Error fetching file:", error);
-            })
-
             
         } else if (type.includes("image")){
 
+            console.log("img...");
             el = 'img';
             const e = document.createElement(el);
         
@@ -442,7 +553,8 @@ require_once "../../controller/controller.php";
 
             container.appendChild(obj);
 
-            e.src = path + '/' + filename;
+            e.src = '../' + path + '/' + filename;
+            console.log(e.src);
 
             // fetch(path + '/' + filename)
             // .then(response => response.text())
@@ -622,6 +734,7 @@ require_once "../../controller/controller.php";
         // } else if (type.includes("video")){
 
         } else {
+            console.log("else...");
             el = 'iframe';
             const e = document.createElement(el);
         
@@ -633,7 +746,8 @@ require_once "../../controller/controller.php";
 
 
             container.appendChild(obj);
-            e.src = path + '/' + filename;
+            e.src = '../'+ path + '/' + filename;
+            console.log("e.src");
         }
   
         moveFrame();
@@ -642,7 +756,7 @@ require_once "../../controller/controller.php";
 
 
     function modal_popup(option){
-        //modal popup for file uploading
+        //modal popup for loculus options
         const header = document.querySelector('header');
         console.log(header);
         var modal = header.querySelector("#backgrd");
@@ -664,25 +778,39 @@ require_once "../../controller/controller.php";
                 event.preventDefault(); // Prevent the default form submission
 
                 if (event.target.id === 'delLoculus') {
-                    loadContent('../../controller/loculusoptions.php', 'delLoculus', '<?php echo $dir ?>', 'loculus', 'GET');
+                    loadContent('../../controller/loculusoptions.php', 'delLoculus', '<?php echo $dir ?>', 'modal-popup', 'GET');
+                    
+                    setTimeout(function() {
+                        loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
+                    }, 1000);
+
                     loadContent('myloculus.php', 'dir_id', '', 'loculus', 'GET');
                     modal.style.display = "none";
                 }else if (event.target.id === 'shareLoculus') {
                     loadContent('../../controller/loculusoptions.php', '', '', 'modal-popup', 'POST', 'Form');
-                    loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
-                    // modal.style.display = "none";
+                    
+                    setTimeout(function() {
+                        loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
+                    }, 1000);
+
                 }else if (event.target.id === 'theme') {
                     loadContent('../../controller/loculusoptions.php', '', '', 'loculus', 'POST', 'Form');
                     loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
-                    // modal.style.display = "none";
+                    modal.style.display = "none";
                 }else if (event.target.id === 'upload') {
                     loadContent('../../controller/loculusoptions.php', '', '', 'modal-popup', 'POST', 'Form');
-                    loadContent('./myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
-                    // modal.style.display = "none";
+                    
+                    setTimeout(function() {
+                        loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
+                    }, 1000);
+
                 }else if (event.target.id === 'NewLoculus') {
                     loadContent('../../controller/loculusoptions.php', '', '', 'modal-popup', 'POST', 'Form');
-                    loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
-                    // modal.style.display = "none";
+                    
+                    setTimeout(function() {
+                        loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
+                    }, 1000);
+
                 }
             }
 
@@ -786,6 +914,22 @@ require_once "../../controller/controller.php";
 
             
         };
+
+
+
+    //show transfers in popup
+    function showTransfers(){
+        const header = document.querySelector('header');
+        var transIcon = document.getElementById('transferIcon');
+        var modal = header.querySelector("#backgrd");
+        var modalP = header.querySelector("#modal-popup");
+
+        modal.style.display = "block";
+        
+        loadContent('transfers.php', '', '', 'modal-popup', 'GET');
+
+
+    }
 
     // livesearch
 
