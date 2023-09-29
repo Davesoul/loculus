@@ -11,7 +11,7 @@ require_once("controller.php");
         // echo $user_search;
         
         //select user_directory information
-        $statement = "SELECT * FROM users WHERE username LIKE '%$user_search%' AND username <> '".$_SESSION['username']."';";
+        $statement = "SELECT * FROM users a JOIN user_preferences b ON a.user_id = b.user_id WHERE username LIKE '%$user_search%' AND username <> '".$_SESSION['username']."';";
         // echo $statement;
         $results = $user->manage_sql($statement);
 
@@ -20,7 +20,7 @@ require_once("controller.php");
         } else {
             while($row = $results->fetch(PDO::FETCH_ASSOC)){
                 ?>
-                <li onclick="fillsearch('<?php echo $row['username']; ?>', <?php echo $row['user_id']; ?>)"> <img id='pp' src="image/default.jpg" alt="profile picuture"> <p><?php echo $row['username']; ?></p></li>
+                <li onclick="fillsearch('<?php echo $row['username']; ?>', <?php echo $row['user_id']; ?>)"> <img id='pp' src="../<?php echo $row['profile_picture']; ?>" alt="profile picuture"> <p><?php echo $row['username']; ?></p></li>
                 <?php
             }
         }

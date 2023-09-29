@@ -18,7 +18,7 @@ CREATE TABLE directories (
 CREATE TABLE resources (
     resource_id INT AUTO_INCREMENT PRIMARY KEY,
     resource_name VARCHAR(255) NOT NULL,
-    resource_thumbnail VARCHAR (255) NOT NULL,
+    resource_thumbnail VARCHAR (255) DEFAULT NULL,
     type VARCHAR(255),
     size BIGINT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

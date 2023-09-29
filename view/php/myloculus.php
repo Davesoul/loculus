@@ -302,6 +302,7 @@ echo $dir_name;
                                 <p><?php echo $row["size"]." kB"; ?></p>
                                 <p><?php echo $row["created_at"];?></p>
                                 <div class="gap"></div>
+                                <div class="gap"></div>
                             </div>
                             <!-- <div class="fading-bg"></div> -->
                             <div class="options">

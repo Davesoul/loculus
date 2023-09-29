@@ -69,7 +69,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                 
                 if (strpos($file['type'], 'text') !== FALSE){
                     $textContent = file_get_contents($target_file);
-                    $image = imagecreatetruecolor(200, 200);
+                    $image = imagecreatetruecolor(100, 70);
                     $background = imagecolorallocate($image, 255, 255, 255);
                     $textColor = imagecolorallocate($image, 0, 0, 0);
                     imagefilledrectangle($image, 0, 0, 200, 200, $background);
@@ -426,7 +426,7 @@ if(isset($_GET['deletion'])){
     $fileToDel = '../'.$row['path'].'/'.$row['resource_name'];
     $thumbnailToDel = '../'.$row['path'].'/thumbnail_'.$row['resource_name'];
     
-    if (unlink($fileToDel)){
+    if (unlink($fileToDel) && unlink($thumbnailToDel)){
         $delstmt = "DELETE FROM resources where resource_id = '$resource_id' ";
         $user->manage_sql($delstmt);
         echo $row['resource_name'].' deleted';

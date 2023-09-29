@@ -69,7 +69,7 @@ $page="myspace";
                 <span><i class="fa-solid fa-close"></i></span>
             </div>
             <audio controls autoplay>
-                <source src="../../../Directories/user_1/test2.wav" type="audio/wav">
+                <source src="../../Directories/user_1/test2.wav" type="audio/wav">
                 Your browser does not support the audio element.
             </audio> 
             <!-- <audio src="../../../Directories/user_1/test2.wav" controls></audio> -->
