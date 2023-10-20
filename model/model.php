@@ -31,6 +31,7 @@ class user {
     // check permissions
     public function checkPermission($user_id, $dir_id){
         $stmt = "SELECT * FROM user_directory WHERE user_id = $user_id AND directory_id = $dir_id";
+        // $stmt = "SELECT * FROM user_directory a LEFT JOIN directories b on a.directory_id = b.directory_id JOIN user_preferences c ON a.user_id = c.user_id WHERE b.directory_name = 'user_$id'  AND a.user_id = $id";
 
         $results = $this->manage_sql($stmt);
 
@@ -114,6 +115,13 @@ class user {
             $uploadtodb->bindParam(":a", $row0['last_insert_id()']);
             $uploadtodb->bindParam(":b", $row['last_insert_id()']);
             $uploadtodb->bindParam(":c", $permission);
+
+            $uploadtodb->execute();
+
+
+            // insert into user_preferences
+            $uploadtodb = $this->db->prepare("insert into user_preferences (user_id) values (:a)");
+            $uploadtodb->bindParam(":a", $row0['last_insert_id()']);
 
             $uploadtodb->execute();
 

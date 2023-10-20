@@ -57,10 +57,10 @@
         $username = $_SESSION['username'];
         $email = $_SESSION['email'];
         $pass = $_SESSION['password'];
-        $pp = $_SESSION['pp'];
-        $c1 = $_SESSION['c1'];
-        $c2 = $_SESSION['c2'];
-        $c3 = $_SESSION['c3'];
+        // $pp = $_SESSION['pp'];
+        // $c1 = $_SESSION['c1'];
+        // $c2 = $_SESSION['c2'];
+        // $c3 = $_SESSION['c3'];
 
         if (isset($page)){
             if ($page == 'login'){

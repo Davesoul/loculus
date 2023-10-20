@@ -94,7 +94,8 @@ document.addEventListener('DOMContentLoaded', function(){
     // solves the directory section overflowing in workshop
     window.addEventListener('resize', ()=>{
         if (window.location.hash == "#space"){
-            window.location.hash = "#space";
+            setTimeout(function(){window.location.hash = "#space";}, 1000);
+            
         }
         
     });

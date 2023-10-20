@@ -30,6 +30,8 @@ $page="myspace";
 <div class="gap"></div>
 
     <div class="spacecontainer">
+
+     <div class="objcontainer">
         <div class="obj">
             <div class="objbar up">
                 <h6>The Art of Electronics ( PDFDrive ) yes</h6>
@@ -38,6 +40,11 @@ $page="myspace";
             <iframe src="image/booklists.txt" frameborder="0" sandbox=""></iframe>
             <br>
         </div>
+     </div>
+        
+
+
+
 
         <div class="obj">
             <div class="objbar up">
@@ -49,6 +56,9 @@ $page="myspace";
 
             <br>
         </div>
+
+
+
 
         <div class="obj" id="hello">
             <div class="objContent">
@@ -68,10 +78,11 @@ $page="myspace";
                 <h6>bro</h6>
                 <span><i class="fa-solid fa-close"></i></span>
             </div>
-            <audio controls autoplay>
+            <iframe src="../../aesthetic.mp4" frameborder="0"></iframe>
+            <!-- <audio controls autoplay>
                 <source src="../../Directories/user_1/test2.wav" type="audio/wav">
                 Your browser does not support the audio element.
-            </audio> 
+            </audio>  -->
             <!-- <audio src="../../../Directories/user_1/test2.wav" controls></audio> -->
             <!-- <video src="../../aesthetic.mp4" controls></video> -->
         </div>

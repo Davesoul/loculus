@@ -14,6 +14,7 @@ require_once("../../controller/controller.php");
 //     header('location: login.php');
 // }
 
+
 ?>
 
 <!DOCTYPE html>
@@ -38,6 +39,9 @@ require_once("../../controller/controller.php");
 
 
     <header>
+        <div id="checkperm">
+            <?php include("../../controller/checkPermission.php"); ?>
+        </div>
             <div id="menu" class="btn">
                 <i class="fa-solid fa-bars"></i>
                     
@@ -70,12 +74,16 @@ require_once("../../controller/controller.php");
                                 
 
                                 while($row = $results->fetch(PDO::FETCH_ASSOC)){ ?>
-                                <li><a href="#loculus" onclick="
-                                
-                                loadContent('../../controller/checkPermission.php', 'dir_id', <?php echo $row['directory_id']; ?>, 'loculusoptions', 'GET');
+                                <li><a href="#loculusTop" onclick="
+                                setTimeout(function(){
+                                                                    
+                                loadContent('../../controller/checkPermission.php', 'dir_id', <?php echo $row['directory_id']; ?>, 'checkperm', 'GET');
+                                loadContent('../../controller/options.php', 'dir_id', <?php echo $row['directory_id']; ?>, 'loculusoptions', 'GET');
+
                                 loadContent('myloculus.php', 'dir_id', <?php echo $row['directory_id']; ?>, 'loculus', 'GET');
                             
                             
+                                }, 100);
                                 "> 
                                 <?php if("user_$id"==$row['directory_name']){echo "Home";}else{echo $row['directory_name'];} ?> 
                                 </a></li>
@@ -122,18 +130,18 @@ require_once("../../controller/controller.php");
 
             <?php if (isset($_SESSION["perm_id"])){ ?> <?php } ?>
             <div id="loculusoptions">
-                <?php include("../../controller/checkPermission.php"); ?>
+                <?php include("../../controller/options.php"); ?>
             </div>
 
             
             <!-- </div> -->
 
             <div id="user-img" class="btn">
-                <img id='pp' src="../<?php echo $pp; ?>" alt="profile picuture">
+                <img id='pp' src="../<?php echo $_SESSION['pp']; ?>" alt="profile picuture">
                 <div id="user-card" class="objects" onclick="event.stopImmediatePropagation();">
                     <div class="popup-container">
                     
-                        <img src="../<?php echo $pp; ?>" alt="">
+                        <img src="../<?php echo $_SESSION['pp']; ?>" alt="">
                         <div class="details">
                             <?php if (isset($username)){ ?>
                                 <span> <?php echo $username; ?> </span>
@@ -158,7 +166,7 @@ require_once("../../controller/controller.php");
 
 
 
-
+<!--  -->
 
             <!-- file import -->
             <div class="background" id="backgrd">

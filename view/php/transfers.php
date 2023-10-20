@@ -5,8 +5,9 @@
     require_once("../../controller/controller.php");
 
     ?><h1>Transfers</h1><?php
+        $statement = "SELECT * FROM transfers a LEFT JOIN users b ON a.user_id = b.user_id RIGHT JOIN users c ON a.destination_user_id = c.user_id JOIN resources d ON a.transfered_resource = d.resource_name WHERE a.destination_user_id = $id";
 
-        $statement = "SELECT * FROM transfers a LEFT JOIN users b ON a.user_id = b.user_id RIGHT JOIN users c ON a.destination_user_id = c.user_id JOIN resources d ON a.transfered_resource = d.resource_id WHERE a.destination_user_id = $id";
+        // $statement = "SELECT * FROM transfers a LEFT JOIN users b ON a.user_id = b.user_id RIGHT JOIN users c ON a.destination_user_id = c.user_id JOIN resources d ON a.transfered_resource = d.resource_name WHERE a.destination_user_id = $id";
         // echo $statement;
         $results = $user->manage_sql($statement);
 
@@ -38,13 +39,15 @@
         <div class="smalldescription">
             <h4><?php echo $row["resource_name"];?></h4>
             <p><?php echo $row["type"];?></p>
-            <p><?php echo $row["size"]." kB"; ?></p>
-            <p><?php echo $row["created_at"];?></p>
+            <p><?php echo $row["size"]." MB"; ?></p>
+            <p><?php echo $row["transfer_date"];?></p>
+            
             <div class="gap"></div>
         </div>
         <!-- <div class="fading-bg"></div> -->
         <div class="options">
             <i class="fa-solid fa-chevron-down hint"></i>
+            <p><?php echo $row["user_id"];?></p>
 
                     <a href="#loculus" onclick="acceptTransfer('../../controller/loculusoptions.php', <?php echo $row['transfer_id'] ?>, 1);
                         loadContent('transfers.php', '', '', 'modal-popup', 'GET');

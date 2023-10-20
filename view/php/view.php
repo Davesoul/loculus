@@ -5,13 +5,14 @@ require_once "../../controller/controller.php";
 
 ?>
 
-<script src=../js/header.js></script>
+<script src=../js/header.js>
+
+</script>
 
 <?php
-        if (isset($_SESSION["c1"])){
-            echo "<script> chTheme(".$_SESSION['c1'].",".$_SESSION['c2'].",".$_SESSION['c3']."); </script>";
-            // echo $_SESSION["c1"];
-        }
+        // if (isset($_SESSION['c1'])){
+        //     echo "<script> chTheme('".$_SESSION['c1']."','".$_SESSION['c2']."','".$_SESSION['c3']."'); </script>";
+        // }
     ?>
 
 
@@ -28,6 +29,18 @@ require_once "../../controller/controller.php";
 
 
 <script>
+    // change theme
+    function chTheme(c1, c2, c3){
+    const root = document.documentElement;
+
+    root.style.setProperty('--primarycolor', c1);
+    root.style.setProperty('--secondarycolor', c2);
+    root.style.setProperty('--accentcolor', c3);
+    }
+
+    chTheme('<?php echo $_SESSION['c1'] ?>', '<?php echo $_SESSION['c2'] ?>', '<?php echo $_SESSION['c3'] ?>');
+
+    
     var directory_name = '';
     function reloadIframe(link) {
       // Get the reference to the iframe element
@@ -781,10 +794,11 @@ function acceptTransfer(page, transferID, acceptance) {
                     loadContent('../../controller/loculusoptions.php', 'delLoculus', '<?php echo $dir ?>', 'modal-popup', 'GET');
                     
                     setTimeout(function() {
-                        loadContent('myloculus.php', 'dir_id', '<?php echo $dir ?>', 'loculus', 'GET');
+                        loadContent('../../controller/checkPermission.php', '', '', 'checkperm', 'GET');
+                        loadContent('myloculus.php', '', '', 'loculus', 'GET');
                     }, 1000);
 
-                    loadContent('myloculus.php', 'dir_id', '', 'loculus', 'GET');
+                    // loadContent('myloculus.php', 'dir_id', '', 'loculus', 'GET');
                     modal.style.display = "none";
                 }else if (event.target.id === 'shareLoculus') {
                     loadContent('../../controller/loculusoptions.php', '', '', 'modal-popup', 'POST', 'Form');
@@ -844,11 +858,11 @@ function acceptTransfer(page, transferID, acceptance) {
                        
                         <form id="Form" action="">
                             Primary color:
-                            <input type="color" name="c1" id="c1">
+                            <input type="color" name="c1" id="c1" value="<?php echo $_SESSION['c1']; ?>">
                             Secondary color:
-                            <input type="color" name="c2" id="c2">
+                            <input type="color" name="c2" id="c2" value="<?php echo $_SESSION['c2']; ?>">
                             Accent color:
-                            <input type="color" name="c3" id="c3">
+                            <input type="color" name="c3" id="c3" value="<?php echo $_SESSION['c3']; ?>">
                             <input onclick="chTheme(c1.value,c2.value,c3.value)" id="theme" type="submit" value="theme" name="Theme">
                         </form>`;
         }

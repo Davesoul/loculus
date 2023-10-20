@@ -17,11 +17,13 @@ CREATE TABLE directories (
 
 CREATE TABLE resources (
     resource_id INT AUTO_INCREMENT PRIMARY KEY,
+    directory_id INT NOT NULL,
     resource_name VARCHAR(255) NOT NULL,
     resource_thumbnail VARCHAR (255) DEFAULT NULL,
     type VARCHAR(255),
     size BIGINT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (directory_id) REFERENCES directories (directory_id) ON DELETE CASCADE 
 );
 
 CREATE TABLE permissions (
@@ -39,18 +41,18 @@ CREATE TABLE user_directory (
     PRIMARY KEY (user_id, directory_id, permission_id)
 );
 
-CREATE TABLE directory_resource (
-    directory_id INT NOT NULL,
-    resource_id INT NOT NULL,
-    FOREIGN KEY (directory_id) REFERENCES directories(directory_id) ON DELETE CASCADE,
-    FOREIGN KEY (resource_id) REFERENCES resources(resource_id) ON DELETE CASCADE,
-    PRIMARY KEY (directory_id, resource_id)
-);
+-- CREATE TABLE directory_resource (
+--     directory_id INT NOT NULL,
+--     resource_id INT NOT NULL,
+--     FOREIGN KEY (directory_id) REFERENCES directories(directory_id) ON DELETE CASCADE,
+--     FOREIGN KEY (resource_id) REFERENCES resources(resource_id) ON DELETE CASCADE,
+--     PRIMARY KEY (directory_id, resource_id)
+-- );
 
 CREATE TABLE history (
     history_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    action VARCHAR(50) NOT NULL,
+    action VARCHAR(255) NOT NULL,
     history_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
@@ -58,12 +60,12 @@ CREATE TABLE history (
 CREATE TABLE transfers (
     transfer_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    transfered_resource INT NOT NULL,
+    transfered_resource VARCHAR(255) NOT NULL,
     destination_user_id INT NOT NULL,
     transfer_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     acceptance TINYINT(1) DEFAULT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (transfered_resource) REFERENCES resources(resource_id) ON DELETE CASCADE,
+    -- FOREIGN KEY (transfered_resource) REFERENCES resources(resource_id) ON DELETE CASCADE,
     FOREIGN KEY (destination_user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
@@ -118,9 +120,9 @@ INSERT INTO history (user_id, action) VALUES
 (3, 'create account');
 
 -- Insert into user_preferences
-INSERT INTO user_preferences (user_id, profile_picture, color1, color2, color3) VALUES
-(1, '../image/default.jpg', '#FF5733', '#3E95CD', '#3E3E3E'),
-(2, '../default.jpg', '#E84393', '#41B883', '#6C757D'),
-(3, '../default.jpg', '#5F27CD', '#F39C12', '#00BCD4');
+INSERT INTO user_preferences (user_id, color1, color2, color3) VALUES
+(1, '#FF5733', '#3E95CD', '#3E3E3E'),
+(2, '#E84393', '#41B883', '#6C757D'),
+(3, '#5F27CD', '#F39C12', '#00BCD4');
 
 

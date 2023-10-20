@@ -21,17 +21,17 @@ if(isset($_SESSION['id'])){
 
 
 // queries for directories and resources
-if (isset($dir)){
+if (isset($_GET["dir_id"])){
     // echo $_GET["dir_id"];
     echo $dir;
     echo "DIRECTORY";
     // $permStmt = "SELECT * FROM user_directory a LEFT JOIN directories b on a.directory_id = b.directory_id WHERE a.directory_id = $dir";
     // $stmt0 = "SELECT * FROM user_directory a LEFT JOIN directories b on a.directory_id = b.directory_id WHERE b.directory_id = $dir and a.user_id = $id";
-    $stmt = "SELECT * FROM resources a INNER JOIN directory_resource b ON a.resource_id = b.resource_id join directories c on c.directory_id = b.directory_id where c.directory_id = $dir";
+    $stmt = "SELECT * FROM resources a join directories c on c.directory_id = a.directory_id where c.directory_id = $dir";
 }else if (isset($id)){
     // $permStmt = "SELECT * FROM user_directory a LEFT JOIN directories b on a.directory_id = b.directory_id WHERE b.directory_name = 'user_$id'";
     // $stmt0 = "SELECT * FROM user_directory a LEFT JOIN directories b on a.directory_id = b.directory_id WHERE b.directory_name = 'user_$id'";
-    $stmt = "SELECT * FROM resources a inner join directory_resource b ON a.resource_id = b.resource_id join directories c on c.directory_id = b.directory_id where c.directory_name = 'user_$id'";
+    $stmt = "SELECT * FROM resources a join directories c on c.directory_id = a.directory_id where c.directory_name = 'user_$id'";
 }
 
 
@@ -225,7 +225,7 @@ echo $dir_name;
 
 <body>
    
-    <div class="gap"></div>
+    <div class="gap" id="loculusTop"></div>
 
     <div class="big-container">
 
@@ -264,7 +264,11 @@ echo $dir_name;
 
                 <?php
                 if ($results->rowCount()== 0){
-                    echo "Empty folder";
+                    
+                    ?>
+                    <!-- <center>Empty folder</center>  -->
+                    <center><i class="fa-solid fa-folder-open"></i></center>
+                    <?php
                 }
             
                 
@@ -279,27 +283,47 @@ echo $dir_name;
                             <?php if (stripos($row["type"], "pdf") !== false){ ?>
                                 <i class="fa-solid fa-file-pdf"></i>
 
-                            <?php } elseif (stripos($row["type"], "image") !== false){ ?>
-                                <!-- <i class="fa-solid fa-file-image"></i> -->
-                                <img src="<?php echo '../'.$row['resource_thumbnail']; ?>" alt="">
+                            <?php } elseif (stripos($row["type"], "image") !== false){ 
+                                
+                                if ($row['resource_thumbnail'] != NULL) {?>
+                                    <img src="<?php echo '../'.$row['resource_thumbnail']; ?>" alt="">
+                                <?php }else{ ?>
+
+                                    <i class="fa-solid fa-file-image"></i>
+
+                                <?php } ?>
 
                             <?php } elseif (stripos($row["type"], "audio") !== false){ ?>
                                 <i class="fa-solid fa-file-audio"></i>
 
-                            <?php } elseif (stripos($row["type"], "video") !== false){ ?>
-                                <!-- <i class="fa-solid fa-file-video"></i> -->
-                                <video src="<?php echo '../'.$row['resource_thumbnail']; ?>" autoplay muted loop>
+                            <?php } elseif (stripos($row["type"], "video") !== false){
 
-                            <?php } elseif (stripos($row["type"], "text") !== false || stripos($row["type"], "application") !== false){ ?>
-                                <!-- <i class="fa-solid fa-file-lines"></i> -->
-                                <img src="<?php echo '../'.$row['resource_thumbnail']; ?>" alt="">
+                                if ($row['resource_thumbnail'] != NULL) {?>
+                                    <video src="<?php echo '../'.$row['resource_thumbnail']; ?>" autoplay muted loop>
+
+                                <?php }else{ ?>
+
+                                    <i class="fa-solid fa-file-video"></i>
+
+                                <?php } ?>
+
+                            <?php } elseif (stripos($row["type"], "text") !== false || stripos($row["type"], "application") !== false){
+
+                                if ($row['resource_thumbnail'] != NULL) {?>
+                                    <img src="<?php echo '../'.$row['resource_thumbnail']; ?>" alt="">
+
+                                <?php }else{ ?>
+
+                                    <i class="fa-solid fa-file-lines"></i>
+
+                                <?php } ?>
                             <?php } ?>
                         </div>
                         <div class="itemcontainer">                
                             <div class="smalldescription">
                                 <h4><?php echo $row["resource_name"];?></h4>
                                 <p><?php echo $row["type"];?></p>
-                                <p><?php echo $row["size"]." kB"; ?></p>
+                                <p><?php echo $row["size"]." MB"; ?></p>
                                 <p><?php echo $row["created_at"];?></p>
                                 <div class="gap"></div>
                                 <div class="gap"></div>
@@ -608,13 +632,13 @@ echo $dir_name;
 
 
     // change theme
-    function chTheme(c1, c2, c3){
-        const root = document.documentElement;
+    // function chTheme(c1, c2, c3){
+    //     const root = document.documentElement;
 
-        root.style.setProperty('--primarycolor', c1);
-        root.style.setProperty('--secondarycolor', c2);
-        root.style.setProperty('--accentcolor', c3);
-    }
+    //     root.style.setProperty('--primarycolor', c1);
+    //     root.style.setProperty('--secondarycolor', c2);
+    //     root.style.setProperty('--accentcolor', c3);
+    // }
 
 </script>
 
