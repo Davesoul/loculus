@@ -304,15 +304,15 @@ function acceptTransfer(page, transferID, acceptance) {
                 obj.forEach(c => {
                     if(c.style.zIndex == 5){
                         c.style.zIndex = "4";
-                        c.style.boxShadow = '0px 5px 1px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.boxShadow = '0px 5px 1px 0px rgba(0,0,0,0)';
                         c.style.border = 'solid 2px rgba(0,0,0,0)';
                     }else if(c.style.zIndex == 4){
                         c.style.zIndex = "2";
-                        c.style.boxShadow = '0px 5px 10px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.boxShadow = '0px 5px 10px 0px rgba(0,0,0,0)';
                         c.style.border = 'solid 2px rgba(0,0,0,0)';
                     }else{
                         c.style.zIndex = "1";
-                        c.style.boxShadow = '0px 5px 10px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.boxShadow = '0px 5px 10px 0px rgba(0,0,0,0)';
                         c.style.border = 'solid 2px rgba(0,0,0,0)';
                     }
                 });
@@ -320,7 +320,7 @@ function acceptTransfer(page, transferID, acceptance) {
                 // selected frame on top of stack
                 
                 w.style.zIndex = "5";
-                w.style.boxShadow = '0px 10px 15px 0px rgba(0, 0, 0, 0.5)';
+                w.style.boxShadow = '0px 10px 15px 0px rgba(0,0,0,0.5)';
                 w.style.border = 'solid 2px var(--secondarycolor)';
 
             });
@@ -398,21 +398,21 @@ function acceptTransfer(page, transferID, acceptance) {
                     console.log("zindex: " + c.style.zIndex);
                     if(c.style.zIndex == 5){
                         c.style.zIndex = "4";
-                        c.style.boxShadow = '0px 5px 1px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.boxShadow = '0px 5px 1px 0px rgba(0,0,0,0)';
                         c.style.border = 'solid 2px rgba(0,0,0,0)';
                     }else if(c.style.zIndex == 4){
                         c.style.zIndex = "2";
-                        c.style.boxShadow = '0px 5px 10px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.boxShadow = '0px 5px 10px 0px rgba(0,0,0,0)';
                         c.style.border = 'solid 2px rgba(0,0,0,0)';
                     }else{
                         c.style.zIndex = "1";
-                        c.style.boxShadow = '0px 5px 10px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.boxShadow = '0px 5px 10px 0px rgba(0,0,0,0)';
                         c.style.border = 'solid 2px rgba(0,0,0,0)';
                     }
                 });
 
                 w.style.zIndex = '5';
-                w.style.boxShadow = '0px 10px 15px 0px rgba(0, 0, 0, 0.5)';
+                w.style.boxShadow = '0px 10px 15px 0px rgba(0,0,0,0.5)';
                 w.style.border = 'solid 2px var(--secondarycolor)';
             });
 
@@ -795,6 +795,7 @@ function acceptTransfer(page, transferID, acceptance) {
                     
                     setTimeout(function() {
                         loadContent('../../controller/checkPermission.php', '', '', 'checkperm', 'GET');
+                        loadContent('../../controller/options.php', '', '', 'loculusoptions', 'GET');
                         loadContent('myloculus.php', '', '', 'loculus', 'GET');
                     }, 1000);
 

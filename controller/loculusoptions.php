@@ -144,7 +144,8 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
                 //insert into resources
 
-                $fsize = (int)$file["size"] / (1024**2);
+                // $fsize = (int)$file["size"] / (1024**2);
+                $fsize = (float)$file["size"] / (float)(1024**2);
                 $uploadtodb = $user->db->prepare("insert into resources (resource_name, resource_thumbnail, type, size, directory_id) values (:a, :b, :c, :d, :e)");
                 $uploadtodb->bindParam(":a", $cleanFileName);
                 $uploadtodb->bindParam(":b", $thumbnail_path);

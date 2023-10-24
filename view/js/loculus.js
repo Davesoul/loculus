@@ -133,15 +133,15 @@ document.addEventListener('DOMContentLoaded', function(){
                 obj.forEach(c => {
                     if(c.style.zIndex == 5){
                         c.style.zIndex = "4";
-                        c.style.boxShadow = '0px 5px 5px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.boxShadow = '0px 5px 5px 0px rgba(0, 0, 0, 0)';
                         c.style.border = 'solid 2px rgba(0,0,0,0)';
                     }else if(c.style.zIndex == 4){
                         c.style.zIndex = "2";
-                        c.style.boxShadow = '0px 5px 3px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.boxShadow = '0px 5px 3px 0px rgba(0, 0, 0, 0)';
                         c.style.border = 'solid 2px rgba(0,0,0,0)';
                     }else{
                         c.style.zIndex = "1";
-                        c.style.boxShadow = '0px 5px 1px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.boxShadow = '0px 5px 1px 0px rgba(0, 0, 0, 0)';
                         c.style.border = 'solid 2px rgba(0,0,0,0)';
                     }
                 });
@@ -227,15 +227,15 @@ document.addEventListener('DOMContentLoaded', function(){
                     console.log("zindex: " + c.style.zIndex);
                     if(c.style.zIndex == 5){
                         c.style.zIndex = "4";
-                        c.style.boxShadow = '0px 5px 1px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.boxShadow = '0px 5px 1px 0px rgba(0, 0, 0, 0)';
                         c.style.border = 'solid 2px rgba(0,0,0,0)';
                     }else if(c.style.zIndex == 4){
                         c.style.zIndex = "2";
-                        c.style.boxShadow = '0px 5px 10px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.boxShadow = '0px 5px 10px 0px rgba(0, 0, 0, 0)';
                         c.style.border = 'solid 2px rgba(0,0,0,0)';
                     }else{
                         c.style.zIndex = "1";
-                        c.style.boxShadow = '0px 5px 10px 0px rgba(0, 0, 0, 0.5)';
+                        c.style.boxShadow = '0px 5px 10px 0px rgba(0, 0, 0, 0)';
                         c.style.border = 'solid 2px rgba(0,0,0,0)';
                     }
                 });

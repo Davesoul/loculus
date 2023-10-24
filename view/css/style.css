@@ -232,6 +232,14 @@ header{
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
+.btn:hover{
+    background: var(--secondarycolor);
+}
+
+.btn:hover > i{
+    color: var(--primarycolor);
+}
+
 .btn i, #searchcontainer i{
     line-height: 2;
     color: var(--accentcolor);
@@ -245,7 +253,6 @@ header{
 
 .btn.active{
     background: var(--secondarycolor);
-    color: var(--primarycolor);
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
 }
 
@@ -297,6 +304,7 @@ header h4{
     box-shadow: none;
     max-width: 100%;
     margin: 20px;
+    color: var(--accentcolor);
     /* border: 2px solid var(--accentcolor); */
 
 }
@@ -467,6 +475,7 @@ header #pp{
     overflow: scroll;
     /* display: block; */
     margin: auto;
+    margin-top: 10%;
     border-radius: 10px;
     background: var(--primarycolor);
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
@@ -987,7 +996,7 @@ h3{
 
 .obj.active{
     
-    box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.5);
+    /* box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.5); */
 }
 
 /* .obj:hover{
@@ -1083,7 +1092,7 @@ h3{
 
 @media only screen and (max-width:912px) {
     .container {
-        /* flex: 33%; */
+        flex: 33%;
     }
 }
 
@@ -1094,7 +1103,7 @@ h3{
     overflow-y: scroll;
 }
 
-@media only screen and (max-width:400px){
+@media only screen and (max-width:490px){
     .container{
         flex: 0 0 100%;
     }

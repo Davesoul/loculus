@@ -7,8 +7,9 @@ if (isset($_SESSION["dir_id"])){
     $dir_id = $_SESSION["dir_id"];
 
     if ($_SESSION['perm_id'] == 1){
-        // echo "admin";
         if ($_SESSION['dir_name'] == 'user_'.$_SESSION['id']){ ?>
+
+
             <div id="more-options" class="btn">
                 <i class="fa-solid fa-ellipsis-vertical"></i>
                 <div id="options-menu" class="objects">
@@ -27,6 +28,7 @@ if (isset($_SESSION["dir_id"])){
 
             <?php
         } else {
+            
             ?>
             <div id="more-options" class="btn">
                 <i class="fa-solid fa-ellipsis-vertical"></i>

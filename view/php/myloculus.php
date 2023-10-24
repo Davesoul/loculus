@@ -324,7 +324,7 @@ echo $dir_name;
                                 <h4><?php echo $row["resource_name"];?></h4>
                                 <p><?php echo $row["type"];?></p>
                                 <p><?php echo $row["size"]." MB"; ?></p>
-                                <p><?php echo $row["created_at"];?></p>
+                                <p><?php echo $row["resource_creation_date"];?></p>
                                 <div class="gap"></div>
                                 <div class="gap"></div>
                             </div>

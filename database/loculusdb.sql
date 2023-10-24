@@ -5,14 +5,14 @@ CREATE TABLE users (
     username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    account_creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE directories (
     directory_id INT AUTO_INCREMENT PRIMARY KEY,
     directory_name VARCHAR(255) NOT NULL,
     path VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    directory_creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE resources (
@@ -22,7 +22,7 @@ CREATE TABLE resources (
     resource_thumbnail VARCHAR (255) DEFAULT NULL,
     type VARCHAR(255),
     size BIGINT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    resource_creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (directory_id) REFERENCES directories (directory_id) ON DELETE CASCADE 
 );
 
@@ -121,8 +121,9 @@ INSERT INTO history (user_id, action) VALUES
 
 -- Insert into user_preferences
 INSERT INTO user_preferences (user_id, color1, color2, color3) VALUES
-(1, '#FF5733', '#3E95CD', '#3E3E3E'),
-(2, '#E84393', '#41B883', '#6C757D'),
-(3, '#5F27CD', '#F39C12', '#00BCD4');
+(1, '#1a1a1a', '#f6f5f4', '#e01b24'),
+(2, '#E84393', '#c01c28', '#6c757d'),
+(3, '#5f27cd', '#ffffff', '#f6f5f4');
+
 
 
