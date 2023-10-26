@@ -9,7 +9,7 @@ permissions are required on Unix based systems
 
 to change permissions:
 
-$ chmod 774 directoryname
+$ chmod 755 directoryname
 $ chmod g=u directoryname
 
 extension = gd

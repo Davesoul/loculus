@@ -155,16 +155,6 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
                 $uploadtodb->execute();
 
-                // //insert into directory_resource
-                // $lastID = $user->db->prepare('select last_insert_id()');
-                // $lastID->execute();
-                // $row = $lastID->fetch(PDO::FETCH_ASSOC);
-
-                // $uploadtodb = $user->db->prepare("insert into directory_resource (directory_id, resource_id) values (:a, :b)");
-                // $uploadtodb->bindParam(":a", $_SESSION['dir_id']);
-                // $uploadtodb->bindParam(":b", $row['last_insert_id()']);
-
-                // $uploadtodb->execute();
 
 
                 // insert into history

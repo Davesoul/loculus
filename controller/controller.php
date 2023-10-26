@@ -40,16 +40,6 @@
     
 
 
-    // if(!isset($_SESSION['id']) && $page == 'view'){
-    //     header('location: ../view/login.php');
-    // }else if(isset($_SESSION['id'])){
-    //     $id = $_SESSION['id'];
-    //     $username = $_SESSION['username'];
-    //     $email = $_SESSION['email'];
-    //     $pass = $_SESSION['password'];
-    // }else if (isset($_SESSION['id']) && $page == 'login'){
-    //     header('location: ../view/view.php');
-    // }
 
     if(isset($_SESSION['id'])){
         
@@ -57,10 +47,6 @@
         $username = $_SESSION['username'];
         $email = $_SESSION['email'];
         $pass = $_SESSION['password'];
-        // $pp = $_SESSION['pp'];
-        // $c1 = $_SESSION['c1'];
-        // $c2 = $_SESSION['c2'];
-        // $c3 = $_SESSION['c3'];
 
         if (isset($page)){
             if ($page == 'login'){

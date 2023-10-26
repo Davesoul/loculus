@@ -32,42 +32,6 @@ center i{
     font-size: 10rem;
 }
 
-/* 
-::-webkit-scrollbar{
-    
-    right: 10px;
-    width: 10px;
-    
-}
-
-::-webkit-scrollbar-track{
- 
-    position: absolute;
-    background-color: transparent;
-    right: 20px;
-}
-
-::-webkit-scrollbar-thumb{
-    width: 5px;
-    border-radius: 30px;
-    background: var(--secondarycolor);
-}
-
-::-webkit-scrollbar-thumb:hover{
-    background-color: var(--accentcolor);
-    width: 10px;
-}
-
-::-webkit-scrollbar:hover{
-    background-color: #eee;
-    width: 20px;
-    
-}
-
-::-webkit-scrollbar:hover > ::-webkit-scrollbar:hover{
-    width: 10px;
-    
-} */
 
 :root{
     --primarycolor: var(--primarycolor);
@@ -310,10 +274,6 @@ header h4{
 }
 
 
-/* #user-img{
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
-
-} */
 
 header #pp{
     display: block;
@@ -374,9 +334,7 @@ header #pp{
 
 
 
-/* #user-img:hover, #more-options:hover, #menu:hover{
-    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.5);
-} */
+
 
 #more-options {
     /* padding: 5px 15px; */
@@ -385,16 +343,6 @@ header #pp{
     cursor: pointer;
 }
 
-/* .more-options #opt{
-
-    display: block;
-    position: relative;
-    padding: 5px 15px;
-
-    background: #eee;
-    border-radius: 50%;
-    color: var(--secondarycolor);
-} */
 
 #more-options ul li a:hover > i {
     color: var(--primarycolor);
@@ -475,7 +423,7 @@ header #pp{
     overflow: scroll;
     /* display: block; */
     margin: auto;
-    margin-top: 10%;
+    margin-top: 2%;
     border-radius: 10px;
     background: var(--primarycolor);
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
@@ -496,22 +444,7 @@ h3{
     color: var(--primarycolor);
 }
 
-/* .modal-popup input{
-    border-radius: 10px;
-    max-width: 80%;
-    max-height: 20%;
-    padding: 5%;
-    margin: 30px;
 
-} */
-
-
-
-
-/* .more-options i {
-    position: absolute;
-    top: 30%;
-} */
 
 .big-container{
     display: flex;
@@ -578,13 +511,8 @@ h3{
 }
 
 .objects{
-    /* margin-left: 20px; */
-    /* width: 200px; */
-    /* max-height: 500px; */
-    /* top: 10vh;
-    left: 50px; */
+
     position: absolute;
-    /* overflow: hidden; */
     border-radius: 5px;
     background:var(--primarycolor);
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
@@ -629,12 +557,12 @@ h3{
 }
 
 .objects li a{
-    /* background: var(--accentcolor); */
     color: var(--accentcolor);
     text-decoration: none;
     display: block;
     width: 100%;
     height: auto;
+    word-wrap: break-word;
     padding: 10px;
     border-radius: 10px;
     transition: .3s;
@@ -733,11 +661,6 @@ h3{
     object-fit: cover;
 }
 
-/* .iconcontainer video {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-} */
 
 .iconcontainer i{
     color: var(--secondarycolor);
@@ -755,18 +678,14 @@ h3{
     width: 100%;
     position: relative;
     top: 50px;
-    /* text-overflow: ellipsis; */
-    /* display: block; */
+
 }
 
 .smalldescription h4{
     color: var(--secondarycolor);
     overflow-wrap: break-word;
     word-wrap: break-word;
-      /* Set the maximum number of lines before cutting off text */
-    /* display: -webkit-box; */
-    /* -webkit-line-clamp: 3; Adjust the number of lines (e.g., 3 lines) */
-    /* -webkit-box-orient: vertical; */
+
 }
 
 .smalldescription p{
@@ -781,12 +700,7 @@ h3{
 }
 
 .options{
-    /* width: 100%;
-    height: 40px;
-    position: absolute;
-    bottom: 0;
-    background-color: var(--secondarycolor);
-    padding-top: 10px; */
+
     background: linear-gradient(transparent 0%, var(--secondarycolor) 40%);
     /* background: var(--secondarycolor); */
     width: 100%;
@@ -812,12 +726,7 @@ h3{
     width: 30px;
     height: 30px;
     margin: auto;
-    /* border-radius: 30px;
-    background: #eee;
-    padding: 0px 10px;
-    justify-content: center;
-    color: var(--accentcolor); */
-    /* text-align: center; */
+
     right: -200px;
     position: relative;
     top: 10px;
@@ -952,13 +861,10 @@ h3{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    /* transition: none; */
-    /* border: var(--accentcolor) 4px; */
+
     border-radius: 5px;
     overflow: hidden;
-    /* z-index: 0; */
-    /* box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5); */
-    /* border: solid 2px rgba(0, 0, 0, 0); */
+
     padding: 10px;
     transition: border .5s;
 }
@@ -968,15 +874,7 @@ h3{
     padding: 10px;
 }
 
-/* .obj::before {
-    content: '';
-    background-color: #155;
-    height: 120%;
-    width: 120%;
-    position: absolute;
-    border: solid 2px rgba(0, 0, 0, 1);
-    z-index: -1;
-} */
+
 
 .objContent{
     width: 99%;

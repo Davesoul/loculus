@@ -4,8 +4,8 @@
     $page = 'transfers';
     require_once("../../controller/controller.php");
 
-    ?><h1>Transfers</h1><?php
-        $statement = "SELECT * FROM transfers a LEFT JOIN users b ON a.user_id = b.user_id RIGHT JOIN users c ON a.destination_user_id = c.user_id JOIN resources d ON a.transfered_resource = d.resource_name WHERE a.destination_user_id = $id";
+    ?><?php
+        $statement = "SELECT * FROM transfers a LEFT JOIN users b ON a.user_id = b.user_id RIGHT JOIN users c ON a.destination_user_id = c.user_id JOIN resources d ON a.transfered_resource = d.resource_name JOIN user_preferences e on a.user_id = e.user_id WHERE a.destination_user_id = $id";
 
         // $statement = "SELECT * FROM transfers a LEFT JOIN users b ON a.user_id = b.user_id RIGHT JOIN users c ON a.destination_user_id = c.user_id JOIN resources d ON a.transfered_resource = d.resource_name WHERE a.destination_user_id = $id";
         // echo $statement;
@@ -38,8 +38,7 @@
     <div class="itemcontainer">                
         <div class="smalldescription">
             <h4><?php echo $row["resource_name"];?></h4>
-            <p><?php echo $row["type"];?></p>
-            <p><?php echo $row["size"]." MB"; ?></p>
+            <li><img id="pp" src="../<?php echo $row["profile_picture"];?>" alt=""><p><?php echo $row["username"];?></p></li>
             <p><?php echo $row["transfer_date"];?></p>
             
             <div class="gap"></div>

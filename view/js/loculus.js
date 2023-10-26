@@ -1,9 +1,5 @@
 document.addEventListener('DOMContentLoaded', function(){
 
-    
-
-
-
 
     /**
      * search for files and frames with search bar
