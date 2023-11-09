@@ -21,7 +21,7 @@ CREATE TABLE resources (
     resource_name VARCHAR(255) NOT NULL,
     resource_thumbnail VARCHAR (255) DEFAULT NULL,
     type VARCHAR(255),
-    size BIGINT,
+    size FLOAT,
     resource_creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (directory_id) REFERENCES directories (directory_id) ON DELETE CASCADE 
 );

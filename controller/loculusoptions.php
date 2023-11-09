@@ -19,16 +19,16 @@ if(isset($_SESSION['id'])){
 
 // upload new file
 if($_SERVER["REQUEST_METHOD"] === "POST"){
-    echo 'hi';
-    var_dump($_POST);
+    // var_dump($_POST);
     // var_dump($_FILES['toUpload']);
+
     if(isset($_FILES["toUpload"])){
 
         // $user = new user();
         $maxfsize = ini_get('upload_max_filesize');
         $postmsize = ini_get('post_max_size');
 
-        echo $maxfsize. '&' .$postmsize;
+        // echo $maxfsize. '&' .$postmsize;
 
                 
         $file = $_FILES["toUpload"];
@@ -36,10 +36,9 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         
         if(isset($_SESSION['dir_path'])){
 
-            echo "this is the dir";
             $cleanFileName = preg_replace('/[^a-zA-Z0-9-_\.]/', '', $file['name']);
             $target_dir = '../' .$_SESSION['dir_path'];
-            echo $target_dir;
+            // echo $target_dir;
 
             $perm=fileperms($target_dir);
             $perm = substr(sprintf('%o', $perm), -4);
@@ -53,13 +52,13 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         };
         // $target_dir = "./Directories/";
         $target_file = $target_dir.'/'.basename($cleanFileName);
-        echo $target_file;
+        // echo $target_file;
         // $uploadOk = 1;
         $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
         //check if file exist
         if (file_exists($target_file)){
-            echo exec('pwd');
+            // echo exec('pwd');
             echo "sorry, file already exists.";
         //     $uploadOk = 0;
         }else{
@@ -100,7 +99,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                         $image->writeImage($thumbnail_path);
                         $image->destroy();
                     }else if(strpos($file['type'], 'image') !== FALSE){
-                        echo 'creating thumbnail';
+                        // echo 'creating thumbnail';
                         // Load the original image
                         if (strpos($file['type'], 'png') !== FALSE){
                             $originalImage = imagecreatefrompng($target_file);
@@ -145,7 +144,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                 //insert into resources
 
                 // $fsize = (int)$file["size"] / (1024**2);
-                $fsize = (float)$file["size"] / (float)(1024**2);
+                $fsize = (int)$file["size"] / 1024**2;
                 $uploadtodb = $user->db->prepare("insert into resources (resource_name, resource_thumbnail, type, size, directory_id) values (:a, :b, :c, :d, :e)");
                 $uploadtodb->bindParam(":a", $cleanFileName);
                 $uploadtodb->bindParam(":b", $thumbnail_path);
@@ -165,8 +164,8 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
                 $uploadtodb->execute();
 
-                echo exec('pwd');
-                echo $file["tmp_name"]."has been uploaded";
+                // echo exec('pwd');
+                echo $file["name"]."has been uploaded";
             }
             else{
                 echo "Sorry, there was an error uploading your file.";
@@ -220,10 +219,9 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         } else {
             echo "folder already created";
         }
-
-
         
     }
+
 
     // set theme
     if(isset($_POST['c1'])){
